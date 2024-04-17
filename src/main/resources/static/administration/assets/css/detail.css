@@ -1,0 +1,35 @@
+.pr-0{
+	padding-right:0px !important;
+}
+.pl-0{
+	padding-left:0px !important;
+}
+.pl-5{
+	padding-left:5px !important;
+}
+.ml-5{
+	margin-left:5px !important;
+}
+p.text-muted{
+	margin-bottom:0px !important;
+}
+.form-label{
+	font-weight:600;
+}
+.nav-item > a.order-nav.nav-link{
+	color:black !important;
+	font-weight:600;
+	border-radius: 0px !important;
+	padding:5px 10px 5px 10px !important;
+	font-size:13px !important;
+	border:1px solid black;
+	background-color: white !important;
+	
+}
+.card{
+	padding:10px;
+	box-shadow:0px 0px 10px rgba(0,0,0,0.3);
+} 
+.input-group-text{
+	font-weight:600;
+}

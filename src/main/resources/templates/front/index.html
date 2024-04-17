@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/front/clean/common :: cleanHead}"></head>
+
+<body class="home home-3 title-3">
+	<th:block th:replace="~{fragments/front/clean/common :: sessionCheck(${session.user})}"></th:block>
+	<div id="page" class="hfeed page-wrapper">
+		<header id="site-header" class="site-header header-v3" th:replace="~{fragments/front/clean/common :: cleanHeader}">
+		</header>
+
+		<div id="site-main" class="site-main">
+			<div id="main-content" class="main-content">
+				<div id="primary" class="content-area">
+					<div id="content" class="site-content" role="main">
+						<section class="section m-b-70">
+							<div class="item-info horizontal-center text-center vertical-middle main-text-section">
+								<div class="content">
+									<p class="main-subtitle">The Best of Bathroom Furniture Collections</p>
+									<p class="main-subtitle">휴식과 위안 그리고 간결함에서 오는 진실된 아름다움</p>
+									<h2 class="main-title">HIDDEN <strong>BATH</strong></h2>
+								</div>
+							</div>
+							<div class="block block-sliders layout-6 nav-vertical">
+								<div class="slick-sliders" data-autoplay="true" data-dots="true" data-nav="false"
+									data-columns4="1" data-columns3="1" data-columns2="1" data-columns1="1"
+									data-columns1440="1" data-columns="1">
+									<div class="item slick-slide">
+										<div class="item-content">
+											<div class="content-image">
+												<img width="1920" height="1080" src="/front/clean/new/bg01.jpg"
+													alt="Image Slider">
+											</div>
+										</div>
+									</div>
+									<div class="item slick-slide">
+										<div class="item-content">
+											<div class="content-image">
+												<img width="1920" height="1080" src="/front/clean/newnew/bg06.jpg"
+													alt="Image Slider">
+											</div>
+										</div>
+									</div>
+									<div class="item slick-slide">
+										<div class="item-content">
+											<div class="content-image">
+												<img width="1920" height="1080" src="/front/clean/newnew/bg03.jpg"
+													alt="Image Slider">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+
+
+						<section class="section section-padding p-t-50 p-b-50 m-b-0">
+							<div class="section-container">
+								<div class="block block-intro service-title-wrap">
+									<div class="block-widget-wrap">
+										<div class="intro-text">
+											히든바스는 앞선 기술력을 바탕으로 풍요로운 <strong>욕실문화를 창조</strong>하며, <br>
+											다음과 같은 3가지의 <strong>핵심 서비스</strong>를 통해 고객과 소통합니다.
+										</div>
+									</div>
+								</div>
+								<div class="row service-wrap">
+									<div class="col-lg-6 col-md-7 col-sm-12 sm-p-0">
+										<div class="block block-newsletter layout-2 one-col align-left position-center">
+											<div class="block-widget-wrap">
+												<div class="newsletter-title-wrap">
+													<h2 class="newsletter-title">히든바스만의 기술로 제작된 핵심 제품</h2>
+													<div class="newsletter-text">욕실 공간을 아늑하고 화려하게.</div>
+												</div>
+												<div class="newsletter-form">
+													<p>고급스럽고 다양한 제품</p>
+													<span class="btn-submit">
+														<a>이동하기</a>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-5 sm-p-0">
+										<div class="block block-image text-center position-relative">
+											<img width="700" height="500" src="/front/clean/newnew/s01.jpg" alt="">
+										</div>
+									</div>
+								</div>
+								<div class="row service-wrap">
+									<div class="col-md-5 sm-p-0 sm-m-b-15">
+										<div class="block block-image text-center position-relative">
+											<img width="700" height="500" src="/front/clean/newnew/s02.jpg" alt="">
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-7 col-sm-12 sm-p-0">
+										<div class="block block-newsletter layout-2 one-col align-left position-center">
+											<div class="block-widget-wrap">
+												<div class="newsletter-title-wrap">
+													<h2 class="newsletter-title">고객 맞춤형 주문 시스템</h2>
+													<div class="newsletter-text">개인의 취향과 개성을 반영하다.</div>
+												</div>
+												<div class="newsletter-form">
+													<p>Hidden Bath만의 차별화된 서비스</p>
+													<span class="btn-submit">
+														<a>이동하기</a>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<div class="row service-wrap">
+									<div class="col-lg-6 col-md-7 col-sm-12 sm-p-0">
+										<div class="block block-newsletter layout-2 one-col align-left position-center">
+											<div class="block-widget-wrap">
+												<div class="newsletter-title-wrap">
+													<h2 class="newsletter-title"> 히든바스 제품 카달로그</h2>
+													<div class="newsletter-text">친절하고 자세한 설명을 담다</div>
+												</div>
+												<div class="newsletter-form">
+													<p>상세한 제품 카달로그 제공</p>
+													<span class="btn-submit">
+														<a>이동하기</a>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-5 sm-p-0">
+										<div class="block block-image text-center position-relative">
+											<img width="700" height="500" src="/front/clean/newnew/s03.jpg" alt="">
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<section class="section section-padding top-border p-t-70 m-b-70">
+							<div class="section-container">
+								<div class="block block-products slider">
+									<div class="block-widget-wrap">
+										<div class="block-title">
+											<h2>히든바스의 제품들</h2>
+											<p class="info-message">HiddenBath의 첨단 기술력을 통해 제작된 최신 제품을 바로 만나보세요.</p>
+										</div>
+										<div class="block-content">
+											<div class="content-product-list slick-wrap">
+												<div class="slick-sliders products-list grid" data-slidestoscroll="true"
+													data-dots="false" data-nav="1" data-columns4="1" data-columns3="2"
+													data-columns2="3" data-columns1="3" data-columns1440="4"
+													data-columns="4">
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/best/1.png"
+																				class="hover-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/best/1-2.png"
+																				class="post-image back" alt="">
+																			
+																		</a>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">복합 1200 플랩장</a>
+																	</h3>
+																	<span class="price">[UP-9100]</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/best/2.png"
+																				class="hover-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/best/2-1.png"
+																				class="post-image back" alt="">
+																		</a>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">누드 1200장</a>
+																	</h3>
+																	<span class="price">[HD-1G100-3]</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/best/3.png"
+																				class="hover-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/best/3-1.png"
+																				class="post-image back" alt="">
+																			
+																		</a>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">라운드 소프장</a>
+																	</h3>
+																	<span class="price">[UP-2306]</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/best/4.png"
+																				class="hover-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/best/4-1.png"
+																				class="post-image back" alt="">
+																		</a>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">라운드 미니멀장</a>
+																	</h3>
+																	<span class="price">[HD-2107]</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/best/5.png"
+																				class="hover-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/best/5-1.png"
+																				class="post-image back" alt="">
+																			
+																		</a>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">라운드빌트 1도어장</a>
+																	</h3>
+																	<span class="price">[HD-7200]</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/best/6.png"
+																				class="hover-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/best/6-1.png"
+																				class="post-image back" alt="">	
+																		</a>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">미니멀 UP미니 상하단장</a>
+																	</h3>
+																	<span class="price">[UP-1107/UP-1207]</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/best/7.png"
+																				class="hover-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/best/7-1.png"
+																				class="post-image back" alt="">	
+																		</a>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">슬라이드 하부장</a>
+																	</h3>
+																	<span class="price">[ST-3426]</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="btn-all">
+												<a class="button-outline" href="/productList">모든제품 보러가기</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<section class="section content-outside background-1">
+							<div class="container">
+								<div class="block-title">
+									<h2>히든바스의 제품 시공사례 갤러리</h2>
+									<p class="info-message">HiddenBath는 시공 사례를 통해 서비스와 제품 품질에 대한 신뢰를 전합니다.</p>
+								</div>
+							</div>
+							<div class="block block-banners slider fullwidth">
+								<div class="section-column-wrap">
+									<div class="block-widget-wrap">
+
+										<div class="slick-wrap" style="position:relative;">
+											<div class="slick-sliders" data-centermode="true" data-nav="true"
+												data-dots="false" data-columns4="1" data-columns3="1" data-columns2="2"
+												data-columns1="2" data-columns="2">
+												<div class="item slick-slide">
+													<div class="block-widget-banner">
+														<div class="bg-banner">
+															<div class="banner-wrapper banners">
+																<div class="banner-image">
+																	<a href="/constructionDetail">
+																		<img width="1080" height="584"
+																			src="/front/clean/newnew/con01.png"
+																			alt="Image Slider">
+																	</a>
+																</div>
+																<div class="banner-wrapper-infor">
+																	<div class="info">
+																		<div class="content">
+																			<a class="link-title"
+																				href="/constructionDetail">
+																				<h3 class="title-banner">시공사례
+																				</h3>
+																			</a>
+																			<div class="banner-image-description">
+																				상부장 제품명[제품코드]
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="item slick-slide">
+													<div class="block-widget-banner">
+														<div class="bg-banner">
+															<div class="banner-wrapper banners">
+																<div class="banner-image">
+																	<a href="/constructionDetail">
+																		<img width="1080" height="584"
+																			src="/front/clean/newnew/con02.png"
+																			alt="Image Slider">
+																	</a>
+																</div>
+																<div class="banner-wrapper-infor">
+																	<div class="info">
+																		<div class="content">
+																			<a class="link-title"
+																				href="/constructionDetail">
+																				<h3 class="title-banner">시공사례
+																				</h3>
+																			</a>
+																			<div class="banner-image-description">
+																				상부장 제품명[제품코드]
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="item slick-slide">
+													<div class="block-widget-banner">
+														<div class="bg-banner">
+															<div class="banner-wrapper banners">
+																<div class="banner-image">
+																	<a href="/constructionDetail">
+																		<img width="1080" height="584"
+																			src="/front/clean/newnew/con03.png"
+																			alt="Image Slider">
+																	</a>
+																</div>
+																<div class="banner-wrapper-infor">
+																	<div class="info">
+																		<div class="content">
+																			<a class="link-title"
+																				href="/constructionDetail">
+																				<h3 class="title-banner">시공사례
+																				</h3>
+																			</a>
+																			<div class="banner-image-description">
+																				상부장 제품명[제품코드]
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="item slick-slide">
+													<div class="block-widget-banner">
+														<div class="bg-banner">
+															<div class="banner-wrapper banners">
+																<div class="banner-image">
+																	<a href="/constructionDetail">
+																		<img width="1080" height="584"
+																			src="/front/clean/newnew/con04.png"
+																			alt="Image Slider">
+																	</a>
+																</div>
+																<div class="banner-wrapper-infor">
+																	<div class="info">
+																		<div class="content">
+																			<a class="link-title"
+																				href="/constructionDetail">
+																				<h3 class="title-banner">시공사례
+																				</h3>
+																			</a>
+																			<div class="banner-image-description">
+																				상부장 제품명[제품코드]
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="item slick-slide">
+													<div class="block-widget-banner">
+														<div class="bg-banner">
+															<div class="banner-wrapper banners">
+																<div class="banner-image">
+																	<a href="/constructionDetail">
+																		<img width="1080" height="584"
+																			src="/front/clean/newnew/con05.png"
+																			alt="Image Slider">
+																	</a>
+																</div>
+																<div class="banner-wrapper-infor">
+																	<div class="info">
+																		<div class="content">
+																			<a class="link-title"
+																				href="/constructionDetail">
+																				<h3 class="title-banner">시공사례
+																				</h3>
+																			</a>
+																			<div class="banner-image-description">
+																				상부장 제품명[제품코드]
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="item slick-slide">
+													<div class="block-widget-banner">
+														<div class="bg-banner">
+															<div class="banner-wrapper banners">
+																<div class="banner-image">
+																	<a href="/constructionDetail">
+																		<img width="1080" height="584"
+																			src="/front/clean/newnew/con06.png"
+																			alt="Image Slider">
+																	</a>
+																</div>
+																<div class="banner-wrapper-infor">
+																	<div class="info">
+																		<div class="content">
+																			<a class="link-title"
+																				href="/constructionDetail">
+																				<h3 class="title-banner">시공사례
+																				</h3>
+																			</a>
+																			<div class="banner-image-description">
+																				상부장 제품명[제품코드]
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="item slick-slide">
+													<div class="block-widget-banner">
+														<div class="bg-banner">
+															<div class="banner-wrapper banners">
+																<div class="banner-image">
+																	<a href="/constructionDetail">
+																		<img width="1080" height="584"
+																			src="/front/clean/newnew/con07.png"
+																			alt="Image Slider">
+																	</a>
+																</div>
+																<div class="banner-wrapper-infor">
+																	<div class="info">
+																		<div class="content">
+																			<a class="link-title"
+																				href="/constructionDetail">
+																				<h3 class="title-banner">시공사례
+																				</h3>
+																			</a>
+																			<div class="banner-image-description">
+																				상부장 제품명[제품코드] 시공사례
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section class="section m-b-0">
+							<div class="block block-instagram slider no-space">
+								<div class="slick-wrap">
+									<div class="slick-sliders fullwidth" data-dots="false" data-item_row="1"
+										data-nav="false" data-columns4="1" data-columns3="2" data-columns2="3"
+										data-columns1="4" data-columns="5">
+										<div class="item slick-slide">
+											<a class="instagram" href="https://www.instagram.com">
+												<img width="690" height="690"
+													src="/front/clean/new/card/1.jpg" alt="#">
+											</a>
+										</div>
+										<div class="item slick-slide">
+											<a class="instagram" href="https://www.instagram.com">
+												<img width="690" height="690"
+													src="/front/clean/new/card/2.jpg" alt="#">
+											</a>
+										</div>
+										<div class="item slick-slide">
+											<a class="instagram" href="https://www.instagram.com">
+												<img width="690" height="690"
+													src="/front/clean/new/card/3.jpg" alt="#">
+											</a>
+										</div>
+										<div class="item slick-slide">
+											<a class="instagram" href="https://www.instagram.com">
+												<img width="690" height="690"
+													src="/front/clean/new/card/4.jpg" alt="#">
+											</a>
+										</div>
+										<div class="item slick-slide">
+											<a class="instagram" href="https://www.instagram.com">
+												<img width="690" height="690"
+													src="/front/clean/new/card/5.jpg" alt="#">
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					<!--	<section class="section section-padding top-border p-t-70 m-b-70">
+							<div class="section-container">
+								<div class="block block-products slider">
+									<div class="block-widget-wrap">
+										<div class="block-title">
+											<h2>Hidden Bath NEW Products</h2>
+											<p class="info-message">HiddenBath의 첨단 기술력을 통해 제작된 최신 제품을 바로 만나보세요.</p>
+										</div>
+										<div class="block-content">
+											<div class="content-product-list slick-wrap">
+												<div class="slick-sliders products-list grid" data-slidestoscroll="true"
+													data-dots="false" data-nav="1" data-columns4="1" data-columns3="2"
+													data-columns2="3" data-columns1="3" data-columns1440="4"
+													data-columns="4">
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/1.png"
+																				class="post-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/2.png"
+																				class="hover-image back" alt="">
+																		</a>
+																	</div>
+																	<div class="product-button">
+																		<div class="btn-compare" data-title="Compare">
+																			<button class="product-btn">비교화면 보기</button>
+																		</div>
+																		<span class="product-quickview"
+																			data-title="Quick View">
+																			<a href="#"
+																				class="quickview quickview-button">빠르게
+																				보기<i class="icon-search"></i></a>
+																		</span>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">제품명[제품코드]</a>
+																	</h3>
+																	<span class="price">제품분류</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/4.png"
+																				class="post-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/5.png"
+																				class="hover-image back" alt="">
+																		</a>
+																	</div>
+																	<div class="product-button">
+																		<div class="btn-compare" data-title="Compare">
+																			<button class="product-btn">비교화면 보기</button>
+																		</div>
+																		<span class="product-quickview"
+																			data-title="Quick View">
+																			<a href="#"
+																				class="quickview quickview-button">빠르게
+																				보기<i class="icon-search"></i></a>
+																		</span>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">제품명[제품코드]</a>
+																	</h3>
+																	<span class="price">제품분류</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/6.png"
+																				class="post-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/7.png"
+																				class="hover-image back" alt="">
+																		</a>
+																	</div>
+																	<div class="product-button">
+																		<div class="btn-compare" data-title="Compare">
+																			<button class="product-btn">비교화면 보기</button>
+																		</div>
+																		<span class="product-quickview"
+																			data-title="Quick View">
+																			<a href="#"
+																				class="quickview quickview-button">빠르게
+																				보기<i class="icon-search"></i></a>
+																		</span>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">제품명[제품코드]</a>
+																	</h3>
+																	<span class="price">제품분류</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/8.png"
+																				class="post-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/9.png"
+																				class="hover-image back" alt="">
+																		</a>
+																	</div>
+																	<div class="product-button">
+																		<div class="btn-compare" data-title="Compare">
+																			<button class="product-btn">비교화면 보기</button>
+																		</div>
+																		<span class="product-quickview"
+																			data-title="Quick View">
+																			<a href="#"
+																				class="quickview quickview-button">빠르게
+																				보기<i class="icon-search"></i></a>
+																		</span>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">제품명[제품코드]</a>
+																	</h3>
+																	<span class="price">제품분류</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/10.png"
+																				class="post-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/11.png"
+																				class="hover-image back" alt="">
+																		</a>
+																	</div>
+																	<div class="product-button">
+																		<div class="btn-compare" data-title="Compare">
+																			<button class="product-btn">비교화면 보기</button>
+																		</div>
+																		<span class="product-quickview"
+																			data-title="Quick View">
+																			<a href="#"
+																				class="quickview quickview-button">빠르게
+																				보기<i class="icon-search"></i></a>
+																		</span>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">제품명[제품코드]</a>
+																	</h3>
+																	<span class="price">제품분류</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="item-product slick-slide">
+														<div class="items">
+															<div class="products-entry clearfix product-wapper">
+																<div class="products-thumb">
+																	<div class="product-lable">
+																		<div class="hot latest">Latest</div>
+																	</div>
+																	<div class="product-thumb-hover">
+																		<a href="/productDetail">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/12.png"
+																				class="post-image" alt="">
+																			<img width="600" height="600"
+																				src="/front/clean/new/product/13.png"
+																				class="hover-image back" alt="">
+																		</a>
+																	</div>
+																	<div class="product-button">
+																		<div class="btn-compare" data-title="Compare">
+																			<button class="product-btn">비교화면 보기</button>
+																		</div>
+																		<span class="product-quickview"
+																			data-title="Quick View">
+																			<a href="#"
+																				class="quickview quickview-button">빠르게
+																				보기<i class="icon-search"></i></a>
+																		</span>
+																	</div>
+																</div>
+																<div class="products-content">
+																	<h3 class="product-title"><a
+																			href="/productDetail">제품명[제품코드]</a>
+																	</h3>
+																	<span class="price">제품분류</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="btn-all">
+												<a class="button-outline" href="/productList">모든제품 보러가기</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+-->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer id="site-footer" class="site-footer background"
+			th:replace="~{fragments/front/clean/common :: cleanFooter}">
+		</footer>
+	</div>
+	<th:block th:replace="~{fragments/front/clean/common :: cleanScript}"></th:block>
+	
+</body>
+
+</html>
