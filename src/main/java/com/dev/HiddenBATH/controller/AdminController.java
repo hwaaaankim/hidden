@@ -495,6 +495,12 @@ public class AdminController {
 		return "administration/analytics/accessManager";
 	}
 	
+	@GetMapping("/siteAccessDetail")
+	public String siteAccessDetail() {
+		
+		return "administration/analytics/siteAccessDetail";
+	}
+	
 	@GetMapping("/siteAnalytics")
 	public String siteAnalytics() {
 		
