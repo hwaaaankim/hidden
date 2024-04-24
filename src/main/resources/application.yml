@@ -15,15 +15,6 @@ server:
 
 # 개발 환경
 --- 
-logging:
-  file.name: logs/application-debug.log
-  pattern:
-    console: "%d %-5level %logger : %msg%n"
-    file: "%d %-5level [%thread] %logger : %msg%n"
-  level:
-    org.springframework.web: ERROR
-    com.dev.HiddenBATH: DEBUG
-    org.hibernate: ERROR
 spring:
   config:
     activate: 
@@ -68,15 +59,6 @@ spring:
 
 # 배포 환경
 --- 
-logging:
-  file.name: logs/application-debug.log
-  pattern:
-    console: "%d %-5level %logger : %msg%n"
-    file: "%d %-5level [%thread] %logger : %msg%n"
-  level:
-    org.springframework.web: ERROR
-    com.dev.HiddenBATH: DEBUG
-    org.hibernate: ERROR
 spring:
   config:
     activate: 
