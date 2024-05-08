@@ -36,13 +36,13 @@ public class SMSService {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", userAgent);
 			String postParams = 
-					"user_id="+new String(Base64.encodeBase64("teriwoo9".getBytes()))
-	                +"&secure="+new String(Base64.encodeBase64("dd8ee7a677db6ae5abbbfd5122150caf".getBytes()))
+					"user_id="+new String(Base64.encodeBase64("hidden2024".getBytes()))
+	                +"&secure="+new String(Base64.encodeBase64("26b0c0384f76870b5ebd97b54f392dbb".getBytes()))
 					+"&msg=" + new String(Base64.encodeBase64(message.getBytes()))
 					+"&rphone=" + new String(Base64.encodeBase64(phone.getBytes()))
-					+"&sphone1=" + new String(Base64.encodeBase64("010".getBytes()))
-					+"&sphone2=" + new String(Base64.encodeBase64("3894".getBytes()))
-					+"&sphone3=" + new String(Base64.encodeBase64("3849".getBytes()))
+					+"&sphone1=" + new String(Base64.encodeBase64("031".getBytes()))
+					+"&sphone2=" + new String(Base64.encodeBase64("8011".getBytes()))
+					+"&sphone3=" + new String(Base64.encodeBase64("3660".getBytes()))
 					+"&mode=" + new String(Base64.encodeBase64("1".getBytes()))
 					+"&smsType=S";
 			if(isTest) {

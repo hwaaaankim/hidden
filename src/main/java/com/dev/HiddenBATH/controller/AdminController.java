@@ -85,6 +85,23 @@ public class AdminController {
 		return "administration/client/orderDetail";
 	}
 	
+	@GetMapping("/agencyManager")
+	public String agencyManager(){
+	
+		return "administration/client/agencyManager";
+	}
+	
+	@GetMapping("/agencyInsertForm")
+	public String agencyInsertForm(){
+	
+		return "administration/client/agencyInsertForm";
+	}
+	
+	@GetMapping("/agencyDetail")
+	public String agencyDetail(){
+	
+		return "administration/client/agencyDetail";
+	}
 	
 	@GetMapping("/noticeManager")
 	public String noticeManager() {
@@ -506,5 +523,7 @@ public class AdminController {
 		
 		return "administration/analytics/siteAnalytics";
 	}
+	
+	
 	
 }

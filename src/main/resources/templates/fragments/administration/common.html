@@ -1,12 +1,5 @@
 <!doctype html>
-<html 
-lang="ko" 
-data-layout="vertical" 
-data-topbar="light" 
-data-sidebar="dark" 
-data-sidebar-size="sm-hover"
-data-sidebar-image="none" 
-data-preloader="disable">
+<html>
 
 <head th:fragment="adminHead">
 
@@ -164,6 +157,9 @@ data-preloader="disable">
 										<li class="nav-item">
 											<a href="/admin/orderManager" class="nav-link" data-key="t-starter"> 비규격주문관리 </a>
 										</li>
+										<li class="nav-item">
+											<a href="/admin/agencyManager" class="nav-link" data-key="t-starter"> 대리점관리 </a>
+										</li>
 									</ul>
 								</div>
 							</li>
@@ -202,7 +198,9 @@ data-preloader="disable">
 	                                            </ul>
 	                                        </div>
 	                                    </li>
-	                                    
+	                                    <li class="nav-item">
+											<a href="/admin/instagramManager" class="nav-link" data-key="t-ecommerce"> 인스타그램 관리 </a>
+										</li>
 										<li class="nav-item">
 											<a href="/admin/emailSendManager" class="nav-link" data-key="t-ecommerce"> Email발신관리 </a>
 										</li>

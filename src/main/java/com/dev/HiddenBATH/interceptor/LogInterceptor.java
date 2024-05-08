@@ -55,20 +55,42 @@ public class LogInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println(new Date());
-		System.out.println(request.getHeader("REFERER"));
-		System.out.println(getClientIP(request));
-		System.out.println(isDevice(request));
-		String requestURI = request.getRequestURI();
-		if (!requestURI.contains("/front") && !requestURI.contains("highLightTitle.png")
-				&& !requestURI.contains("error") && !requestURI.contains("/administration")) {
-			System.out.println(requestURI);
-			HttpSession session = request.getSession();
+		
+		
+//		System.out.println(new Date());
+//		System.out.println(request.getHeader("REFERER"));
+//		System.out.println(getClientIP(request));
+//		System.out.println(isDevice(request));
+//		String requestURI = request.getRequestURI();
+//		if (!requestURI.contains("/front") && !requestURI.contains("highLightTitle.png")
+//				&& !requestURI.contains("error") && !requestURI.contains("/administration")) {
+//			System.out.println(requestURI);
+//			HttpSession session = request.getSession();
+//			int a = (int) (Math.random() * 100);
+//			if (request.getSession().getAttribute("user") == null) {
+//				session.setAttribute("user", a);
+//			}
+//			return true;
+//		}
+		
+		HttpSession session = request.getSession();
+		if (request.getSession().getAttribute("user") == null) {
 			int a = (int) (Math.random() * 100);
-			if (request.getSession().getAttribute("user") == null) {
-				session.setAttribute("user", a);
+			session.setAttribute("user", a);
+			System.out.println(new Date());
+			System.out.println(request.getHeader("REFERER"));
+			System.out.println(getClientIP(request));
+			System.out.println(isDevice(request));
+		}else {
+			
+			
+			String requestURI = request.getRequestURI();
+			if (!requestURI.contains("/front") && !requestURI.contains("highLightTitle.png")
+					&& !requestURI.contains("error") && !requestURI.contains("/administration")) {
+				System.out.println(request.getSession().getAttribute("user"));
+				System.out.println(requestURI);
+				return true;
 			}
-			return true;
 		}
 
 		return true;

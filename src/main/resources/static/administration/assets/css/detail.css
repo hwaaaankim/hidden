@@ -19,10 +19,10 @@ p.text-muted{
 .nav-item > a.order-nav.nav-link{
 	color:black !important;
 	font-weight:600;
-	border-radius: 0px !important;
+	border-radius: 5px;
 	padding:5px 10px 5px 10px !important;
 	font-size:13px !important;
-	border:1px solid black;
+	border:1px solid rgba(0,0,0,0.3);
 	background-color: white !important;
 	
 }
