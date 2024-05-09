@@ -23,12 +23,12 @@
 				return !inputs.length || !!inputs.valid();
 			},
 			afterSelect:function(event, state){
-				if(state.stepIndex === 15){
+				if(state.stepIndex === 16){
 					$('#submitBtn').attr('disabled', false);
 				}else{
 					$('#submitBtn').attr('disabled', true);
 				}
-				if(state.stepIndex === 14){
+				if(state.stepIndex === 15){
 					if($('input[name=model]:checked').attr('id')!=undefined){
 						$('#lowModel').val('하부장 모델 : ' + $('input[name=model]').attr('id'));
 					}

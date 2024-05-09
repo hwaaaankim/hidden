@@ -121,6 +121,18 @@ public class AdminController {
 		return "administration/site/noticeCategoryManager";
 	}
 	
+	@GetMapping("/instagramManager")
+	public String instagramManager() {
+		
+		return "administration/site/instagramManager";
+	}
+	
+	@GetMapping("/instagramInsertForm")
+	public String instagramInsertForm() {
+		
+		return "administration/site/instagramInsertForm";
+	}
+	
 	@GetMapping("/faqManager")
 	public String faqManager() {
 		

@@ -46,11 +46,11 @@ public class MirrorOrder {
 	@Column(name="MIRROR_LED_FORM")
 	private String ledForm;
 	
-	@Column(name="MIRROR_SENSOR")
-	private String sensor;
-	
-	@Column(name="MIRROR_SENSOR_FORM")
-	private String sensorForm;
+//	@Column(name="MIRROR_SENSOR")
+//	private String sensor;
+//	
+//	@Column(name="MIRROR_SENSOR_FORM")
+//	private String sensorForm;
 	
 	@Column(name="MIRROR_CLIENT_NAME")
 	private String name;

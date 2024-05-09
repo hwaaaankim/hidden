@@ -22,12 +22,12 @@
 				return !inputs.length || !!inputs.valid();
 			},
 			afterSelect:function(event, state){
-				if(state.stepIndex === 14){
+				if(state.stepIndex === 12){
 					$('#submitBtn').attr('disabled', false);
 				}else{
 					$('#submitBtn').attr('disabled', true);
 				}
-				if(state.stepIndex === 13){
+				if(state.stepIndex === 11){
 					if($('input[name=model]:checked').attr('id')!=undefined){
 						$('#mirrorShape').val('거울 모델 : ' + $('input[name=model]').attr('id'));
 					}
@@ -66,7 +66,7 @@
 					}else{
 						$('#mirrorLedForm').val('LED 형태 : 해당없음');
 					}
-					
+/*					
 					if($('input[name=sensor]:checked').attr('id')!=undefined){
 						$('#mirrorSensor').val('센서 추가여부 : ' + $('input[name=sensor]:checked').attr('id'));
 					}else{
@@ -78,7 +78,7 @@
 					}else{
 						$('#mirrorSensorForm').val('센서 형태 : 해당없음');
 					}
-				}
+*/				}
 			}
 		}).validate({
 			errorPlacement: function (error, element) {
@@ -111,8 +111,8 @@
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'led', value:$('#mirrorLed').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledMethod', value:$('#mirrorLedMethod').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledForm', value:$('#mirrorLedForm').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensor', value:$('#mirrorSensor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensorForm', value:$('#mirrorSensorForm').val()}));
+/*		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensor', value:$('#mirrorSensor').val()}));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensorForm', value:$('#mirrorSensorForm').val()}));*/
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value:$('#name').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value:$('#phone').val() }));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value:$('#email').val()}));
