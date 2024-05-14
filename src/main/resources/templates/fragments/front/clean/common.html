@@ -628,6 +628,7 @@
 			</div>
 		</div>
 
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 		<script src="/front/clean/libs/popper/js/popper.min.js"></script>
 		<script src="/front/clean/libs/jquery/js/jquery.min.js"></script>
 		<script src="/front/clean/libs/bootstrap/js/bootstrap.min.js"></script>
@@ -639,7 +640,74 @@
 		<script src="/front/clean/libs/slider/js/draggable-0.1.js"></script>
 		<script src="/front/clean/libs/slider/js/jquery.slider.js"></script>
 		<script src="/front/clean/assets/js/app.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"></script>
+		<script>
+			$(document).ready(function(){
+		        $('.floatingButton').on('click',
+		            function(e){
+		                e.preventDefault();
+		                $(this).toggleClass('open');
+		                if($(this).children('.fa').hasClass('fa-plus'))
+		                {
+		                    $(this).children('.fa').removeClass('fa-plus');
+		                    $(this).children('.fa').addClass('fa-close');
+		                } 
+		                else if ($(this).children('.fa').hasClass('fa-close')) 
+		                {
+		                    $(this).children('.fa').removeClass('fa-close');
+		                    $(this).children('.fa').addClass('fa-plus');
+		                }
+		                $('.floatingMenu').stop().slideToggle();
+		            }
+		        );
+		        $(this).on('click', function(e) {
+		          
+		            var container = $(".floatingButton");
+		            // if the target of the click isn't the container nor a descendant of the container
+		            if (!container.is(e.target) && $('.floatingButtonWrap').has(e.target).length === 0) 
+		            {
+		                if(container.hasClass('open'))
+		                {
+		                    container.removeClass('open');
+		                }
+		                if (container.children('.fa').hasClass('fa-close')) 
+		                {
+		                    container.children('.fa').removeClass('fa-close');
+		                    container.children('.fa').addClass('fa-plus');
+		                }
+		                $('.floatingMenu').hide();
+		            }
+		          
+		            // if the target of the click isn't the container and a descendant of the menu
+		            if(!container.is(e.target) && ($('.floatingMenu').has(e.target).length > 0)) 
+		            {
+		                $('.floatingButton').removeClass('open');
+		                $('.floatingMenu').stop().slideToggle();
+		            } 
+		        });
+		    });
+		</script>
 	</th:block>
+	
+	<th:block th:fragment="floatingButton">
+		<div class="floatingButtonWrap">
+		    <div class="floatingButtonInner">
+		        <a href="#" class="floatingButton">
+		            <i class="fa-solid fa-gear"></i>
+		        </a>
+		        <ul class="floatingMenu">
+		            <li>
+		                <a href="#">카달로그</a>
+		            </li>
+		            <li>
+		                <a href="#">비규격주문</a>
+		            </li>
+		        </ul>
+		    </div>
+		</div>		
+		
+	</th:block>
+	
 	<th:block th:fragment="sessionCheck(sessionValue)">
 		<input type="hidden" id="sessionCheck" th:value="${sessionValue}">
 	</th:block>
