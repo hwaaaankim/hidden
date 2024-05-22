@@ -2,3 +2,4 @@ src/main/resources/static/front/clean/catalog/2023/2023.pdf filter=lfs diff=lfs 
 src/main/resources/front/clean/catalog/2023/2023.pdf filter=lfs diff=lfs merge=lfs -text
 src/main/resources/static/front/clean/catalog/2023.pdf filter=lfs diff=lfs merge=lfs -text
  filter=lfs diff=lfs merge=lfs -text
+src/main/resources/clean/assets/2023.pdf filter=lfs diff=lfs merge=lfs -text

@@ -258,14 +258,14 @@ input:-webkit-autofill {
 	line-height: 1.4;
 	min-height: 50px;
 	letter-spacing: 2px;
-	padding: 30px 30px 30px 30px;
+	padding: 5px 10px 5px 10px;
 	display: flex !important;
 	background-color: transparent;
 	border: 1px solid white;
 	display: inline-block;
 	color: white;
 	transition: all 0.3s ease-in-out;
-
+	min-width:100px;
 }
 
 a.button-white p {
@@ -1790,6 +1790,12 @@ ul.slick-dots li.slick-active button {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+}
+@media(max-width:760px){
+	.header-desktop{
+		position:fixed;
+		width:100vw;
+	}
 }
 
 .site-header.header-v1 .header-desktop,
@@ -12877,7 +12883,13 @@ div.content.catalog-wrap h5.subtitle-banner {
 	-webkit-transition: all .3s ease;
 	transition: all .3s ease;
 }
-
+@media(max-width:991px){
+	.floatingButtonWrap {
+	    bottom: 110px;
+	    right: 15px;
+	}
+	
+}
 .floatingButton.button-show {
     transform: translateY(0);
     visibility: visible;

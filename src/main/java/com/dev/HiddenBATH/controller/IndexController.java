@@ -133,6 +133,12 @@ public class IndexController {
 		return "front/productDetailAdvanced";
 	}
 	
+	@GetMapping("/productDetailAdvanced01")
+	public String productDetailAdvanced01() {
+		
+		return "front/productDetailAdvanced01";
+	}
+	
 	@GetMapping("/search")
 	public String search() {
 		
