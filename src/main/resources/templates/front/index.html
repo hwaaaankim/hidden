@@ -6,7 +6,8 @@
 <body class="home home-3 title-3">
 	<th:block th:replace="~{fragments/front/clean/common :: sessionCheck(${session.user})}"></th:block>
 	<div id="page" class="hfeed page-wrapper">
-		<header id="site-header" class="site-header header-v3" th:replace="~{fragments/front/clean/common :: cleanHeader}">
+		<header id="site-header" class="site-header header-v3"
+			th:replace="~{fragments/front/clean/common :: cleanHeader}">
 		</header>
 
 		<div id="site-main" class="site-main">
@@ -22,7 +23,7 @@
 								</div>
 							</div>
 							<div class="block block-sliders layout-6 nav-vertical">
-								<div class="slick-sliders" data-autoplay="true" data-dots="true" data-nav="false"
+								<div class="slick-sliders" data-autoplay="true" data-dots="false" data-nav="false"
 									data-columns4="1" data-columns3="1" data-columns2="1" data-columns1="1"
 									data-columns1440="1" data-columns="1">
 									<div class="item slick-slide">
@@ -51,12 +52,17 @@
 									</div>
 								</div>
 							</div>
+							<div class="main-site-button-wrap">
+								<a class="button-slider button-white col-md-4" href="#">비규격주문</a>
+								<a class="button-slider button-white col-md-4" href="#">카달로그</a>
+								<a class="button-slider button-white col-md-4" href="#">사이트검색</a>
+							</div>
 						</section>
 
 
-						<section class="section section-padding p-t-50 p-b-50 m-b-0">
+						<section class="section section-padding p-t-50 p-b-50 m-b-0 scroll-section">
 							<div class="section-container">
-								<div class="block block-intro service-title-wrap">
+								<!--<div class="block block-intro service-title-wrap">
 									<div class="block-widget-wrap">
 										<div class="intro-text">
 											히든바스는 앞선 기술력을 바탕으로 풍요로운 <strong>욕실문화를 창조</strong>하며, <br>
@@ -133,6 +139,126 @@
 											<img width="700" height="500" src="/front/clean/newnew/s03.jpg" alt="">
 										</div>
 									</div>
+								</div>-->
+								<div class="section mb-0 border-bottom-0" id="scroll-content">
+									<div class="wrap01"></div>
+									<div class="wrap02"></div>
+									<div class="wrap03"></div>
+									<div class="wrap04"></div>
+									<div class="container clearfix" id="target-container">
+										<div class="parallax-text target01">
+											<div class="count-text left">
+												<h1>반려동물의 건강을</h1>
+												<h1>집에서 1분만에 확인</h1>
+												<div class="text-block">
+													<h5>당뇨병, 신부전, 구강 질환 등을</h5>
+													<h5>집에서 간편하게 검사하고</h5>
+												</div>
+												<div class="text-block">
+													<h5>병원비 걱정을 덜어주는 병원비 지원</h5>
+													<h5>서비스까지 이용할 수 있습니다.</h5>
+												</div>
+											</div>
+										</div>
+
+										<div class="parallax-text target02">
+											<div class="count-text left icon-text">
+												<h1>엄격한 기준으로 고른</h1>
+												<h1>제품을 만나보세요</h1>
+												<div class="text-block mt-50">
+													<h3><img class="mr-10"
+															src="/front/clean/assets/img/main/icon/heart.png"
+															width="20px;">건강을 생각한 제품
+													</h3>
+													<h5>믿고 쓸 수 있는 제품을 엄선했습니다.</h5>
+												</div>
+												<div class="text-block">
+													<h3><img class="mr-10"
+															src="/front/clean/assets/img/main/icon/fit.png"
+															width="20px;">딱 맞는 제품 추천</h3>
+													<h5>반려동물 건강 데이터를 기반으로</h5>
+													<h5>알맞은 제품을 추천합니다.</h5>
+												</div>
+												<div class="text-block">
+													<h3><img class="mr-10"
+															src="/front/clean/assets/img/main/icon/box.png"
+															width="20px;">안전한 배송</h3>
+													<h5>자체 물류체인으로 안전하게 배송합니다.</h5>
+												</div>
+											</div>
+										</div>
+
+										<div class="parallax-text target03">
+											<div class="count-text left">
+												<h1>좋은 병원 찾는 것도</h1>
+												<h1>핏펫에선 쉽게</h1>
+												<div class="text-block mt-30">
+													<h5>가장 가까운 병원 부터</h5>
+													<h5>노령동물 전문병원까지</h5>
+													<h5>꼭 맞는 병원을 찾아드려요.</h5>
+												</div>
+											</div>
+											<div class="count-text-subtitle">
+												<h4>2022년 기준 병원리뷰</h4>
+												<h1>40만+</h1>
+											</div>
+										</div>
+
+										<div class="parallax-text target03">
+											<div class="count-text left">
+												<h1>믿고 맡길</h1>
+												<h1>병원 찾고</h1>
+												<h1 class="mt-45">진료 예약까지</h1>
+												<h1>한번에</h1>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="block block-posts layout-2" id="scroll-mobile">
+									<div class="block-widget-wrap">
+										<div class="block-title">
+											<h2>히든바스의 제품들</h2>
+											<p class="info-message">HiddenBath의 첨단 기술력을 통해 제작된 최신 제품을 바로 만나보세요.</p>
+										</div>
+										<div class="block-content">
+											<div class="posts-wrap slick-wrap">
+												<div class="slick-sliders" data-slidestoscroll="true" data-dots="true"
+													data-nav="false" data-columns4="1" data-columns3="1" data-columns2="1"
+													data-columns1="3" data-columns="3">
+													<div class="post-grid post">
+														<div class="post-inner">
+															<div class="post-image">
+																<a class="post-thumbnail" href="#">
+																	<img
+																		src="/front/clean/assets/img/slide/slide01.png">
+																</a>
+															</div>
+														</div>
+													</div>
+													<div class="post-grid post">
+														<div class="post-inner">
+															<div class="post-image">
+																<a class="post-thumbnail" href="#">
+																	<img
+																		src="/front/clean/assets/img/slide/slide02.png">
+																</a>
+															</div>
+														</div>
+													</div>
+													<div class="post-grid post">
+														<div class="post-inner">
+															<div class="post-image">
+																<a class="post-thumbnail" href="#">
+																	<img
+																		src="/front/clean/assets/img/slide/slide03.png">
+																</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</section>
@@ -166,7 +292,7 @@
 																			<img width="600" height="600"
 																				src="/front/clean/best/1-2.png"
 																				class="post-image back" alt="">
-																			
+
 																		</a>
 																	</div>
 																</div>
@@ -221,7 +347,7 @@
 																			<img width="600" height="600"
 																				src="/front/clean/best/3-1.png"
 																				class="post-image back" alt="">
-																			
+
 																		</a>
 																	</div>
 																</div>
@@ -276,7 +402,7 @@
 																			<img width="600" height="600"
 																				src="/front/clean/best/5-1.png"
 																				class="post-image back" alt="">
-																			
+
 																		</a>
 																	</div>
 																</div>
@@ -303,7 +429,7 @@
 																				class="hover-image" alt="">
 																			<img width="600" height="600"
 																				src="/front/clean/best/6-1.png"
-																				class="post-image back" alt="">	
+																				class="post-image back" alt="">
 																		</a>
 																	</div>
 																</div>
@@ -330,7 +456,7 @@
 																				class="hover-image" alt="">
 																			<img width="600" height="600"
 																				src="/front/clean/best/7-1.png"
-																				class="post-image back" alt="">	
+																				class="post-image back" alt="">
 																		</a>
 																	</div>
 																</div>
@@ -375,7 +501,7 @@
 															<div class="banner-wrapper banners">
 																<div class="banner-image">
 																	<a href="/constructionDetail">
-																		<img width="900" 
+																		<img width="900"
 																			src="/front/clean/newnew/con01.png"
 																			alt="Image Slider">
 																	</a>
@@ -404,7 +530,7 @@
 															<div class="banner-wrapper banners">
 																<div class="banner-image">
 																	<a href="/constructionDetail">
-																		<img width="900" 
+																		<img width="900"
 																			src="/front/clean/newnew/con02.png"
 																			alt="Image Slider">
 																	</a>
@@ -433,7 +559,7 @@
 															<div class="banner-wrapper banners">
 																<div class="banner-image">
 																	<a href="/constructionDetail">
-																		<img width="900" 
+																		<img width="900"
 																			src="/front/clean/newnew/con03.png"
 																			alt="Image Slider">
 																	</a>
@@ -579,6 +705,12 @@
 							</div>
 						</section>
 						<section class="section m-b-0">
+							<div class="container">
+								<div class="block-title">
+									<h2>히든바스의 제품들</h2>
+									<p class="info-message">HiddenBath의 첨단 기술력을 통해 제작된 최신 제품을 바로 만나보세요.</p>
+								</div>
+							</div>
 							<div class="block block-instagram slider no-space">
 								<div class="slick-wrap">
 									<div class="slick-sliders fullwidth" data-dots="false" data-item_row="1"
@@ -586,39 +718,34 @@
 										data-columns1="4" data-columns="5">
 										<div class="item slick-slide">
 											<a class="instagram" href="https://www.instagram.com">
-												<img width="690" height="690"
-													src="/front/clean/new/card/1.jpg" alt="#">
+												<img width="690" height="690" src="/front/clean/new/card/1.jpg" alt="#">
 											</a>
 										</div>
 										<div class="item slick-slide">
 											<a class="instagram" href="https://www.instagram.com">
-												<img width="690" height="690"
-													src="/front/clean/new/card/2.jpg" alt="#">
+												<img width="690" height="690" src="/front/clean/new/card/2.jpg" alt="#">
 											</a>
 										</div>
 										<div class="item slick-slide">
 											<a class="instagram" href="https://www.instagram.com">
-												<img width="690" height="690"
-													src="/front/clean/new/card/3.jpg" alt="#">
+												<img width="690" height="690" src="/front/clean/new/card/3.jpg" alt="#">
 											</a>
 										</div>
 										<div class="item slick-slide">
 											<a class="instagram" href="https://www.instagram.com">
-												<img width="690" height="690"
-													src="/front/clean/new/card/4.jpg" alt="#">
+												<img width="690" height="690" src="/front/clean/new/card/4.jpg" alt="#">
 											</a>
 										</div>
 										<div class="item slick-slide">
 											<a class="instagram" href="https://www.instagram.com">
-												<img width="690" height="690"
-													src="/front/clean/new/card/5.jpg" alt="#">
+												<img width="690" height="690" src="/front/clean/new/card/5.jpg" alt="#">
 											</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</section>
-					<!--	<section class="section section-padding top-border p-t-70 m-b-70">
+						<!--	<section class="section section-padding top-border p-t-70 m-b-70">
 							<div class="section-container">
 								<div class="block block-products slider">
 									<div class="block-widget-wrap">
@@ -882,6 +1009,10 @@
 	</div>
 	<th:block th:replace="~{fragments/front/clean/common :: cleanScript}"></th:block>
 	<th:block th:replace="~{fragments/front/clean/common :: floatingButton}"></th:block>
+	<script src="/front/clean/assets/js/gsap.min.js"></script>
+	<script src="/front/clean/assets/js/ScrollTrigger.min.js"></script>
+	<script src="/front/clean/assets/js/animation.js"></script>
+	<script src="/front/clean/assets/js/detail.js"></script>
 </body>
 
 </html>

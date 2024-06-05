@@ -1723,8 +1723,23 @@ ul.slick-dots li.slick-active button {
 	position: relative;
 	z-index: 999999;
 	background: transparent;
+	transition:all 0.3s ease-in-out;
 }
-
+@media(min-width:993px){
+	.site-header {
+		position: fixed !important;
+	}
+	.site-header.header-v1 .header-desktop{
+		transition:all 0.3s ease-in-out;
+	}
+	header.site-header.header-v1.active{
+		background:black !important;
+	}
+	header.site-header.header-v1.active .header-desktop{
+		padding:15px 0px;
+	}
+}
+	
 .site-header.absolute {
 	position: absolute;
 	width: 100%;
@@ -12951,4 +12966,11 @@ div.content.catalog-wrap h5.subtitle-banner {
 .floatingMenu li a:hover {
     margin-right: 10px;
     text-decoration: none;
+}
+.main-site-button-wrap{
+	position:absolute;
+	right:0;
+	top:50%;
+	transform:translateY(-50%);
+	width:100px;
 }

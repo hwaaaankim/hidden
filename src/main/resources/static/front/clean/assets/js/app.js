@@ -306,9 +306,11 @@
             if ($(this).scrollTop() > 100) {
                 $('.back-top').addClass('button-show')
                 $('.floatingButton').addClass('button-show');
+                $('#site-header').addClass('active');
             } else {
                 $('.back-top').removeClass('button-show');
                 $('.floatingButton').removeClass('button-show');
+                $('#site-header').removeClass('active');
             }
         });
         $('.back-top').on('click', function() {
