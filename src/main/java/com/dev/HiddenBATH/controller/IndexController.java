@@ -4,31 +4,40 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/temp")
 public class IndexController {
 
-	@GetMapping("/loginForm")
-	public String loginForm() {
-		
-		return "administration/login";
-	}
+//	@GetMapping("/loginForm")
+//	public String loginForm() {
+//		
+//		return "administration/login";
+//	}
+//	
+//	@PostMapping("/signinProcess")
+//	public String loginProcess() {
+//		
+//		return "administration/index";
+//	}
 	
-	@PostMapping("/signinProcess")
-	public String loginProcess() {
-		
-		return "administration/index";
-	}
+//	@GetMapping({"/", "", "/index"})
+//	public String home(
+//			HttpServletRequest request,
+//			HttpSession session) {
+//		System.out.println(session.getAttribute("user"));
+//		return "front/index";
+//	}
 	
-	@GetMapping({"/", "", "/index"})
+	@GetMapping("/index")
 	public String home(
 			HttpServletRequest request,
 			HttpSession session) {
-		System.out.println(session.getAttribute("user"));
 		return "front/index";
 	}
 	
@@ -40,7 +49,6 @@ public class IndexController {
 			) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("user");
-		System.out.println(sessionValue);
 	}
 	
 	@GetMapping("/about")
@@ -59,6 +67,12 @@ public class IndexController {
 	public String construction() {
 		
 		return "front/construction";
+	}
+	
+	@GetMapping("/imageGallery")
+	public String imageGallery() {
+		
+		return "front/imageGallery";
 	}
 	
 	@GetMapping("/constructionDetail")
@@ -101,6 +115,12 @@ public class IndexController {
 	public String catalog2023New() {
 		
 		return "front/catalog/2023New";
+	}
+	
+	@GetMapping("/2024")
+	public String catalog2024() {
+		
+		return "front/catalog/2024";
 	}
 	
 	@GetMapping("/noticeDetail")

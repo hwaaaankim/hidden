@@ -32,7 +32,7 @@ public class WebSecurityConfig {
 	
 	// 관리자
 	private final String[] adminsUrls = {
-			"/admin/**"
+			"/admin/**", "/temp/**"
 	};
 	
 	@Bean
@@ -60,7 +60,7 @@ public class WebSecurityConfig {
 					.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
 			.authorizeHttpRequests((authorizeRequests) -> 
 				authorizeRequests
-//					.requestMatchers(adminsUrls).hasAuthority("ROLE_ADMIN")
+					.requestMatchers(adminsUrls).hasAuthority("ROLE_ADMIN")
 					.requestMatchers(visitorsUrls).permitAll()
 					.anyRequest().permitAll())
 			.formLogin((formLogin) -> 

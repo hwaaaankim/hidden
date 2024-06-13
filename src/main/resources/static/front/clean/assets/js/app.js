@@ -306,13 +306,20 @@
             if ($(this).scrollTop() > 100) {
                 $('.back-top').addClass('button-show')
                 $('.floatingButton').addClass('button-show');
-                $('#site-header').addClass('active');
             } else {
                 $('.back-top').removeClass('button-show');
                 $('.floatingButton').removeClass('button-show');
+            }
+        });
+        
+        _window.scroll(function() {
+            if ($(this).scrollTop() > 30) {
+                $('#site-header').addClass('active');
+            } else {
                 $('#site-header').removeClass('active');
             }
         });
+        
         $('.back-top').on('click', function() {
             $('html, body').animate({
                 scrollTop: 0

@@ -83,7 +83,7 @@ body {
   margin-top: 150px;
 }
 .wrap01 {
-  background: url("/front/clean/assets/img/bg01.png") fixed center no-repeat;
+  background: url("/front/clean/sample/5.png") fixed center no-repeat;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -92,7 +92,7 @@ body {
 }
 
 .wrap02 {
-  background: url("/front/clean/assets/img/bg02.png") fixed center no-repeat;
+  background: url("/front/clean/sample/5.png") fixed center no-repeat;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -101,7 +101,7 @@ body {
 }
 
 .wrap03 {
-  background: url("/front/clean/assets/img/bg03.png") fixed center no-repeat;
+  background: url("/front/clean/sample/5.png") fixed center no-repeat;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -110,7 +110,7 @@ body {
 }
 
 .wrap04 {
-  background: url("/front/clean/assets/img/bg04.png") fixed center no-repeat;
+  background: url("/front/clean/sample/5.png") fixed center no-repeat;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -1013,4 +1013,99 @@ h1.recruit-title {
 	 .p-r-none{
 	 	padding-right:0px !important;
 	 }
+}
+.year-text{
+	border-radius: 5px;
+	background:#061821;
+	color:#977c5e;
+	font-weight:600;
+	font-size:13px;
+	padding:2px 5px 2px 5px;
+	vertical-align: middle;
+}
+
+ #overlay {
+	 background: rgba(0, 0, 0, 0.7);
+	 width: 100%;
+	 height: 100%;
+	 position: fixed;
+	 top: 0;
+	 left: 0;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 z-index: 999;
+	 -webkit-user-select: none;
+	 -moz-user-select: none;
+	 -ms-user-select: none;
+	 user-select: none;
+}
+ #overlay img {
+	 margin: 0;
+	 width: 80%;
+	 height: auto;
+	 object-fit: contain;
+	 padding: 5%;
+}
+ @media screen and (min-width: 768px) {
+	 #overlay img {
+		 width: 60%;
+	}
+}
+ @media screen and (min-width: 1200px) {
+	 #overlay img {
+		 width: 50%;
+	}
+}
+ #nextButton {
+	 color: #fff;
+	 font-size: 2em;
+	 transition: opacity 0.8s;
+}
+ #nextButton:hover {
+	 opacity: 0.7;
+}
+ @media screen and (min-width: 768px) {
+	 #nextButton {
+		 font-size: 3em;
+	}
+}
+ #prevButton {
+	 color: #fff;
+	 font-size: 2em;
+	 transition: opacity 0.8s;
+}
+ #prevButton:hover {
+	 opacity: 0.7;
+}
+ @media screen and (min-width: 768px) {
+	 #prevButton {
+		 font-size: 3em;
+	}
+}
+ #exitButton {
+	 color: #fff;
+	 font-size: 2em;
+	 transition: opacity 0.8s;
+	 position: absolute;
+	 top: 100px;
+	 right: 100px;
+	 z-index:99999;
+}
+#exitButton:hover {
+	 opacity: 0.7;
+}
+.cat-title.img-overlay{
+	cursor:pointer;
+}
+#prevButton, #nextButton, #exitButton{
+	cursor:pointer;
+}
+.image{
+	margin-bottom:10px;
+}
+ @media screen and (min-width: 768px) {
+	 #exitButton {
+		 font-size: 3em;
+	}
 }
