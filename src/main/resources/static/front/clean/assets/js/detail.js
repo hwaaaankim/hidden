@@ -10,6 +10,7 @@ let target04 = document.querySelector(".target04");
 window.onscroll = function (e) {
     let tCon = document.getElementById("target-container");
     let height = tCon.getBoundingClientRect().y;
+    console.log(height);
     if (height > 420) {
         gsap.to(".wrap01", {
             opacity: 0,
@@ -97,7 +98,7 @@ window.onscroll = function (e) {
         gsap.to(".wrap04", {
             opacity: 0,
             zIndex: 0,
-            duration: 0.75,
+           duration: 0.75,
         });
     }
     if (height < -1343 && height > -2243) {
@@ -120,7 +121,7 @@ window.onscroll = function (e) {
             {
                 opacity: 1,
                 zIndex: 2,
-                duration: 0.75,
+               duration: 0.75,
             },
             "<"
         );
