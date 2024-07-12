@@ -1162,12 +1162,13 @@ h1.recruit-title {
 
 .year-text {
 	border-radius: 5px;
-	background: #061821;
-	color: #977c5e;
+	color: black;
+	background-color: #977c5e;
 	font-weight: 600;
-	font-size: 13px;
+	font-size: 18px;
 	padding: 2px 5px 2px 5px;
-	vertical-align: middle;
+	margin-bottom:5px;
+	position: relative;
 }
 
 #overlay {
