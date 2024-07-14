@@ -422,7 +422,8 @@ a.button-white p {
 }
 
 .section.background-1 {
-	background-color: #E0E8F1;
+	/*background-color: #E0E8F1;*/
+	background-color:transparent;
 }
 
 .section.background-2 {
@@ -943,7 +944,7 @@ body.home.title-2 .section .block-title h2 {
 }
 
 body.home.title-3 .section .block-title {
-	margin-bottom: 45px;
+	margin-bottom: 60px;
 }
 
 body.home.title-3 .section .block-title h2 {
@@ -12426,7 +12427,10 @@ div.product-color button {
 	font-weight: 400;
 	line-height: 1.4;
 	margin-top: 0px;
+	margin-bottom:15px;
 }
+
+
 
 .main-text-section h2.main-title {
 	color: white;
