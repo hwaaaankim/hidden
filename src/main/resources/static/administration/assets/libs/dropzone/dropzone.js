@@ -190,7 +190,7 @@ var $b657c03155fc27e2$var$defaultOptions = {
    * The name of the file param that gets transferred.
    * **NOTE**: If you have the option  `uploadMultiple` set to `true`, then
    * Dropzone will append `[]` to the name.
-   */ paramName: "file",
+   */ paramName: "slideImages",
     /**
    * Whether thumbnails for images should be generated
    */ createImageThumbnails: true,

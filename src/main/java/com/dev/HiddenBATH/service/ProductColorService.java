@@ -11,7 +11,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.HiddenBATH.model.product.ProductColor;
-import com.dev.HiddenBATH.repository.ProductColorRepository;
+import com.dev.HiddenBATH.repository.product.ProductColorRepository;
 
 @Service
 public class ProductColorService {

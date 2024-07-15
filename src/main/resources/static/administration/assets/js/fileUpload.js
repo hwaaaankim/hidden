@@ -34,7 +34,7 @@ var dropzone,
 		   timeout: 300000000, // 커넥션 타임아웃 설정 -> 데이터가 클 경우 꼭 넉넉히 설정해주자
 		
 		   addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
-// dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
+		// dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
 		   acceptedFiles: '.xlsx', // ZIP 파일 포맷만 허용
 		   
 		   init: function () {

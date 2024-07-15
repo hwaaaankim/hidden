@@ -52,6 +52,9 @@ public class Product {
 	@Column(name="PRODUCT_INDEX")
 	private int productIndex;
 	
+	@Column(name="PRODUCT_SIGN")
+	private Boolean productSign;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name="tb_product_and_color", 
@@ -67,6 +70,14 @@ public class Product {
 			inverseJoinColumns = @JoinColumn(name="PS_SIZE_ID")
 			)
 	private List<ProductSize> productSizes;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name="tb_product_and_tag", 
+			joinColumns = @JoinColumn(name="PT_PRODUCT_ID"),
+			inverseJoinColumns = @JoinColumn(name="PT_TAG_ID")
+			)
+	private List<ProductTag> productTags;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(

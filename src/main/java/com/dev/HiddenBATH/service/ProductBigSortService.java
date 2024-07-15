@@ -3,7 +3,7 @@ package com.dev.HiddenBATH.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dev.HiddenBATH.repository.ProductBigSortRepository;
+import com.dev.HiddenBATH.repository.product.ProductBigSortRepository;
 
 @Service
 public class ProductBigSortService {

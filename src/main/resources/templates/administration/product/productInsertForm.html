@@ -33,25 +33,43 @@
 						</div>
 					</div>
 
-					<form id="createproduct-form" autocomplete="off" class="needs-validation" novalidate>
+					<form 
+					autocomplete="off" 
+					class="needs-validation" 
+					method="post"
+					action="/admin/productInsert"
+					enctype="multipart/form-data"
+					id="productInsertForm">
 						<div class="row">
 							<div class="col-lg-8">
 								<div class="card">
 									<div class="card-body">
 										<div class="mb-3">
 											<label class="form-label" for="product-title-input">제품명</label>
-											<input type="text" class="form-control" id="product-title-input" value=""
-												placeholder="제품 이름을 입력 해 주세요." required>
+											<input 
+											type="text" 
+											class="form-control" 
+											id="product-title-input" 
+											name="productName"
+											placeholder="제품 이름을 입력 해 주세요." required>
 										</div>
 										<div class="mb-3">
-											<label class="form-label" for="product-title-input">제품코드</label>
-											<input type="text" class="form-control" id="product-title-input" value=""
-												placeholder="제품 코드를 입력 해 주세요." required>
+											<label class="form-label" for="product-code-input">제품코드</label>
+											<input 
+											type="text" 
+											class="form-control" 
+											id="product-code-input" 
+											name="productCode"
+											placeholder="제품 코드를 입력 해 주세요." required>
 										</div>
 										<div class="mb-3">
 											<label class="form-label" for="product-title-input">제품타이틀</label>
-											<input type="text" class="form-control" id="product-title-input" value=""
-												placeholder="제품타이틀을 입력 해 주세요." required>
+											<input 
+											type="text" 
+											class="form-control" 
+											name="productTitle"
+											id="product-title-input" 
+											placeholder="제품타이틀을 입력 해 주세요.">
 										</div>
 									</div>
 								</div>
@@ -67,8 +85,11 @@
 											<div class="text-center">
 												<div class="position-relative d-inline-block">
 													<div class="position-absolute top-100 start-100 translate-middle">
-														<label for="product-image-input" class="mb-0"
-															data-bs-toggle="tooltip" data-bs-placement="right"
+														<label 
+															for="product-image-input" 
+															class="mb-0"
+															data-bs-toggle="tooltip" 
+															data-bs-placement="right"
 															title="Select Image">
 															<div class="avatar-xs">
 																<div
@@ -77,13 +98,19 @@
 																</div>
 															</div>
 														</label>
-														<input class="form-control d-none" value=""
-															id="product-image-input" type="file"
+														<input 
+															class="form-control d-none" 
+															id="product-image-input" 
+															name="productImage"
+															type="file" 
 															accept="image/png, image/gif, image/jpeg">
 													</div>
 													<div class="avatar-lg">
 														<div class="avatar-title bg-light rounded">
-															<img src="" id="product-img" class="avatar-md h-auto" />
+															<img 
+															src="" 
+															id="product-img" 
+															class="avatar-md h-auto" />
 														</div>
 													</div>
 												</div>
@@ -94,52 +121,23 @@
 											<h5 class="fs-15 mb-1">제품 슬라이드이미지</h5>
 											<p class="text-muted">제품의 슬라이드이미지를 선택 해 주세요.</p>
 
-											<div class="dropzone">
-												<div class="fallback">
-													<input name="file" type="file" multiple>
-												</div>
-												<div class="dz-message needsclick">
-													<div class="mb-3">
-														<i class="display-4 text-muted ri-upload-cloud-2-fill"></i>
-													</div>
-
-													<h5>이곳으로 파일을 드래그 해 주세요.</h5>
-												</div>
-											</div>
-
-											<ul class="list-unstyled mb-0" id="dropzone-preview">
-												<li class="mt-2" id="dropzone-preview-list">
-													<div class="border rounded">
-														<div class="d-flex p-2">
-															<div class="flex-shrink-0 me-3">
-																<div class="avatar-sm bg-light rounded">
-																	<img data-dz-thumbnail
-																		class="img-fluid rounded d-block" src="#"
-																		alt="Product-Image" />
-																</div>
-															</div>
-															<div class="flex-grow-1">
-																<div class="pt-1">
-																	<h5 class="fs-14 mb-1" data-dz-name>&nbsp;</h5>
-																	<p class="fs-13 text-muted mb-0" data-dz-size></p>
-																	<strong class="error text-danger"
-																		data-dz-errormessage></strong>
-																</div>
-															</div>
-															<div class="flex-shrink-0 ms-3">
-																<button data-dz-remove
-																	class="btn btn-sm btn-danger">Delete</button>
-															</div>
-														</div>
-													</div>
-												</li>
-											</ul>
+											<div>
+                                                <input 
+                                                class="form-control" 
+                                                type="file" 
+                                                multiple
+                                                name="slideImages">
+                                            </div>
 										</div>
 										<div class="mb-4">
 											<h5 class="fs-15 mb-1">대표 다운로드파일</h5>
 											<p class="text-muted">제품 다운로드 파일을 등록 해 주세요.</p>
 											<div>
-                                                <input class="form-control" type="file" id="formFile">
+                                                <input 
+                                                class="form-control" 
+                                                type="file" 
+                                                multiple
+                                                name="files">
                                             </div>
 										</div>
 									</div>
@@ -171,17 +169,14 @@
 			                                            <div class="mt-4 mt-lg-0">
 			                                                <h5 class="fs-14 mb-1">사이즈</h5>
 			                                                <p class="text-muted">제품에 적용될 사이즈들을 선택 해 주세요.</p>
-			                                                <form>
-			                                                    <select required multiple="multiple" name="favorite_cars" id="multiselect-header">
-			                                                        <option>사이즈</option>
-			                                                        <option>사이즈</option>
-			                                                        <option>사이즈</option>
-			                                                        <option>사이즈</option>
-			                                                        <option>사이즈</option>
-			                                                        <option>사이즈</option>
-			                                                        <option>사이즈</option>
-			                                                        <option>사이즈</option>
-			                                                        <option>사이즈</option>
+			                                                 <form>
+			                                                    <select 
+			                                                    multiple="multiple" 
+			                                                    name="sizes" 
+			                                                    id="multiselect-header">
+			                                                        <option value="1">사이즈</option>
+			                                                        <option value="1">사이즈</option>
+			                                                        <option value="1">사이즈</option>
 			                                                    </select>
 			                                                </form>
 			                                            </div>
@@ -195,20 +190,14 @@
 			                                            <div class="mt-4 mt-lg-0">
 			                                                <h5 class="fs-14 mb-1">색상선택</h5>
 			                                                <p class="text-muted">제품에 적용될 색상들을 선택 해 주세요.</p>
-			                                                <form>
-			                                                    <select required multiple="multiple" name="favorite_cars" id="multiselect-header02">
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
-			                                                        <option>색상</option>
+			                                                 <form>
+			                                                    <select 
+			                                                    multiple="multiple" 
+			                                                    name="colors" 
+			                                                    id="multiselect-header02">
+			                                                        <option value="1">색상</option>
+			                                                        <option value="1">색상</option>
+			                                                        <option value="1">색상</option>
 			                                                    </select>
 			                                                </form>
 			                                            </div>
@@ -230,22 +219,27 @@
 									</div>
 									<div class="card-body">
 										<div class="mb-3">
-											<label for="choices-publish-status-input" class="form-label">대분류</label>
+											<label class="form-label">대분류</label>
 
-											<select class="form-select" id="choices-publish-status-input" data-choices
-												data-choices-search-false>
-												<option value="Published">대분류</option>
-												<option value="Published">대분류</option>
+											<select 
+											required
+											id="bigSort"
+											class="form-select"
+											name="bigSort">
+												<option value="1">대분류</option>
+												<option value="2">대분류</option>
 											</select>
 										</div>
 
 										<div>
-											<label for="choices-publish-visibility-input"
-												class="form-label">중분류</label>
-											<select class="form-select" id="choices-publish-visibility-input"
-												data-choices data-choices-search-false>
-												<option value="Public" selected>중분류</option>
-												<option value="Hidden">중분류</option>
+											<labelclass="form-label">중분류</label>
+											<select 
+											required
+											id="middleSort"
+											name="middleSort"
+											class="form-select">
+												<option value="1">중분류</option>
+												<option value="2">중분류</option>
 											</select>
 										</div>
 									</div>
@@ -259,13 +253,12 @@
 									<div class="card-body">
 										<p class="text-muted mb-2"> <a href="/admin/productTagManager"
 												class="float-end text-decoration-underline">새로운태그등록</a>제품 태그 선택</p>
-										<select class="form-select" id="choices-category-input"
-											name="choices-category-input" data-choices data-choices-search-false>
-											<option value="Appliances">태그</option>
-											<option value="Appliances">태그</option>
-											<option value="Appliances">태그</option>
-											<option value="Appliances">태그</option>
-											<option value="Appliances">태그</option>
+										<select 
+										class="form-select" 
+										name="tags">
+											<option value="1">태그</option>
+											<option value="2">태그</option>
+											<option value="3">태그</option>
 										</select>
 									</div>
 								</div>
@@ -276,8 +269,10 @@
 									</div>
 									<div class="card-body">
 										<p class="text-muted mb-2">제품 설명 문구를 입력 해 주세요.</p>
-										<textarea class="form-control"
-											placeholder="Must enter minimum of a 100 characters" rows="5"></textarea>
+										<textarea 
+										class="form-control"
+										name="subject"
+										placeholder="제품의 설명 문구를 입력 해 주세요." rows="5"></textarea>
 									</div>
 								</div>
 							</div>

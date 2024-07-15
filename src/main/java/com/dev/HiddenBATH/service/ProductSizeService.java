@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dev.HiddenBATH.model.product.ProductSize;
-import com.dev.HiddenBATH.repository.ProductSizeRepository;
+import com.dev.HiddenBATH.repository.product.ProductSizeRepository;
 
 @Service
 public class ProductSizeService {
