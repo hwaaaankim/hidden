@@ -52,7 +52,10 @@ var multiSelectBasic = document.getElementById("multiselect-basic"),
 var multiSelectBasic = document.getElementById("multiselect-basic"),
     multiSelectHeader = (multiSelectBasic && multi(multiSelectBasic, { enable_search: !1 }), document.getElementById("multiselect-header02")),
     multiSelectOptGroup = (multiSelectHeader && multi(multiSelectHeader, { non_selected_header: "등록가능색상", selected_header: "등록된 색상" }), document.getElementById("multiselect-optiongroup"));
-    
+
+var multiSelectBasic = document.getElementById("multiselect-basic"),
+    multiSelectHeader = (multiSelectBasic && multi(multiSelectBasic, { enable_search: !1 }), document.getElementById("multiselect-header03")),
+    multiSelectOptGroup = (multiSelectHeader && multi(multiSelectHeader, { non_selected_header: "등록가능옵션", selected_header: "등록된 옵션" }), document.getElementById("multiselect-optiongroup"));    
     
     
     

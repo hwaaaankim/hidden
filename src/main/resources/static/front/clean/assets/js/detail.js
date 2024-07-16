@@ -74,7 +74,7 @@ window.onscroll = function(e) {
                 gsap.set(".wrap04", { zIndex: 0 });
             }
         });
-    } else if (height < -343 && height > -1343 && currentVisibleWrap !== "wrap02") {
+    } else if (height <= -343 && height > -1343 && currentVisibleWrap !== "wrap02") {
         currentVisibleWrap = "wrap02";
         tl.to(".wrap01", {
             opacity: 0,
@@ -104,7 +104,7 @@ window.onscroll = function(e) {
                 gsap.set(".wrap04", { zIndex: 0 });
             }
         });
-    } else if (height < -1343 && height > -2443 && currentVisibleWrap !== "wrap03") {
+    } else if (height <= -1343 && height > -2443 && currentVisibleWrap !== "wrap03") {
         currentVisibleWrap = "wrap03";
         tl.to(".wrap01", {
             opacity: 0,
@@ -134,7 +134,7 @@ window.onscroll = function(e) {
                 gsap.set(".wrap04", { zIndex: 0 });
             }
         });
-    } else if (height < -2444 && height > -3299 && currentVisibleWrap !== "wrap04") {
+    } else if (height <= -2443 && height > -3299 && currentVisibleWrap !== "wrap04") {
         currentVisibleWrap = "wrap04";
         tl.to(".wrap01", {
             opacity: 0,
@@ -164,7 +164,7 @@ window.onscroll = function(e) {
                 gsap.set(".wrap04", { zIndex: 2 });
             }
         }, "<");
-    } else if (height < -3300 && currentVisibleWrap !== "none") {
+    } else if (height <= -3299 && currentVisibleWrap !== "none") {
         currentVisibleWrap = "none";
         tl.to(".wrap01", {
             opacity: 0,

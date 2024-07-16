@@ -15,10 +15,11 @@ public class ProductDTO {
 	private MultipartFile productImage;
 	private List<MultipartFile> slideImages;
 	private List<MultipartFile> files;
-	private List<String> sizes;
-	private List<String> colors;
+	private List<Long> sizes;
+	private List<Long> colors;
+	private List<Long> options;
 	private Long bigSort;
 	private Long middleSort;
-	private List<String> tags;
+	private List<Long> tags;
 	private String subject;
 }

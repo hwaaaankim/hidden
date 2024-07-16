@@ -256,7 +256,7 @@ input:-webkit-autofill {
 	text-align: center;
 	align-items: center;
 	line-height: 1.4;
-	min-height: 50px;
+	min-height: 40px;
 	letter-spacing: 2px;
 	padding: 5px 10px 5px 10px;
 	display: flex !important;
@@ -1790,7 +1790,7 @@ ul.slick-dots li.slick-active button {
 
 .site-header .site-logo img {
 	width: 100%;
-	max-width: 150px;
+	max-width: 180px;
 }
 
 .site-header.header-v4 .header-center {

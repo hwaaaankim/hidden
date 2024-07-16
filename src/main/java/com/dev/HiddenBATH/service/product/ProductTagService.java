@@ -1,4 +1,4 @@
-package com.dev.HiddenBATH.service;
+package com.dev.HiddenBATH.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

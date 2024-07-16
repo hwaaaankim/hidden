@@ -24,14 +24,16 @@ import com.dev.HiddenBATH.repository.product.ProductBigSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductColorRepository;
 import com.dev.HiddenBATH.repository.product.ProductMiddleSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductOptionRepository;
+import com.dev.HiddenBATH.repository.product.ProductRepository;
 import com.dev.HiddenBATH.repository.product.ProductSizeRepository;
 import com.dev.HiddenBATH.repository.product.ProductTagRepository;
-import com.dev.HiddenBATH.service.ProductBigSortService;
-import com.dev.HiddenBATH.service.ProductColorService;
-import com.dev.HiddenBATH.service.ProductMiddleSortService;
-import com.dev.HiddenBATH.service.ProductOptionService;
-import com.dev.HiddenBATH.service.ProductSizeService;
-import com.dev.HiddenBATH.service.ProductTagService;
+import com.dev.HiddenBATH.service.product.ProductBigSortService;
+import com.dev.HiddenBATH.service.product.ProductColorService;
+import com.dev.HiddenBATH.service.product.ProductMiddleSortService;
+import com.dev.HiddenBATH.service.product.ProductOptionService;
+import com.dev.HiddenBATH.service.product.ProductService;
+import com.dev.HiddenBATH.service.product.ProductSizeService;
+import com.dev.HiddenBATH.service.product.ProductTagService;
 
 @Controller
 @RequestMapping("/admin")
@@ -72,6 +74,12 @@ public class ProductAdminController {
 	
 	@Autowired
 	ProductTagService productTagService;
+	
+	@Autowired
+	ProductRepository productRepository;
+	
+	@Autowired
+	ProductService productService;
 	
 	@GetMapping("/productCategoryManager")
 	public String productCategoryManager(
@@ -128,7 +136,7 @@ public class ProductAdminController {
 			return sb.toString();
 		}catch(Exception e) {
 			StringBuffer sb = new StringBuffer();
-			String msg = "대분류가 삭제 되었습니다.";
+			String msg = "대분류가 등록된 중분류, 제품이 존재하는 경우 대분류를 삭제할 수 없습니다.";
 			
 			sb.append("alert('" + msg + "');");
 			sb.append("location.href='/admin/productCategoryManager'");
@@ -187,7 +195,7 @@ public class ProductAdminController {
 			return sb.toString();
 		}catch(Exception e) {
 			StringBuffer sb = new StringBuffer();
-			String msg = "중분류가 삭제 되었습니다.";
+			String msg = " 중분류가 등록된 제품이 존재하는 경우 중분류를 삭제할 수 없습니다.";
 			
 			sb.append("alert('" + msg + "');");
 			sb.append("location.href='/admin/productCategoryManager'");
@@ -251,7 +259,7 @@ public class ProductAdminController {
 		}
 		
 		model.addAttribute("options", o);
-		model.addAttribute("tags", b);
+		model.addAttribute("tags", t);
 		model.addAttribute("sizes", s);
 		model.addAttribute("colors", c);
 		model.addAttribute("bigsorts", b);
@@ -274,7 +282,6 @@ public class ProductAdminController {
 			ProductDTO dto
 			) {
 		
-		System.out.println(dto.toString());
 		
 		StringBuffer sb = new StringBuffer();
 		String msg = "제품이 등록 되었습니다.";

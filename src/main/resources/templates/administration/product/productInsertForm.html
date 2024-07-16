@@ -147,8 +147,7 @@
 									<div class="card-header">
 										<ul class="nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
 											<li class="nav-item">
-												<a class="nav-link active" data-bs-toggle="tab"
-													href="#addproduct-general-info" role="tab">
+												<a class="nav-link active" data-bs-toggle="tab" href="#addproduct-general-info" role="tab">
 													제품 사이즈등록
 												</a>
 											</li>
@@ -156,6 +155,12 @@
 												<a class="nav-link" data-bs-toggle="tab" href="#addproduct-metadata"
 													role="tab">
 													제품 색상등록
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" data-bs-toggle="tab" href="#addproduct-option"
+													role="tab">
+													제품 옵션등록
 												</a>
 											</li>
 										</ul>
@@ -174,9 +179,7 @@
 			                                                    multiple="multiple" 
 			                                                    name="sizes" 
 			                                                    id="multiselect-header">
-			                                                        <option value="1">사이즈</option>
-			                                                        <option value="1">사이즈</option>
-			                                                        <option value="1">사이즈</option>
+			                                                        <option th:each="s:${sizes}" th:value="${s.id}" th:text="${s.productSizeText}">사이즈</option>
 			                                                    </select>
 			                                                </form>
 			                                            </div>
@@ -195,9 +198,25 @@
 			                                                    multiple="multiple" 
 			                                                    name="colors" 
 			                                                    id="multiselect-header02">
-			                                                        <option value="1">색상</option>
-			                                                        <option value="1">색상</option>
-			                                                        <option value="1">색상</option>
+			                                                        <option th:each="c:${colors}" th:value="${c.id}" th:text="${c.productColorSubject}">사이즈</option>
+			                                                    </select>
+			                                                </form>
+			                                            </div>
+			                                        </div>
+												</div>
+											</div>
+											<div class="tab-pane" id="addproduct-option" role="tabpanel">
+												<div class="row">
+													<div class="col-lg-12">
+			                                            <div class="mt-4 mt-lg-0">
+			                                                <h5 class="fs-14 mb-1">옵션선택</h5>
+			                                                <p class="text-muted">제품에 적용될 옵션들을 선택 해 주세요.</p>
+			                                                 <form>
+			                                                    <select 
+			                                                    multiple="multiple" 
+			                                                    name="colors" 
+			                                                    id="multiselect-header03">
+			                                                        <option th:each="o:${options}" th:value="${o.id}" th:text="${o.productOptionText}">사이즈</option>
 			                                                    </select>
 			                                                </form>
 			                                            </div>
@@ -226,8 +245,8 @@
 											id="bigSort"
 											class="form-select"
 											name="bigSort">
-												<option value="1">대분류</option>
-												<option value="2">대분류</option>
+												<option value="">=== 대분류선택 ===</option>
+												<option th:each="b:${bigsorts}" th:value="${b.id}" th:text="${b.name}">사이즈</option>
 											</select>
 										</div>
 
@@ -238,8 +257,7 @@
 											id="middleSort"
 											name="middleSort"
 											class="form-select">
-												<option value="1">중분류</option>
-												<option value="2">중분류</option>
+												<option value="">대분류를 먼저 선택 해 주세요.</option>
 											</select>
 										</div>
 									</div>
@@ -256,9 +274,8 @@
 										<select 
 										class="form-select" 
 										name="tags">
-											<option value="1">태그</option>
-											<option value="2">태그</option>
-											<option value="3">태그</option>
+											<option value="">=== 제품분위기 선택 ===</option>
+											<option th:each="t:${tags}" th:value="${t.id}" th:text="${t.productTagText}">사이즈</option>
 										</select>
 									</div>
 								</div>

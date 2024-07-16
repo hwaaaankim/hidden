@@ -1,4 +1,4 @@
-package com.dev.HiddenBATH.service;
+package com.dev.HiddenBATH.service.product;
 
 import java.io.File;
 import java.io.IOException;
