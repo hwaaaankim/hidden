@@ -44,23 +44,34 @@
 
 
 
-
-var multiSelectBasic = document.getElementById("multiselect-basic"),
-    multiSelectHeader = (multiSelectBasic && multi(multiSelectBasic, { enable_search: !1 }), document.getElementById("multiselect-header")),
-    multiSelectOptGroup = (multiSelectHeader && multi(multiSelectHeader, { non_selected_header: "등록가능사이즈", selected_header: "등록된 사이즈" }), document.getElementById("multiselect-optiongroup"));
-    
-var multiSelectBasic = document.getElementById("multiselect-basic"),
-    multiSelectHeader = (multiSelectBasic && multi(multiSelectBasic, { enable_search: !1 }), document.getElementById("multiselect-header02")),
-    multiSelectOptGroup = (multiSelectHeader && multi(multiSelectHeader, { non_selected_header: "등록가능색상", selected_header: "등록된 색상" }), document.getElementById("multiselect-optiongroup"));
-
-var multiSelectBasic = document.getElementById("multiselect-basic"),
-    multiSelectHeader = (multiSelectBasic && multi(multiSelectBasic, { enable_search: !1 }), document.getElementById("multiselect-header03")),
-    multiSelectOptGroup = (multiSelectHeader && multi(multiSelectHeader, { non_selected_header: "등록가능옵션", selected_header: "등록된 옵션" }), document.getElementById("multiselect-optiongroup"));    
-    
-    
-    
-    
-    
+var multiSelectHeader = document.getElementById("multiselect-header");
+if (multiSelectHeader) {
+    multi(multiSelectHeader, {
+        non_selected_header: "등록가능사이즈",
+        selected_header: "등록된 사이즈"
+    });
+}
+var multiSelectHeader02 = document.getElementById("multiselect-header02");
+if (multiSelectHeader02) {
+    multi(multiSelectHeader02, {
+        non_selected_header: "등록가능색상",
+        selected_header: "등록된 색상"
+    });
+}
+var multiSelectHeader03 = document.getElementById("multiselect-header03");
+if (multiSelectHeader03) {
+    multi(multiSelectHeader03, {
+        non_selected_header: "등록가능옵션",
+        selected_header: "등록된 옵션"
+    });
+}
+var multiSelectHeader04 = document.getElementById("multiselect-header04");
+if (multiSelectHeader04) {
+    multi(multiSelectHeader04, {
+        non_selected_header: "등록가능태그",
+        selected_header: "등록된 태그"
+    });
+}   
     
     
     

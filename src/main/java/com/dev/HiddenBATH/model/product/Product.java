@@ -2,6 +2,8 @@ package com.dev.HiddenBATH.model.product;
 
 import java.util.List;
 
+import org.springframework.lang.Nullable;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,7 +57,26 @@ public class Product {
 	@Column(name="PRODUCT_SIGN")
 	private Boolean productSign;
 	
+	@Column(name="PRODUCT_REP_IMAGE_NAME")
+	private String productRepImageName;
+	
+	@Column(name="PRODUCT_REP_IMAGE_EXTENSION")
+	private String productRepImageExtension;
+	
+	@Column(name="PRODUCT_REP_IMAGE_ORIGINAL_NAME")
+	private String productRepImageOriginalName;
+	
+	@Column(name="PRODUCT_REP_IMAGE_PAGH")
+	private String productRepImagePath;
+	
+	@Column(name="PRODUCT_REP_IMAGE_ROAD")
+	private String productRepImageRoad;
+	
+	@Transient
+	private String randomImage;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
+	@Nullable
 	@JoinTable(
 			name="tb_product_and_color", 
 			joinColumns = @JoinColumn(name="PC_PRODUCT_ID"),
@@ -64,6 +85,7 @@ public class Product {
 	private List<ProductColor> productColors;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
+	@Nullable
 	@JoinTable(
 			name="tb_product_and_size", 
 			joinColumns = @JoinColumn(name="PS_PRODUCT_ID"),
@@ -72,6 +94,7 @@ public class Product {
 	private List<ProductSize> productSizes;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
+	@Nullable
 	@JoinTable(
 			name="tb_product_and_tag", 
 			joinColumns = @JoinColumn(name="PT_PRODUCT_ID"),
@@ -79,11 +102,14 @@ public class Product {
 			)
 	private List<ProductTag> productTags;
 	
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(
-			name="TAG_REFER_ID", referencedColumnName="PRODUCT_TAG_ID"
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Nullable
+	@JoinTable(
+			name="tb_product_and_option", 
+			joinColumns = @JoinColumn(name="PO_PRODUCT_ID"),
+			inverseJoinColumns = @JoinColumn(name="PO_OPTION_ID")
 			)
-	private ProductTag productTag;
+	private List<ProductOption> productOptions;
 	
 	@Transient
 	private Long middleId;
@@ -97,7 +123,7 @@ public class Product {
 			orphanRemoval = true,
 			mappedBy = "productId"
 			)
-	private List<ProductImages> images;
+	private List<ProductImage> images;
 	
 	@OneToMany(
 			fetch = FetchType.LAZY, 
@@ -106,14 +132,6 @@ public class Product {
 			mappedBy = "productId"
 			)
 	private List<ProductFile> files;
-	
-	@OneToMany(
-			fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL,
-			orphanRemoval = true,
-			mappedBy = "productId"
-			)
-	private List<ProductSpec> specs;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(

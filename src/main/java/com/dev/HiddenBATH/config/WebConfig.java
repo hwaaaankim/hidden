@@ -1,7 +1,9 @@
 package com.dev.HiddenBATH.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.dev.HiddenBATH.interceptor.LogInterceptor;
@@ -13,5 +15,16 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LogInterceptor());
 	}
+	
+	@Value("${spring.upload.env}")
+	private String env;
 
+	@Value("${spring.upload.path}")
+	private String commonPath;
+	
+	@Override
+    public void  addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/upload/**")
+                .addResourceLocations("file:///" + commonPath); 
+    }
 }

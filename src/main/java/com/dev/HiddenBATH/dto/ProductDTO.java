@@ -18,8 +18,10 @@ public class ProductDTO {
 	private List<Long> sizes;
 	private List<Long> colors;
 	private List<Long> options;
+	private List<Long> tags;
 	private Long bigSort;
 	private Long middleSort;
-	private List<Long> tags;
 	private String subject;
+	private Boolean handle;
+	private Boolean order;
 }

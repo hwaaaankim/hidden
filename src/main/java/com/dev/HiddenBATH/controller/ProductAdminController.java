@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dev.HiddenBATH.dto.ProductDTO;
 import com.dev.HiddenBATH.model.product.BigSort;
 import com.dev.HiddenBATH.model.product.MiddleSort;
+import com.dev.HiddenBATH.model.product.Product;
 import com.dev.HiddenBATH.model.product.ProductColor;
 import com.dev.HiddenBATH.model.product.ProductOption;
 import com.dev.HiddenBATH.model.product.ProductSize;
@@ -29,6 +30,8 @@ import com.dev.HiddenBATH.repository.product.ProductSizeRepository;
 import com.dev.HiddenBATH.repository.product.ProductTagRepository;
 import com.dev.HiddenBATH.service.product.ProductBigSortService;
 import com.dev.HiddenBATH.service.product.ProductColorService;
+import com.dev.HiddenBATH.service.product.ProductFileService;
+import com.dev.HiddenBATH.service.product.ProductImageService;
 import com.dev.HiddenBATH.service.product.ProductMiddleSortService;
 import com.dev.HiddenBATH.service.product.ProductOptionService;
 import com.dev.HiddenBATH.service.product.ProductService;
@@ -80,6 +83,12 @@ public class ProductAdminController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	ProductImageService productImageService;
+	
+	@Autowired
+	ProductFileService productFileService;
 	
 	@GetMapping("/productCategoryManager")
 	public String productCategoryManager(
@@ -280,9 +289,22 @@ public class ProductAdminController {
 	@ResponseBody
 	public String productInsert(
 			ProductDTO dto
-			) {
+			) throws IllegalStateException, IOException {
 		
 		
+		Product savedProduct = productService.productInsert(dto);
+		
+		if(dto.getSlideImages() != null 
+				&& !dto.getSlideImages().isEmpty() 
+				&& !dto.getSlideImages().get(0).isEmpty()) {
+			productImageService.imageUpload(savedProduct, dto.getSlideImages());
+		}
+		
+		if(dto.getFiles() != null
+				&& !dto.getFiles().isEmpty()
+				&& !dto.getFiles().get(0).isEmpty()) {
+			productFileService.fileUpload(savedProduct, dto.getFiles());
+		}
 		StringBuffer sb = new StringBuffer();
 		String msg = "제품이 등록 되었습니다.";
 		

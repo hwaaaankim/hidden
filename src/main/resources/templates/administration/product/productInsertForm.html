@@ -51,7 +51,8 @@
 											class="form-control" 
 											id="product-title-input" 
 											name="productName"
-											placeholder="제품 이름을 입력 해 주세요." required>
+											placeholder="제품 이름을 입력 해 주세요." 
+											required>
 										</div>
 										<div class="mb-3">
 											<label class="form-label" for="product-code-input">제품코드</label>
@@ -60,7 +61,8 @@
 											class="form-control" 
 											id="product-code-input" 
 											name="productCode"
-											placeholder="제품 코드를 입력 해 주세요." required>
+											placeholder="제품 코드를 입력 해 주세요." 
+											required>
 										</div>
 										<div class="mb-3">
 											<label class="form-label" for="product-title-input">제품타이틀</label>
@@ -102,6 +104,7 @@
 															class="form-control d-none" 
 															id="product-image-input" 
 															name="productImage"
+															required
 															type="file" 
 															accept="image/png, image/gif, image/jpeg">
 													</div>
@@ -147,7 +150,7 @@
 									<div class="card-header">
 										<ul class="nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
 											<li class="nav-item">
-												<a class="nav-link active" data-bs-toggle="tab" href="#addproduct-general-info" role="tab">
+												<a class="nav-link active" data-bs-toggle="tab" href="#addproduct-size" role="tab">
 													제품 사이즈등록
 												</a>
 											</li>
@@ -163,25 +166,29 @@
 													제품 옵션등록
 												</a>
 											</li>
+											<li class="nav-item">
+												<a class="nav-link" data-bs-toggle="tab" href="#addproduct-tag"
+													role="tab">
+													제품 태그등록
+												</a>
+											</li>
 										</ul>
 									</div>
 									
 									<div class="card-body">
 										<div class="tab-content">
-											<div class="tab-pane active" id="addproduct-general-info" role="tabpanel">
+											<div class="tab-pane active" id="addproduct-size" role="tabpanel">
 												<div class="row">
 													<div class="col-lg-12">
 			                                            <div class="mt-4 mt-lg-0">
 			                                                <h5 class="fs-14 mb-1">사이즈</h5>
 			                                                <p class="text-muted">제품에 적용될 사이즈들을 선택 해 주세요.</p>
-			                                                 <form>
-			                                                    <select 
-			                                                    multiple="multiple" 
-			                                                    name="sizes" 
-			                                                    id="multiselect-header">
-			                                                        <option th:each="s:${sizes}" th:value="${s.id}" th:text="${s.productSizeText}">사이즈</option>
-			                                                    </select>
-			                                                </form>
+		                                                    <select 
+		                                                    multiple="multiple" 
+		                                                    name="sizes" 
+		                                                    id="multiselect-header">
+		                                                        <option th:each="s:${sizes}" th:value="${s.id}" th:text="${s.productSizeText}"></option>
+		                                                    </select>
 			                                            </div>
 			                                        </div>
 												</div>
@@ -193,14 +200,12 @@
 			                                            <div class="mt-4 mt-lg-0">
 			                                                <h5 class="fs-14 mb-1">색상선택</h5>
 			                                                <p class="text-muted">제품에 적용될 색상들을 선택 해 주세요.</p>
-			                                                 <form>
-			                                                    <select 
-			                                                    multiple="multiple" 
-			                                                    name="colors" 
-			                                                    id="multiselect-header02">
-			                                                        <option th:each="c:${colors}" th:value="${c.id}" th:text="${c.productColorSubject}">사이즈</option>
-			                                                    </select>
-			                                                </form>
+		                                                    <select 
+		                                                    multiple="multiple" 
+		                                                    name="colors" 
+		                                                    id="multiselect-header02">
+		                                                        <option th:each="c:${colors}" th:value="${c.id}" th:text="${c.productColorSubject}"></option>
+		                                                    </select>
 			                                            </div>
 			                                        </div>
 												</div>
@@ -211,14 +216,28 @@
 			                                            <div class="mt-4 mt-lg-0">
 			                                                <h5 class="fs-14 mb-1">옵션선택</h5>
 			                                                <p class="text-muted">제품에 적용될 옵션들을 선택 해 주세요.</p>
-			                                                 <form>
-			                                                    <select 
-			                                                    multiple="multiple" 
-			                                                    name="colors" 
-			                                                    id="multiselect-header03">
-			                                                        <option th:each="o:${options}" th:value="${o.id}" th:text="${o.productOptionText}">사이즈</option>
-			                                                    </select>
-			                                                </form>
+		                                                    <select 
+		                                                    multiple="multiple" 
+		                                                    name="options " 
+		                                                    id="multiselect-header03">
+		                                                        <option th:each="o:${options}" th:value="${o.id}" th:text="${o.productOptionText}"></option>
+		                                                    </select>
+			                                            </div>
+			                                        </div>
+												</div>
+											</div>
+											<div class="tab-pane" id="addproduct-tag" role="tabpanel">
+												<div class="row">
+													<div class="col-lg-12">
+			                                            <div class="mt-4 mt-lg-0">
+			                                                <h5 class="fs-14 mb-1">태그선택</h5>
+			                                                <p class="text-muted">제품에 적용될 태그들을 선택 해 주세요.</p>
+		                                                    <select 
+		                                                    multiple="multiple" 
+		                                                    name="tags" 
+		                                                    id="multiselect-header04">
+		                                                        <option th:each="t:${tags}" th:value="${t.id}" th:text="${t.productTagText}"></option>
+		                                                    </select>
 			                                            </div>
 			                                        </div>
 												</div>
@@ -263,20 +282,34 @@
 									</div>
 								</div>
 
-
 								<div class="card">
 									<div class="card-header">
-										<h5 class="card-title mb-0">제품 태그</h5>
+										<h5 class="card-title mb-0">제품 선택사항</h5>
 									</div>
 									<div class="card-body">
-										<p class="text-muted mb-2"> <a href="/admin/productTagManager"
-												class="float-end text-decoration-underline">새로운태그등록</a>제품 태그 선택</p>
-										<select 
-										class="form-select" 
-										name="tags">
-											<option value="">=== 제품분위기 선택 ===</option>
-											<option th:each="t:${tags}" th:value="${t.id}" th:text="${t.productTagText}">사이즈</option>
-										</select>
+
+										<div class="mb-3">
+											<labelclass="form-label">비규격주문 가능여부</label>
+											<select 
+											required
+											name="order"
+											class="form-select">
+												<option value="">=== 비규격 주문 가능여부 선택 ===</option>
+												<option value=true>비규격 주문 가능</option>
+												<option value=false>비규격 주문 불가능</option>
+											</select>
+										</div>
+										<div>
+											<labelclass="form-label">손잡이 가능여부</label>
+											<select 
+											required
+											name="handle"
+											class="form-select">
+												<option value="">=== 손잡이 가능여부 선택 ===</option>
+												<option value=true>손잡이 가능</option>
+												<option value=false>손잡이 불가능</option>
+											</select>
+										</div>
 									</div>
 								</div>
 

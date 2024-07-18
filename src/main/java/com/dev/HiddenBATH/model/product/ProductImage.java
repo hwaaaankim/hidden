@@ -1,5 +1,7 @@
 package com.dev.HiddenBATH.model.product;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name="tb_product_image")
-public class ProductImages {
+public class ProductImage {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,6 +26,12 @@ public class ProductImages {
 	@Column(name="PRODUCT_ID")
 	private Long productId;
 	
+	@Column(name="PRODUCT_IMAGE_ORIGINAL_NAME")
+	private String productImageOriginalName;
+	
+	@Column(name="PRODUCT_IMAGE_EXTENSION")
+	private String productImageExtension;
+	
 	@Column(name="PRODUCT_IMAGE_PATH")
 	private String productImagePath;
 	
@@ -32,4 +40,7 @@ public class ProductImages {
 	
 	@Column(name="PRODUCT_IMAGE_ROAD")
 	private String productImageRoad;
+	
+	@Column(name="PRODUCT_IMAGE_DATE")
+	private Date productImageDate;
 }
