@@ -5,7 +5,8 @@
 
 <body class="home home-6 title-6">
 	<div id="page" class="hfeed page-wrapper">
-		<header id="site-header" class="site-header header-v3" th:replace="fragments/front/clean/common :: cleanHeader">
+		<header id="site-header" class="site-header header-v3" 
+		th:replace="fragments/front/clean/common :: cleanHeader(${menuList})">
 		</header>
 
 		<div id="site-main" class="site-main">

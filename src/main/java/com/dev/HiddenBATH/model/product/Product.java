@@ -30,17 +30,20 @@ public class Product {
 	@Column(name="PRODUCT_ID")
 	private Long id;
 	
+	@Column(name="PRODUCT_CODE")
+	private String productCode;
+
 	@Column(name="PRODUCT_NAME")
 	private String name;
+	
+	@Column(name="PRODUCT_SIGN")
+	private Boolean productSign;
 	
 	@Column(name="PRODUCT_TITLE")
 	private String title;
 	
 	@Column(name="PRODUCT_SUBJECT")
 	private String subject;
-	
-	@Column(name="PRODUCT_CODE")
-	private String productCode;
 	
 	@Column(name="PRODUCT_HANDLE")
 	private Boolean handle;
@@ -53,9 +56,6 @@ public class Product {
 	
 	@Column(name="PRODUCT_INDEX")
 	private int productIndex;
-	
-	@Column(name="PRODUCT_SIGN")
-	private Boolean productSign;
 	
 	@Column(name="PRODUCT_REP_IMAGE_NAME")
 	private String productRepImageName;

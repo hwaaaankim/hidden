@@ -12893,6 +12893,29 @@ div.content.catalog-wrap h5.subtitle-banner {
 .product-list-meta div.list-option a {
 	font-weight: 600;
 }
+.product-list-meta div.list-option a.size {
+	margin-right:5px;
+}
+.product-list-meta div.list-option a.size::after{
+	content:"";
+	border-right:1px solid gray;
+}
+.product-list-meta div.list-option a.size:last-child::after{
+	content:"";
+	border-right:none;
+}
+.product-list-meta div.list-option a.color {
+	margin-right:5px;
+}
+.product-list-meta div.list-option a.color::after {
+	content:"";
+	border-right:1px solid gray;
+	margin-left:5px;
+}
+.product-list-meta div.list-option a.color:last-child::after {
+	content:"";
+	border-right:none;
+}
 .floatingButtonWrap {
     display: block;
     position: fixed;
@@ -13001,3 +13024,38 @@ div.content.catalog-wrap h5.subtitle-banner {
 	transform:translateY(-50%);
 	width:100px;
 }
+a.productList-reset{
+	width:100%;
+	margin-bottom:20px; 
+	line-height:36px;
+	
+}
+.productColorBtn.highlight{
+	border:2px solid red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

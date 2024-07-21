@@ -1,10 +1,15 @@
 package com.dev.HiddenBATH.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.dev.HiddenBATH.dto.MenuDTO;
+import com.dev.HiddenBATH.repository.product.ProductBigSortRepository;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +19,17 @@ public class CustomErrorController implements ErrorController{
 
 	private String VIEW_PATH = "error/";
 
+	@Autowired
+	ProductBigSortRepository productBigSortRepository;
+	
+	@ModelAttribute("menuList")
+	public MenuDTO menuList(MenuDTO menuDto) {
+		
+		menuDto.setBigSortList(productBigSortRepository.findAllByOrderByBigSortIndexAsc());
+
+		return menuDto;
+	}
+	
 	@GetMapping("/error")
 	public String handleError(
 			HttpServletRequest request,

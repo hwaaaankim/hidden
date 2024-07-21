@@ -7,7 +7,7 @@
 	<th:block th:replace="~{fragments/front/clean/common :: sessionCheck(${session.user})}"></th:block>
 	<div id="page" class="hfeed page-wrapper">
 		<header id="site-header" class="site-header header-v3"
-			th:replace="~{fragments/front/clean/common :: cleanHeader}">
+			th:replace="~{fragments/front/clean/common :: cleanHeader(${menuList})}">
 		</header>
 
 		<div id="site-main" class="site-main">
@@ -42,14 +42,14 @@
 											</div>
 										</div>
 									</div>
-									<!-- ≈<div class="item slick-slide">
+									<div class="item slick-slide">
 										<div class="item-content">
 											<div class="content-image">
-												<img width="1920" height="1080" src="/front/clean/newnewnew/5.png"
+												<img width="1920" height="1080" src="/front/clean/newnewnew/8.png"
 													alt="Image Slider">
 											</div>
 										</div>
-									</div>-->
+									</div>
 									
 								</div>
 							</div>

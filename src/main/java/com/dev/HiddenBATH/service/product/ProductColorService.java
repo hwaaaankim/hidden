@@ -29,7 +29,6 @@ public class ProductColorService {
 			String colorName,
 			MultipartFile file
 			) throws IOException {
-        String absolutePath = new File("").getAbsolutePath() + "\\";
       
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
@@ -42,8 +41,8 @@ public class ProductColorService {
 				  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 				  .toString();
         
-        String path = commonPath + "/color/";
-        String road = "/administration/upload/color/";
+        String path = commonPath + "/product/color/";
+        String road = "/upload/product/color/";
         
         File fileFolder = new File(path);
         if(!fileFolder.exists()) {
@@ -62,41 +61,14 @@ public class ProductColorService {
             else if(contentType.contains("image/png")){
                 originalFileExtension = ".png";
             }
-            else if(contentType.contains("image/gif")){
-                originalFileExtension = ".gif";
-            }
-            else if(contentType.contains("application/pdf")) {
-            	originalFileExtension = ".pdf";
-            }
-            else if(contentType.contains("application/x-zip-compressed")) {
-            	originalFileExtension = ".zip";
-            }
-            else if(contentType.contains("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
-            	originalFileExtension = ".xlsx";
-            }
-            else if(contentType.contains("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
-            	originalFileExtension = ".docx";
-            }
-            else if(contentType.contains("text/plain")) {
-            	originalFileExtension = ".txt";
-            }
-            else if(contentType.contains("image/x-icon")) {
-            	originalFileExtension = ".ico";
-            }
-            else if(contentType.contains("application/haansofthwp")) {
-            	originalFileExtension = ".hwp";
-            }
         }
-        String fileName = generatedString + "." + originalFileExtension;
+        
+        String fileName = generatedString + originalFileExtension;
         ProductColor c = new ProductColor();
-        if(env.equals("local")) {
-        	fileFolder = new File(absolutePath + path + fileName);
-        	c.setProductColorPath(absolutePath + path + fileName);
-		}else if(env.equals("prod")) {
-			fileFolder = new File(path + fileName);
-			c.setProductColorPath(path + fileName);
-		}
-        file.transferTo(fileFolder);
+		fileFolder = new File(path + fileName);
+		file.transferTo(fileFolder);
+		
+		c.setProductColorPath(path + fileName);
         c.setProductColorRoad(road + fileName);
         c.setProductColorSubject(colorName);
         productColorRepository.save(c);

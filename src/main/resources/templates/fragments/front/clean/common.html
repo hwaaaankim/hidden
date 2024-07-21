@@ -34,7 +34,7 @@
 </head>
 
 <body class="home">
-	<header id="site-header" class="site-header header-v1" th:fragment="cleanHeader">
+	<header id="site-header" class="site-header header-v1" th:fragment="cleanHeader(menuList)">
 		<div class="header-mobile">
 			<div class="section-padding">
 				<div class="section-container">
@@ -135,30 +135,9 @@
 															<div class="menu-section">
 																<h2 class="sub-menu-title">PRODUCT</h2>
 																<ul class="menu-list">
-																	<li>
-																		<a href="/productList"><span
-																				class="menu-item-text">거울</span></a>
-																	</li>
-																	<li>
-																		<a href="/productList"><span
-																				class="menu-item-text">슬라이드장</span></a>
-																	</li>
-																	<li>
-																		<a href="/productList"><span
-																				class="menu-item-text">상부장</span></a>
-																	</li>
-																	<li>
-																		<a href="/productList"><span
-																				class="menu-item-text">하부장</span></a>
-																	</li>
-																	<li>
-																		<a href="/productList"><span
-																				class="menu-item-text">세트</span></a>
-																	</li>
-																	<li>
-																		<a href="/productList"><span
-																				class="menu-item-text">기타
-																				제품</span></a>
+																	<li th:each="m:${menuList.bigSortList}">
+																		<a th:href="@{|/productList/${m.id}|}"><span
+																				class="menu-item-text" th:text="${m.name}"></span></a>
 																	</li>
 																</ul>
 															</div>

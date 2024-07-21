@@ -2,7 +2,6 @@ package com.dev.HiddenBATH.service.product;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -42,30 +41,16 @@ public class ProductImageService {
 			List<MultipartFile> images
 			) throws IllegalStateException, IOException {
 	
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String current_date = simpleDateFormat.format(new Date());
-
         // 실제 파일 저장 위치
  		String path = commonPath 
- 				+ "product/"
- 				+ product.getBigSort().getName() 
- 				+ "/"
- 				+ product.getMiddleSort().getName()
- 				+ "/"
+ 				+ "/product/"
  				+ product.getProductCode()
- 				+ "/"
- 				+ current_date; 
+ 				+ "/slide/";
 
  		// 파일 resource 로드 url
  		String road = "/upload/product/"
- 				+ "product/"
- 				+ product.getBigSort().getName() 
- 				+ "/"
- 				+ product.getMiddleSort().getName()
- 				+ "/"
  				+ product.getProductCode()
- 				+ "/"
- 				+ current_date; 
+ 				+ "/slide/";
         
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
@@ -108,6 +93,7 @@ public class ProductImageService {
                 f.setProductImageRoad(productImageRoad);
                 f.setProductImageName(productImageName);
                 f.setProductImageDate(new Date());
+                f.setSign(true);
                 productImageRepository.save(f);
             }
         }

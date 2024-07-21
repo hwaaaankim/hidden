@@ -1,17 +1,61 @@
 package com.dev.HiddenBATH.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.dev.HiddenBATH.dto.MenuDTO;
+import com.dev.HiddenBATH.model.product.MiddleSort;
+import com.dev.HiddenBATH.model.product.Product;
+import com.dev.HiddenBATH.repository.product.ProductBigSortRepository;
+import com.dev.HiddenBATH.repository.product.ProductColorRepository;
+import com.dev.HiddenBATH.repository.product.ProductMiddleSortRepository;
+import com.dev.HiddenBATH.repository.product.ProductRepository;
+import com.dev.HiddenBATH.repository.product.ProductTagRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class IndexController {
+	
+	@Autowired
+	ProductRepository productRepository;
+	
+	@Autowired
+	ProductBigSortRepository productBigSortRepository;
+	
+	@Autowired
+	ProductMiddleSortRepository productMiddleSortRepository;
+	
+	@Autowired
+	ProductColorRepository productColorRepository;
+	
+	@Autowired
+	ProductTagRepository productTagRepository;
+	
+	@ModelAttribute("menuList")
+	public MenuDTO menuList(MenuDTO menuDto) {
+		
+		menuDto.setBigSortList(productBigSortRepository.findAllByOrderByBigSortIndexAsc());
 
+		return menuDto;
+	}
+	
 	@GetMapping("/loginForm")
 	public String loginForm() {
 		
@@ -66,18 +110,6 @@ public class IndexController {
 		return "front/imageGallery";
 	}
 	
-	@GetMapping("/constructionDetail")
-	public String constructionDetail() {
-		
-		return "front/constructionDetail";
-	}
-	
-	@GetMapping("/faq")
-	public String faq() {
-		
-		return "front/faq";
-	}
-	
 	@GetMapping("/notice")
 	public String notice() {
 		
@@ -126,8 +158,73 @@ public class IndexController {
 		return "front/contact";
 	}
 	
-	@GetMapping("/productList")
-	public String productList() {
+	@PostMapping("/searchMiddleSort")
+	@ResponseBody
+	public List<MiddleSort> searchMiddleSort(
+			Model model, 
+			Long bigId
+			) {
+
+		return productMiddleSortRepository.findAllByBigSort(productBigSortRepository.findById(bigId).get());
+	}
+	
+	@RequestMapping(value = "/productList/{id}",
+			method = {RequestMethod.GET, RequestMethod.POST})
+	public String productList(
+			Model model,
+			@PathVariable Long id,
+			@RequestParam(required = false, defaultValue = "0") Long middleId,
+			@RequestParam(required = false, defaultValue = "0") Long tagId,
+			@RequestParam(required = false, defaultValue = "0") Long colorId,
+			@PageableDefault(size=10) Pageable pageable
+			) {
+		
+		Page<Product> products = null;
+		if(id == 7l) {
+			products = productRepository.findAllByBigSortOrderByProductIndexAsc(pageable, productBigSortRepository.findById(id).get());
+			
+		}else {
+			if(middleId != 0l) {
+				if(tagId != 0l) {
+					if(colorId != 0l) {
+						products = productRepository.findByTagColorAndSorts(tagId, colorId, middleId, id, pageable);
+					}else {
+						products = productRepository.findByTagAndSorts(tagId, middleId, id, pageable);
+					}
+				}else {
+					if(colorId != 0l) {
+						products = productRepository.findByColorAndSorts(colorId, middleId, id, pageable);
+					}else {
+						products = productRepository.findBySorts(middleId, id, pageable);
+					}
+				}
+				model.addAttribute("middleSortName", productMiddleSortRepository.findById(middleId).get().getName());
+			}else {
+				if(tagId != 0l) {
+					if(colorId != 0l) {
+						products = productRepository.findByTagColorAndBig(tagId, colorId, id, pageable);
+					}else {
+						products = productRepository.findByTagAndBig(tagId, id, pageable);
+					}
+				}else {
+					if(colorId != 0l) {
+						products = productRepository.findByColorAndBig(colorId, id, pageable);
+					}else {
+						products = productRepository.findAllByBigSortOrderByProductIndexAsc(pageable, productBigSortRepository.findById(id).get());
+					}
+				}
+			}
+		}
+		model.addAttribute("bigSortName", productBigSortRepository.findById(id).get().getName());
+		model.addAttribute("middleSorts", productMiddleSortRepository.findAllByBigSort(productBigSortRepository.findById(id).get()));
+		model.addAttribute("products", products);
+		model.addAttribute("tagId", tagId);
+		model.addAttribute("colorId", colorId);
+		model.addAttribute("middleSortId", middleId);
+		model.addAttribute("bigSortId", id);
+		model.addAttribute("bigSorts", productBigSortRepository.findAll());
+		model.addAttribute("tags", productTagRepository.findAll());
+		model.addAttribute("colors", productColorRepository.findAll());
 		
 		return "front/productList";
 	}
@@ -144,11 +241,11 @@ public class IndexController {
 		return "front/productDetailAdvanced";
 	}
 	
-	@GetMapping("/productDetailAdvanced01")
-	public String productDetailAdvanced01() {
-		
-		return "front/productDetailAdvanced01";
-	}
+//	@GetMapping("/productDetailAdvanced01")
+//	public String productDetailAdvanced01() {
+//		
+//		return "front/productDetailAdvanced01";
+//	}
 	
 	@GetMapping("/search")
 	public String search() {

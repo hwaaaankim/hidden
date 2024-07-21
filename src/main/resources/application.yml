@@ -41,7 +41,7 @@ spring:
         dialect: org.hibernate.dialect.MariaDB103Dialect
   servlet:
     multipart:
-      maxFileSize: 1000MB
+      maxFileSize: 5000MB
       maxRequestSize: -1
   mail:
     host: smtp.gmail.com
@@ -54,7 +54,7 @@ spring:
           auth: true
           starttls:
             enable: true
-  upload.path: D:/TestAssets
+  upload.path: D:/Refactoring
   upload.env: local
 
 # 배포 환경
@@ -85,7 +85,7 @@ spring:
         dialect: org.hibernate.dialect.MariaDB103Dialect
   servlet:
     multipart:
-      maxFileSize: 1000MB
+      maxFileSize: 5000MB
       maxRequestSize: -1
   mail:
     host: smtp.gmail.com

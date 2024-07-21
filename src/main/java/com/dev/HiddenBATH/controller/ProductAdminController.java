@@ -23,11 +23,15 @@ import com.dev.HiddenBATH.model.product.ProductSize;
 import com.dev.HiddenBATH.model.product.ProductTag;
 import com.dev.HiddenBATH.repository.product.ProductBigSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductColorRepository;
+import com.dev.HiddenBATH.repository.product.ProductFileRepository;
+import com.dev.HiddenBATH.repository.product.ProductImageRepository;
 import com.dev.HiddenBATH.repository.product.ProductMiddleSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductOptionRepository;
 import com.dev.HiddenBATH.repository.product.ProductRepository;
 import com.dev.HiddenBATH.repository.product.ProductSizeRepository;
 import com.dev.HiddenBATH.repository.product.ProductTagRepository;
+import com.dev.HiddenBATH.service.ExcelUploadService;
+import com.dev.HiddenBATH.service.ZipService;
 import com.dev.HiddenBATH.service.product.ProductBigSortService;
 import com.dev.HiddenBATH.service.product.ProductColorService;
 import com.dev.HiddenBATH.service.product.ProductFileService;
@@ -89,6 +93,33 @@ public class ProductAdminController {
 	
 	@Autowired
 	ProductFileService productFileService;
+	
+	@Autowired
+	ProductFileRepository productFileRepository;
+	
+	@Autowired
+	ProductImageRepository productImageRepository;
+	
+	@Autowired
+	ExcelUploadService excelUploadService;
+	
+	@Autowired
+	ZipService zipService;
+	
+	@PostMapping("/resetZipUpload")
+	@ResponseBody
+	public void resetZipUpload(
+			MultipartFile file,
+			Model model
+			) throws IOException {
+		zipService.directoryRefactoring(file);
+	}
+	
+	@PostMapping("/resetExcelUpload")
+	@ResponseBody
+	public List<String> addExcelUpload(MultipartFile file, Model model) throws IOException {
+	    return excelUploadService.uploadExcel(file);
+	}
 	
 	@GetMapping("/productCategoryManager")
 	public String productCategoryManager(

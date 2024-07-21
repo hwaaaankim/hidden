@@ -54,20 +54,19 @@ public class ProductFileService {
 
         // 실제 파일 저장 위치
   		String path = commonPath 
-  				+ "product/"
-  				+ product.getBigSort().getName() 
+  				+ "/product/"
+  				+ product.getBigSort().getId() 
   				+ "/"
-  				+ product.getMiddleSort().getName()
+  				+ product.getMiddleSort().getId()
   				+ "/"
   				+ product.getProductCode()
   				+ "/"
   				+ current_date; 
   		// 파일 resource 로드 url
   		String road = "/upload/product/"
-  				+ "product/"
-  				+ product.getBigSort().getName() 
+  				+ product.getBigSort().getId() 
   				+ "/"
-  				+ product.getMiddleSort().getName()
+  				+ product.getMiddleSort().getId()
   				+ "/"
   				+ product.getProductCode()
   				+ "/"
@@ -132,6 +131,7 @@ public class ProductFileService {
                 f.setProductFileRoad(productFileRoad);
                 f.setProductFileName(productFileName);
                 f.setProductFileDate(new Date());
+                f.setSign(true);
                 productFileRepository.save(f);
             }
         }

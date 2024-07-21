@@ -80,23 +80,47 @@ public class AdminController {
 		return "administration/site/instagramInsertForm";
 	}
 	
-	@GetMapping("/faqManager")
-	public String faqManager() {
+	@GetMapping("/galleryManager")
+	public String galleryManager() {
 		
-		return "administration/site/faqManager";
+		return "administration/site/galleryManager";
 	}
 	
-	@GetMapping("/faqInsertForm")
-	public String faqInsertForm() {
+	@GetMapping("/galleryInsertForm")
+	public String galleryInsertForm() {
 		
-		return "administration/site/faqInsertForm";
+		return "administration/site/galleryInsertForm";
 	}
 	
-	@GetMapping("/faqCategoryManager")
-	public String faqCategoryManager() {
+	@GetMapping("/exampleManager")
+	public String exampleManager() {
 		
-		return "administration/site/faqCategoryManager";
+		return "administration/site/exampleManager";
 	}
+	
+	@GetMapping("/exampleInsertForm")
+	public String exampleInsertForm() {
+		
+		return "administration/site/exampleInsertForm";
+	}
+	
+//	@GetMapping("/faqManager")
+//	public String faqManager() {
+//		
+//		return "administration/site/faqManager";
+//	}
+//	
+//	@GetMapping("/faqInsertForm")
+//	public String faqInsertForm() {
+//		
+//		return "administration/site/faqInsertForm";
+//	}
+//	
+//	@GetMapping("/faqCategoryManager")
+//	public String faqCategoryManager() {
+//		
+//		return "administration/site/faqCategoryManager";
+//	}
 	
 	@GetMapping("/emailSendManager")
 	public String emailSendManager() {
