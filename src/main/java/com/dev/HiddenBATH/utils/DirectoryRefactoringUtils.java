@@ -11,10 +11,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,23 +27,12 @@ public class DirectoryRefactoringUtils {
     private static final String UNZIP_DIR = "unzip";
     private static final String NEW_STRUCTURE_DIR = "new_structure";
 
-    
     public void handleZipUpload(MultipartFile file) throws IOException {
-        // Step 1: Initialize the directories
         initializeDirectories();
-
-        // Step 2: Save the uploaded zip file
         File uploadedZip = saveUploadedFile(file);
-
-        // Step 3: Unzip the file
         unzipFile(uploadedZip, Paths.get(commonPath, UNZIP_DIR));
-
-        // Step 4: Redistribute the files according to the new structure
         redistributeFiles(Paths.get(commonPath, UNZIP_DIR), Paths.get(commonPath, NEW_STRUCTURE_DIR));
-
-        // Clean up
         Files.delete(uploadedZip.toPath());
-        // Optionally, clean up the unzipped directory
     }
 
     private void initializeDirectories() throws IOException {
@@ -133,11 +122,13 @@ public class DirectoryRefactoringUtils {
 
                     Path relativePath = sourceDir.relativize(productDir);
                     Path newProductDir = targetDir.resolve(relativePath);
-                    Path repDir = newProductDir.resolve("rep");
+                    Path resDir = newProductDir.resolve("rep");
                     Path slideDir = newProductDir.resolve("slide");
+                    Path filesDir = newProductDir.resolve("files");
 
-                    Files.createDirectories(repDir);
+                    Files.createDirectories(resDir);
                     Files.createDirectories(slideDir);
+                    Files.createDirectories(filesDir);
 
                     List<Path> imageFiles = Files.list(productDir)
                             .filter(Files::isRegularFile)
@@ -145,8 +136,8 @@ public class DirectoryRefactoringUtils {
 
                     if (!imageFiles.isEmpty()) {
                         Collections.shuffle(imageFiles);
-                        Path repImage = imageFiles.remove(0);
-                        Files.move(repImage, repDir.resolve(generateShortFileName(repImage)), StandardCopyOption.REPLACE_EXISTING);
+                        Path resImage = imageFiles.remove(0);
+                        Files.move(resImage, resDir.resolve(generateShortFileName(resImage)), StandardCopyOption.REPLACE_EXISTING);
 
                         for (Path image : imageFiles) {
                             Files.move(image, slideDir.resolve(generateShortFileName(image)), StandardCopyOption.REPLACE_EXISTING);
@@ -168,7 +159,7 @@ public class DirectoryRefactoringUtils {
             extension = originalFileName.substring(index);
         }
 
-        String shortFileName = UUID.randomUUID().toString();
+        String shortFileName = RandomStringUtils.randomAlphabetic(10);
         return shortFileName + extension;
     }
 }

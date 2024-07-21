@@ -199,8 +199,7 @@
 																		<a th:if="${p.productSign == false}"
 																		 th:href="@{|/productDetail/${p.id}|}">
 																			<img width="600" height="600"
-																				th:src="@{${@urlEncodingUtils.encode(${p.productRepImageRoad})}}
-																				@{${p.productRepImageRoad}}"
+																				th:src="@{${p.productRepImageRoad}}"
 																				class="post-image" alt="">
 																			<img width="600" height="600"
 																				th:src="@{${p.productRepImageRoad}}"
@@ -226,7 +225,7 @@
 																		<span class="posted-in"> 중분류 : <a th:text="${p.middleSort.name}"></a></span>
 																	</h3>
 																	<h3 th:if="${p.productSign == false}" class="product-title">
-																		<a  th:href="@{|/productDetail/${p.id}|}">[[${p.name}]][[[${p.productCode}]]]</a>
+																		<a  th:href="@{|/productDetail/${p.id}|}">[[${p.name}]]-[[${p.productCode}]]</a>
 																		<span class="sku-wrapper"> 대분류 : <a th:text="${p.bigSort.name}"></a></span>
 																		<span class="posted-in"> 중분류 : <a th:text="${p.middleSort.name}"></a></span>
 																	</h3>

@@ -17,7 +17,6 @@ import com.dev.HiddenBATH.model.product.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
-	
 	Page<Product> findAllByOrderByIdDesc(Pageable pageble);
 	
 	Page<Product> findAllByBigSort(Pageable pageable, BigSort bigSort);

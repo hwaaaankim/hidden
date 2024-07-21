@@ -98,7 +98,7 @@ public class ExcelUploadService {
 
 	    Future<?> insertFuture = executorService.submit(() -> {
 	        try {
-	        	Workbook workbook = new XSSFWorkbook(file.getInputStream());
+	            Workbook workbook = new XSSFWorkbook(file.getInputStream());
 	            Sheet productSheet = workbook.getSheetAt(2);
 	            for (int i = 1; i < productSheet.getPhysicalNumberOfRows(); i++) {
 	                Row row = productSheet.getRow(i);
@@ -122,9 +122,9 @@ public class ExcelUploadService {
 	                            String sizeStr = excelUtils.getCellValue(row.getCell(12));
 	                            String colorStr = excelUtils.getCellValue(row.getCell(13));
 
-	                            Boolean signValue = "TRUE".equals(signStr);
-	                            Boolean handleValue = "TRUE".equals(handleStr);
-	                            Boolean orderValue = "TRUE".equals(orderStr);
+	                            Boolean signValue = "TRUE".equalsIgnoreCase(signStr.trim());
+	                            Boolean handleValue = "TRUE".equalsIgnoreCase(handleStr.trim());
+	                            Boolean orderValue = "TRUE".equalsIgnoreCase(orderStr.trim());
 
 	                            int index = 1;
 	                            if (productRepository.findFirstIndex().isPresent()) {
@@ -212,5 +212,6 @@ public class ExcelUploadService {
 	    result.add("Success");
 	    return result;
 	}
+
 
 }

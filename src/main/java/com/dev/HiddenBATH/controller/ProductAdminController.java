@@ -108,11 +108,12 @@ public class ProductAdminController {
 	
 	@PostMapping("/resetZipUpload")
 	@ResponseBody
-	public void resetZipUpload(
+	public List<String> resetZipUpload(
 			MultipartFile file,
 			Model model
 			) throws IOException {
-		zipService.directoryRefactoring(file);
+//		zipService.directoryRefactoring(file);
+		return zipService.zipProductInsert(file);
 	}
 	
 	@PostMapping("/resetExcelUpload")

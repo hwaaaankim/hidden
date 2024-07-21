@@ -162,7 +162,7 @@ public class ProductService {
 	    String productImageRoad = road + "representative/" + productImageName;
 
 	    // Create directory if it does not exist
-	    File directory = new File(path + "representative/");
+	    File directory = new File(path + "rep/");
 	    if (!directory.exists()) {
 	        boolean dirsCreated = directory.mkdirs();
 	        System.out.println("Directories created: " + dirsCreated);

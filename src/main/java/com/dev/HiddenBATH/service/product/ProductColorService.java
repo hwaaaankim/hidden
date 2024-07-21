@@ -41,8 +41,8 @@ public class ProductColorService {
 				  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 				  .toString();
         
-        String path = commonPath + "/product/color/";
-        String road = "/upload/product/color/";
+        String path = commonPath + "/color/";
+        String road = "/administration/upload/color/color/";
         
         File fileFolder = new File(path);
         if(!fileFolder.exists()) {
