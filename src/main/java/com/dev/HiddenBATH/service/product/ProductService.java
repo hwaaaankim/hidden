@@ -87,14 +87,14 @@ public class ProductService {
 	        + productBigSortRepository.findById(dto.getBigSort()).get().getId()
 	        + "/"
 	        + dto.getProductCode()
-	        + "/rep";
+	        + "/rep/";
 
 	    // 파일 resource 로드 url
 	    String road = "/upload/product/"
     		+ productBigSortRepository.findById(dto.getBigSort()).get().getId()
 	        + "/"	
 	        + dto.getProductCode()
-	        + "/rep";
+	        + "/rep/";
 	    
 	    int index = 1;
 	    if(productRepository.findFirstIndex().isPresent()) {
@@ -158,14 +158,13 @@ public class ProductService {
 	        }
 	    }
 	    String productImageName = generatedString + originalFileExtension;
-	    String productImagePath = path + "representative/" + productImageName;
-	    String productImageRoad = road + "representative/" + productImageName;
+	    String productImagePath = path + productImageName;
+	    String productImageRoad = road + productImageName;
 
 	    // Create directory if it does not exist
-	    File directory = new File(path + "rep/");
+	    File directory = new File(path);
 	    if (!directory.exists()) {
 	        boolean dirsCreated = directory.mkdirs();
-	        System.out.println("Directories created: " + dirsCreated);
 	    }
 
 	    // Check if directory exists and is writable

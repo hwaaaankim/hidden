@@ -33,7 +33,10 @@
 						</div>
 					</div>
 
-					<form id="createproduct-form" autocomplete="off" class="needs-validation" novalidate>
+					<form 
+					method="POST" 
+					action="/admin/galleryInsert" 
+					enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-lg-8">
 								<div class="card">
@@ -42,12 +45,27 @@
 									</div>
 									<div class="card-body">
 										<div class="mb-4">
-											<p class="text-muted">갤러리 이미지를 등록 해 주세요.</p>
+											<p class="text-muted"># 갤러리 원본 이미지를 등록 해 주세요.</p>
 											<div>
                                                 <input 
                                                 class="form-control" 
                                                 type="file"
-                                                multiple>
+                                                required
+                                                name="gallery"
+                                                accept="image/png, image/jpeg"
+                                                >
+                                            </div>
+										</div>
+										<div class="mb-4">
+											<p class="text-muted"># 갤러리 썸네일 이미지를 등록 해 주세요.</p>
+											<div>
+                                                <input 
+                                                class="form-control" 
+                                                type="file"
+                                                required
+                                                name="galleryThumb"
+                                                accept="image/png, image/jpeg"
+                                                >
                                             </div>
 										</div>
 									</div>
@@ -68,7 +86,6 @@
 
 	<th:block th:replace="fragments/administration/common :: adminButton"></th:block>
 	<div th:replace="fragments/administration/common :: adminTheme"></div>
-
 	<th:block th:replace="fragments/administration/common :: adminScript"></th:block>
 </body>
 
