@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import com.dev.HiddenBATH.dto.ProductDTO;
+import com.dev.HiddenBATH.model.product.MiddleSort;
 import com.dev.HiddenBATH.model.product.Product;
 import com.dev.HiddenBATH.model.product.ProductColor;
 import com.dev.HiddenBATH.model.product.ProductOption;
@@ -68,6 +71,50 @@ public class ProductService {
 
 	@Value("${spring.upload.path}")
 	private String commonPath;
+	
+	public Page<Product> getProductsByCriteria(
+			Long tagId, 
+			Long colorId, 
+			Long middleSortId, 
+			Long bigSortId, 
+			Pageable pageable) {
+		
+		Optional<MiddleSort> middleSortOpt = productMiddleSortRepository.findById(middleSortId);
+
+		boolean isMiddleSortAll = middleSortId == 0L || (middleSortOpt.isPresent() && "분류전체".equals(middleSortOpt.get().getName()));
+        boolean isTagIdNullOrZero = tagId == null || tagId == 0L;
+        boolean isColorIdNullOrZero = colorId == null || colorId == 0L;
+
+        if (isMiddleSortAll) {
+            if (!isTagIdNullOrZero && !isColorIdNullOrZero) {
+                return productRepository.findByTagColorAndBigSort(tagId, colorId, bigSortId, pageable);
+            } else if (!isTagIdNullOrZero) {
+                return productRepository.findByTagAndBigSort(tagId, bigSortId, pageable);
+            } else if (!isColorIdNullOrZero) {
+                return productRepository.findByColorAndBigSort(colorId, bigSortId, pageable);
+            } else {
+                return productRepository.findByBigSort(bigSortId, pageable);
+            }
+        } else {
+            if (!isTagIdNullOrZero && !isColorIdNullOrZero) {
+                return productRepository.findByTagColorAndSorts(tagId, colorId, middleSortId, bigSortId, pageable);
+            } else if (!isTagIdNullOrZero) {
+                return productRepository.findByTagAndSorts(tagId, middleSortId, bigSortId, pageable);
+            } else if (!isColorIdNullOrZero) {
+                return productRepository.findByColorAndSorts(colorId, middleSortId, bigSortId, pageable);
+            } else {
+                return productRepository.findBySorts(middleSortId, bigSortId, pageable);
+            }
+        }
+    }	
+	
+	public List<Product> getRandomProductsByTag(Product product) {
+        List<Long> tagIds = product.getProductTags().stream()
+                .map(ProductTag::getId)
+                .collect(Collectors.toList());
+        return productRepository.findRandomProductsByTag(tagIds, product.getId())
+                                .stream().limit(10).collect(Collectors.toList());
+    }
 	
 	public Product productInsert(ProductDTO dto) throws IllegalStateException, IOException {
 
@@ -195,7 +242,6 @@ public class ProductService {
 		
 		return products;
 	}
-	
 }
 
 

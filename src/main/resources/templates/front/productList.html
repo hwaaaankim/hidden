@@ -58,12 +58,7 @@
 											<div class="block-content">
 												<div class="products-topbar clearfix">
 													<select class="category-select" id="middleSort">
-														<option
-														th:if="${middleSortId} == 0"
-														th:selected="${middleSortId} == 0" 
-														value="0">대분류를 먼저 선택 해 주세요.</option>
 														<option 
-														th:if="${middleSortId} != 0"
 														th:each="m:${middleSorts}"
 														th:value="${m.id}"
 														th:text="${m.name}"
@@ -264,12 +259,40 @@
 										</div>
 
 										<nav class="pagination">
-											<ul class="page-numbers">
-												<li><a class="prev page-numbers" href="#">PREVIOUS</a></li>
-												<li><span aria-current="page" class="page-numbers current">1</span></li>
-												<li><a class="page-numbers" href="#">2</a></li>
-												<li><a class="page-numbers" href="#">3</a></li>
-												<li><a class="next page-numbers" href="#">NEXT</a></li>
+											<ul class="pagination justify-content-center">
+												<li class="page-item"
+													th:classappend="${1 == products.pageable.pageNumber+1} ? 'disabled'">
+													<a class="page-link" href="#"
+													th:href="@{/productList/{id}(id=${id}, page=0, size=${param.size}, middleId=${middleId}, 
+													tagId=${tagId}, colorId=${colorId})}"
+													tabindex="-1" aria-disabled="true">First</a>
+												</li>
+												<li class="page-item"
+													th:classappend="${1 == products.pageable.pageNumber+1} ? 'disabled'">
+													<a class="page-link" href="#"
+													th:href="@{/productList/{id}(id=${id}, page=${products.pageable.pageNumber - 1}, size=${param.size}, middleId=${middleId}, 
+													tagId=${tagId}, colorId=${colorId})}"
+													tabindex="-1" aria-disabled="true">Previous</a>
+												</li>
+												<li class="page-item"
+													th:classappend="${i == products.pageable.pageNumber+1} ? 'disabled'"
+													th:each="i : ${#numbers.sequence(startPage, endPage)}">
+													<a	class="page-link" href="#" th:text=${i}
+													th:href="@{/productList/{id}(id=${id}, page=${i-1}, size=${param.size}, middleId=${middleId}, 
+													tagId=${tagId}, colorId=${colorId})}">1</a>
+												</li>
+												<li class="page-item"
+													th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'disabled'">
+													<a class="page-link" href="#"
+													th:href="@{/productList/{id}(id=${id}, page=${products.pageable.pageNumber + 1}, size=${param.size}, middleId=${middleId}, 
+													tagId=${tagId}, colorId=${colorId})}">Next</a>
+												</li>
+												<li class="page-item"
+													th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'disabled'">
+													<a class="page-link" href="#"
+													th:href="@{/productList/{id}(id=${id}, page=${products.totalPages-1}, size=${param.size}, middleId=${middleId}, 
+													tagId=${tagId}, colorId=${colorId})}">Last</a>
+												</li>
 											</ul>
 										</nav>
 									</div>
@@ -343,19 +366,19 @@
             const middleIdInput = document.createElement('input');
             middleIdInput.type = 'text';
             middleIdInput.name = 'middleId';
-            middleIdInput.value = middleId; // 예제 값 설정
+            middleIdInput.value = middleId; 
             form.appendChild(middleIdInput);
             
             const tagIdInput = document.createElement('input');
             tagIdInput.type = 'text';
             tagIdInput.name = 'tagId';
-            tagIdInput.value = tagId; // 예제 값 설정
+            tagIdInput.value = tagId; 
             form.appendChild(tagIdInput);
             
             const colorIdInput = document.createElement('input');
             colorIdInput.type = 'text';
             colorIdInput.name = 'colorId';
-            colorIdInput.value = colorId; // 예제 값 설정
+            colorIdInput.value = colorId; 
             form.appendChild(colorIdInput);
             
             document.body.appendChild(form);

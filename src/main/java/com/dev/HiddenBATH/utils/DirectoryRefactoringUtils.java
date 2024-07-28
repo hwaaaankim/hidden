@@ -11,11 +11,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import org.apache.commons.lang3.RandomStringUtils;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -134,14 +136,21 @@ public class DirectoryRefactoringUtils {
                             .filter(Files::isRegularFile)
                             .collect(Collectors.toList());
 
-                    if (!imageFiles.isEmpty()) {
-                        Collections.shuffle(imageFiles);
-                        Path resImage = imageFiles.remove(0);
-                        Files.move(resImage, resDir.resolve(generateShortFileName(resImage)), StandardCopyOption.REPLACE_EXISTING);
+                    for (Path image : imageFiles) {
+                        Files.copy(image, filesDir.resolve(image.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(image, slideDir.resolve(image.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+                    }
 
-                        for (Path image : imageFiles) {
-                            Files.move(image, slideDir.resolve(generateShortFileName(image)), StandardCopyOption.REPLACE_EXISTING);
-                        }
+                    Optional<Path> repImage = imageFiles.stream()
+                            .filter(path -> path.getFileName().toString().equals("1.jpg") || path.getFileName().toString().equals("1.png"))
+                            .findFirst();
+
+                    if (repImage.isPresent()) {
+                        Files.move(repImage.get(), resDir.resolve(repImage.get().getFileName()), StandardCopyOption.REPLACE_EXISTING);
+                    } else if (!imageFiles.isEmpty()) {
+                        Collections.shuffle(imageFiles);
+                        Path randomImage = imageFiles.get(0);
+                        Files.move(randomImage, resDir.resolve(randomImage.getFileName()), StandardCopyOption.REPLACE_EXISTING);
                     }
 
                 } catch (IOException e) {

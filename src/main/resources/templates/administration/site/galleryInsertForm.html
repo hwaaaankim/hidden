@@ -33,7 +33,7 @@
 						</div>
 					</div>
 
-					<form id="createproduct-form" autocomplete="off" class="needs-validation" novalidate>
+					<form action="/admin/galleryInsert" method="post" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-lg-8">
 								<div class="card">
@@ -42,12 +42,21 @@
 									</div>
 									<div class="card-body">
 										<div class="mb-4">
-											<p class="text-muted">갤러리 이미지를 등록 해 주세요.</p>
+											<p class="text-muted"># 갤러리 썸네일 이미지를 등록 해 주세요.</p>
 											<div>
+                                                <input 
+                                                class="form-control mb-5" 
+                                                type="file"
+                                                name="thumb"
+                                                required>
+                                            </div>
+                                            <p class="text-muted"># 갤러리 이미지를 등록 해 주세요.</p>
+                                            <div>
                                                 <input 
                                                 class="form-control" 
                                                 type="file"
-                                                multiple>
+                                                name="gallery"
+                                                required>
                                             </div>
 										</div>
 									</div>

@@ -1193,18 +1193,18 @@ h1.recruit-title {
 	width: 80%;
 	height: auto;
 	object-fit: contain;
-	padding: 5%;
+	padding: 2%;
 }
 
 @media screen and (min-width: 768px) {
 	#overlay img {
-		width: 60%;
+		height: 100vh;
 	}
 }
 
 @media screen and (min-width: 1200px) {
 	#overlay img {
-		width: 80%;
+		height: 100vh;
 	}
 }
 
@@ -1308,4 +1308,15 @@ h1.recruit-title {
 }
 .product-title span a{
 	color:gray !important;
+}
+#jsv-holder{
+	margin-top:-150px !important;
+	margin-left:-20px !important; 
+}
+@media(max-width:760px){
+	#jsv-holder{
+		margin-top:0px !important;
+		margin-left:-30px !important; 
+		z-index:-999;
+	}
 }

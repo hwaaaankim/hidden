@@ -113,22 +113,6 @@
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value:$('#addedMessage').val() }));
 	
 		mirrorForm.appendTo('body');
-	/*	console.log($('#mirrorShape').val());
-		console.log($('#mirrorFrame').val());
-		console.log($('#mirrorStyle').val());
-		console.log($('#mirrorColor').val());
-		console.log($('#mirrorWidth').val());
-		console.log($('#mirrorHeight').val());
-		console.log($('#mirrorMessage').val());
-		console.log($('#mirrorLed').val());
-		console.log($('#mirrorLedMethod').val());
-		console.log($('#mirrorLedForm').val());
-		console.log($('#mirrorSensor').val());
-		console.log($('#mirrorSensorForm').val());
-		console.log($('#name').val());
-		console.log($('#phone').val());
-		console.log($('#email').val());
-		console.log($('#addedMessage').val());*/
 		mirrorForm.submit();
 		}
 	});

@@ -197,8 +197,7 @@
 								<div class="block block-posts layout-2" id="scroll-mobile">
 									<div class="block-widget-wrap">
 										<div class="block-title">
-											<h2>히든바스의 제품들</h2>
-											<p class="info-message">HiddenBath의 첨단 기술력을 통해 제작된 최신 제품을 바로 만나보세요.</p>
+											<h2>About HIDDEN BATH</h2>
 										</div>
 										<div class="block-content">
 											<div class="posts-wrap slick-wrap">
@@ -209,7 +208,7 @@
 														<div class="post-inner">
 															<div class="post-image">
 																<a class="post-thumbnail" href="#">
-																	<img src="/front/clean/sample/4.jpg">
+																	<img src="/front/clean/bg/1.png">
 																</a>
 															</div>
 														</div>
@@ -218,7 +217,7 @@
 														<div class="post-inner">
 															<div class="post-image">
 																<a class="post-thumbnail" href="#">
-																	<img src="/front/clean/sample/4.jpg">
+																	<img src="/front/clean/bg/2.jpg">
 																</a>
 															</div>
 														</div>
@@ -227,7 +226,16 @@
 														<div class="post-inner">
 															<div class="post-image">
 																<a class="post-thumbnail" href="#">
-																	<img src="/front/clean/sample/4.jpg">
+																	<img src="/front/clean/bg/3.jpg">
+																</a>
+															</div>
+														</div>
+													</div>
+													<div class="post-grid post">
+														<div class="post-inner">
+															<div class="post-image">
+																<a class="post-thumbnail" href="#">
+																	<img src="/front/clean/bg/4.jpg">
 																</a>
 															</div>
 														</div>
@@ -467,38 +475,23 @@
 							</div>
 							<div class="services-ticker-block">
 								<div class="stb_line_single">
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
+									<a class="stb-item" th:each="o:${one}" href="/imageGallery">
+										<img th:src="@{${o.thumbRoad}}">
+									</a>
 								</div>
 							</div>
 							<div class="services-ticker-block">
 								<div class="stb_line_single">
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
+									<a class="stb-item" th:each="c:${construction}" href="/exampleGallery">
+										<img th:src="@{${c.thumbRoad}}">
+									</a>
 								</div>
 							</div>
 							<div class="services-ticker-block">
 								<div class="stb_line_single">
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
-									<a class="stb-item"><img src="/front/clean/new/con01.png"></a>
+									<a class="stb-item" th:each="t:${two}" href="/imageGallery">
+										<img th:src="@{${t.thumbRoad}}">
+									</a>
 								</div>
 							</div>
 						</section>

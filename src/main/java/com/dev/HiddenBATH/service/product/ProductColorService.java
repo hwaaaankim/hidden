@@ -42,7 +42,7 @@ public class ProductColorService {
 				  .toString();
         
         String path = commonPath + "/color/";
-        String road = "/administration/upload/color/color/";
+        String road = "/administration/upload/color/";
         
         File fileFolder = new File(path);
         if(!fileFolder.exists()) {

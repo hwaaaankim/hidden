@@ -39,6 +39,12 @@ public class Product {
 	@Column(name="PRODUCT_SIGN")
 	private Boolean productSign;
 	
+	@Column(name="PRODUCT_ROTATION_NUMBER")
+	private int productRotationNumber;
+	
+	@Column(name="PRODUCT_ROTATION_EXTENSION")
+	private String productRotationExtension;
+	
 	@Column(name="PRODUCT_TITLE")
 	private String title;
 	

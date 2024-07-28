@@ -16,13 +16,13 @@
 						<div class="section-container">
 							<div class="content-title-heading">
 								<h1 class="text-title-heading">
-									제품명
+									[[${product.name}]]
 								</h1>
 							</div>
 							<div class="breadcrumbs">
 								<a href="/">HOME</a><span class="delimiter"></span>
-								<a href="#">대분류</a><span class="delimiter"></span>
-								<a href="#">중분류</a><span class="delimiter"></span>제품명
+								<a th:href="@{/productList/{id}(id=${product.bigSort.id})}">[[${product.bigSort.name}]]</a><span class="delimiter"></span>
+								<a th:href="@{/productList/{id}(id=${product.bigSort.id}, middleId=${middleId})}">[[${product.middleSort.name}]]</a><span class="delimiter"></span>[[${product.name}]]
 							</div>
 						</div>
 					</div>
@@ -47,38 +47,10 @@
 																data-columns="4" data-nav="true"
 																data-vertical="&quot;true&quot;"
 																data-verticalswiping="&quot;true&quot;">
-																<div class="img-item slick-slide">
+																<div class="img-item slick-slide" th:each="i:${product.images}">
 																	<span class="img-thumbnail-scroll">
 																		<img width="600" height="600"
-																			src="/front/clean/media/product/9.jpg"
-																			alt="">
-																	</span>
-																</div>
-																<div class="img-item slick-slide">
-																	<span class="img-thumbnail-scroll">
-																		<img width="600" height="600"
-																			src="/front/clean/media/product/9-2.jpg"
-																			alt="">
-																	</span>
-																</div>
-																<div class="img-item slick-slide">
-																	<span class="img-thumbnail-scroll">
-																		<img width="600" height="600"
-																			src="/front/clean/media/product/9-3.jpg"
-																			alt="">
-																	</span>
-																</div>
-																<div class="img-item slick-slide">
-																	<span class="img-thumbnail-scroll">
-																		<img width="600" height="600"
-																			src="/front/clean/media/product/9.jpg"
-																			alt="">
-																	</span>
-																</div>
-																<div class="img-item slick-slide">
-																	<span class="img-thumbnail-scroll">
-																		<img width="600" height="600"
-																			src="/front/clean/media/product/9-2.jpg"
+																			th:src="@{${i.productImageRoad}}"
 																			alt="">
 																	</span>
 																</div>
@@ -91,30 +63,10 @@
 																data-asnavfor=".image-thumbnail" data-fade="true"
 																data-columns4="1" data-columns3="1" data-columns2="1"
 																data-columns1="1" data-columns="1" data-nav="true">
-																<div class="img-item slick-slide">
+																<div class="img-item slick-slide" th:each="i:${product.images}">
 																	<img width="900" height="900"
-																		src="/front/clean/media/product/9.jpg" alt=""
+																		th:src="@{${i.productImageRoad}}" alt=""
 																		title="">
-																</div>
-																<div class="img-item slick-slide">
-																	<img width="900" height="900"
-																		src="/front/clean/media/product/9-2.jpg"
-																		alt="" title="">
-																</div>
-																<div class="img-item slick-slide">
-																	<img width="900" height="900"
-																		src="/front/clean/media/product/9-3.jpg"
-																		alt="" title="">
-																</div>
-																<div class="img-item slick-slide">
-																	<img width="900" height="900"
-																		src="/front/clean/media/product/9.jpg" alt=""
-																		title="">
-																</div>
-																<div class="img-item slick-slide">
-																	<img width="900" height="900"
-																		src="/front/clean/media/product/9-2.jpg"
-																		alt="" title="">
 																</div>
 															</div>
 														</div>
@@ -123,14 +75,13 @@
 											</div>
 
 											<div class="product-info col-lg-5 col-md-12 col-12 ">
-												<h1 class="title">제품명</h1>
-												<span class="price hashtag">
+												<h1 class="title" th:text="${product.name}">제품명</h1>
+												<span class="price hashtag" th:text="${product.productCode}">
 													제품코드
 												</span>
 												<div class="description">
-													<p>== 제품의 묘사 문구가 삽입되는 영역입니다[관리자등록] ===</p>
-													<p>== 제품의 묘사 문구가 삽입되는 영역입니다[관리자등록] ===</p>
-													<p>== 제품의 묘사 문구가 삽입되는 영역입니다[관리자등록] ===</p>
+													<p th:if="${product.subject != ''}">== 제품의 묘사 문구가 삽입되는 영역입니다[관리자등록] ===</p>
+													<p th:if="${product.subject == ''}">-</p>
 												</div>
 												<div class="variations">
 													<table cellspacing="0">
@@ -140,9 +91,9 @@
 																<td class="label">COLORs</td>
 																<td class="attributes">
 																	<ul class="colors">
-																		<li><span class="color-1"></span></li>
-																		<li><span class="color-2"></span></li>
-																		<li><span class="color-3"></span></li>
+																		<li th:each="c:${product.productColors}"><img width="50" height="50"
+																		th:src="@{${c.productColorRoad}}" alt=""
+																		title=""></li>
 																	</ul>
 																</td>
 															</tr>
@@ -150,7 +101,7 @@
 																<td class="label">TAG</td>
 																<td class="attributes">
 																	<ul class="text">
-																		<li><span># Tags</span></li>
+																		<li th:each="t:${product.productTags}"><span># [[${t.productTagText}]]</span></li>
 																	</ul>
 																</td>
 															</tr>
@@ -158,9 +109,7 @@
 																<td class="label">SIZE</td>
 																<td class="attributes">
 																	<ul class="text">
-																		<li><span>L</span></li>
-																		<li><span>M</span></li>
-																		<li><span>S</span></li>
+																		<li th:each="s:${product.productSizes}"><span th:text="${s.productSizeText}">L</span></li>
 																	</ul>
 																</td>
 															</tr>
@@ -168,21 +117,17 @@
 													</table>
 												</div>
 												<div class="product-meta" style="margin-bottom:0px;">
-													<div class="sku-wrapper">&#183; 제품 OPTION 01 : <a class="sku">옵션 답변
-															01</a></div>
-													<div class="posted-in">&#183; 제품 OPTION 02 : <a href="#" rel="tag">옵션 답변
-															02</a></div>
-													<div class="tagged-as">&#183; 제품 OPTION 03 : <a href="#" rel="tag">옵션 답변
-															03</a></div>
+													<div th:each="o, iterStat : ${product.productOptions}" class="sku-wrapper">&#183; OPTION [[${iterStat.index + 1}]] : 
+														<a style="font-weight:600;" class="sku" th:text="${o.productOptionText}">옵션 답변</a>
+													</div>
 												</div>
 												<div class="product-meta" style="margin-top:0px; border-top:none;">
-													<span class="sku-wrapper">&#183; 대분류 : <a>Furniture</a></span>
-													<span class="posted-in">&#183; 중분류 : <a>Furniture</a></span>
-													<span class="tagged-as">&#183; 제품코드 : <a>Hot</a></span>
+													<span class="sku-wrapper">&#183; 대분류 : <a>[[${product.bigSort.name}]]</a></span>
+													<span class="posted-in">&#183; 중분류 : <a>[[${product.middleSort.name}]]</a></span>
+													<span class="tagged-as">&#183; 제품코드 : <a>[[${product.productCode}]]</a></span>
 												</div>
 												<div class="social-share">
-													<a href="#" class="product-file-download" 
-														>&#183; [클릭하여 다운로드]files.png</a>
+													<a href="javascript:alert('준비중입니다');" class="btn btn-theme">&#183; 이미지 다운로드 <i class="fa-solid fa-download"></i></a>
 												</div>
 												
 											</div>
@@ -206,196 +151,26 @@
 														data-slidestoscroll="true" data-dots="false" data-nav="1"
 														data-columns4="1" data-columns3="2" data-columns2="3"
 														data-columns1="3" data-columns1440="4" data-columns="4">
-														<div class="item-product slick-slide">
+														<div class="item-product slick-slide" th:each="r:${relatedProducts}">
 															<div class="items">
 																<div class="products-entry clearfix product-wapper">
 																	<div class="products-thumb">
 																		<div class="product-thumb-hover">
-																			<a href="#">
+																			<a th:href="@{|/productDetail/${r.id}|}">
 																				<img width="600" height="600"
-																					src="/front/clean/media/product/1.jpg"
+																					th:src="${r.productRepImageRoad}"
 																					class="post-image" alt="">
 																				<img width="600" height="600"
-																					src="/front/clean/media/product/1-2.jpg"
+																					th:src="${r.productRepImageRoad}"
 																					class="hover-image back" alt="">
 																			</a>
-																		</div>
-																		<div class="product-button">
-																			<div class="btn-compare"
-																				data-title="Compare">
-																				<button class="product-btn">비교화면
-																					보기</button>
-																			</div>
-																			<span class="product-quickview"
-																				data-title="Quick View">
-																				<a href="#"
-																					class="quickview quickview-button">빠르게
-																					보기
-																					<i class="icon-search"></i></a>
-																			</span>
 																		</div>
 																	</div>
 																	<div class="products-content">
 																		<div class="contents text-center">
 																			<h3 class="product-title"><a
-																					href="#">제품명</a></h3>
-																			<span class="price">Description</span>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="item-product slick-slide">
-															<div class="items">
-																<div class="products-entry clearfix product-wapper">
-																	<div class="products-thumb">
-																		<div class="product-thumb-hover">
-																			<a href="shop-details.html">
-																				<img width="600" height="600"
-																					src="/front/clean/media/product/1.jpg"
-																					class="post-image" alt="">
-																				<img width="600" height="600"
-																					src="/front/clean/media/product/1-2.jpg"
-																					class="hover-image back" alt="">
-																			</a>
-																		</div>
-																		<div class="product-button">
-																			<div class="btn-compare"
-																				data-title="Compare">
-																				<button class="product-btn">비교화면
-																					보기</button>
-																			</div>
-																			<span class="product-quickview"
-																				data-title="Quick View">
-																				<a href="#"
-																					class="quickview quickview-button">빠르게
-																					보기
-																					<i class="icon-search"></i></a>
-																			</span>
-																		</div>
-																	</div>
-																	<div class="products-content">
-																		<div class="contents text-center">
-																			<h3 class="product-title"><a
-																					href="#">제품명</a></h3>
-																			<span class="price">Description</span>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="item-product slick-slide">
-															<div class="items">
-																<div class="products-entry clearfix product-wapper">
-																	<div class="products-thumb">
-																		<div class="product-thumb-hover">
-																			<a href="shop-details.html">
-																				<img width="600" height="600"
-																					src="/front/clean/media/product/1.jpg"
-																					class="post-image" alt="">
-																				<img width="600" height="600"
-																					src="/front/clean/media/product/1-2.jpg"
-																					class="hover-image back" alt="">
-																			</a>
-																		</div>
-																		<div class="product-button">
-																			<div class="btn-compare"
-																				data-title="Compare">
-																				<button class="product-btn">비교화면
-																					보기</button>
-																			</div>
-																			<span class="product-quickview"
-																				data-title="Quick View">
-																				<a href="#"
-																					class="quickview quickview-button">빠르게
-																					보기
-																					<i class="icon-search"></i></a>
-																			</span>
-																		</div>
-																	</div>
-																	<div class="products-content">
-																		<div class="contents text-center">
-																			<h3 class="product-title"><a
-																					href="#">제품명</a></h3>
-																			<span class="price">Description</span>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="item-product slick-slide">
-															<div class="items">
-																<div class="products-entry clearfix product-wapper">
-																	<div class="products-thumb">
-																		<div class="product-thumb-hover">
-																			<a href="shop-details.html">
-																				<img width="600" height="600"
-																					src="/front/clean/media/product/1.jpg"
-																					class="post-image" alt="">
-																				<img width="600" height="600"
-																					src="/front/clean/media/product/1-2.jpg"
-																					class="hover-image back" alt="">
-																			</a>
-																		</div>
-																		<div class="product-button">
-																			<div class="btn-compare"
-																				data-title="Compare">
-																				<button class="product-btn">비교화면
-																					보기</button>
-																			</div>
-																			<span class="product-quickview"
-																				data-title="Quick View">
-																				<a href="#"
-																					class="quickview quickview-button">빠르게
-																					보기
-																					<i class="icon-search"></i></a>
-																			</span>
-																		</div>
-																	</div>
-																	<div class="products-content">
-																		<div class="contents text-center">
-																			<h3 class="product-title"><a
-																					href="#">제품명</a></h3>
-																			<span class="price">Description</span>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="item-product slick-slide">
-															<div class="items">
-																<div class="products-entry clearfix product-wapper">
-																	<div class="products-thumb">
-																		<div class="product-thumb-hover">
-																			<a href="shop-details.html">
-																				<img width="600" height="600"
-																					src="/front/clean/media/product/1.jpg"
-																					class="post-image" alt="">
-																				<img width="600" height="600"
-																					src="/front/clean/media/product/1-2.jpg"
-																					class="hover-image back" alt="">
-																			</a>
-																		</div>
-																		<div class="product-button">
-																			<div class="btn-compare"
-																				data-title="Compare">
-																				<button class="product-btn">비교화면
-																					보기</button>
-																			</div>
-																			<span class="product-quickview"
-																				data-title="Quick View">
-																				<a href="#"
-																					class="quickview quickview-button">빠르게
-																					보기
-																					<i class="icon-search"></i></a>
-																			</span>
-																		</div>
-																	</div>
-																	<div class="products-content">
-																		<div class="contents text-center">
-																			<h3 class="product-title"><a
-																					href="#">제품명</a></h3>
-																			<span class="price">Description</span>
+																					th:href="@{|/productDetail/${r.id}|}" th:text="${r.name}">제품명</a></h3>
+																			<span class="price" th:text="${r.productCode}">Description</span>
 																		</div>
 																	</div>
 																</div>

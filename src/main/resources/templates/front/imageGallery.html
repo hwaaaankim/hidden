@@ -53,51 +53,12 @@
 								<div class="block block-product-cats layout-6 x-small-space">
 									<div class="block-content" id="image-gallery">
 										<div class="row">
-											<div class="col-lg-4 col-md-6 md-b-10 image">
+											<div class="col-lg-4 col-md-6 md-b-10 image" th:each="g:${gal}">
 												<div class="cat-item">
 													<div class="cat-image img-overlay">
-														<a href="/front/clean/catalog/2024.png">
-															<img src="/front/clean/catalog/2024.png"
+														<a th:href="@{${g.road}}">
+															<img th:src="@{${g.road}}"
 																alt="#">
-														</a>
-													</div>
-													<div class="cat-title img-overlay">
-														<a>자세히보기</a>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-4 col-md-6 md-b-10 image">
-												<div class="cat-item">
-													<div class="cat-image">
-														<a href="/front/clean/catalog/2023-new.png">
-															<img src="/front/clean/catalog/2023-new.png"
-																alt="#">
-														</a>
-													</div>
-													<div class="cat-title img-overlay">
-														<a>자세히보기</a>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-4 col-md-6 md-b-10 image">
-												<div class="cat-item">
-													<div class="cat-image">
-														<a href="/front/clean/catalog/2023.png">
-															<img src="/front/clean/catalog/2023.png"
-																alt="Product Category">
-														</a>
-													</div>
-													<div class="cat-title img-overlay">
-														<a>자세히보기</a>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-4 col-md-6 md-b-10 image">
-												<div class="cat-item">
-													<div class="cat-image">
-														<a href="/front/clean/catalog/2022.png">
-															<img src="/front/clean/catalog/2022.png"
-																alt="Product Category">
 														</a>
 													</div>
 													<div class="cat-title img-overlay">

@@ -1,5 +1,6 @@
 package com.dev.HiddenBATH.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dev.HiddenBATH.dto.MenuDTO;
 import com.dev.HiddenBATH.model.product.MiddleSort;
 import com.dev.HiddenBATH.model.product.Product;
+import com.dev.HiddenBATH.repository.ConstructionRepository;
+import com.dev.HiddenBATH.repository.GalleryRepository;
 import com.dev.HiddenBATH.repository.product.ProductBigSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductColorRepository;
 import com.dev.HiddenBATH.repository.product.ProductMiddleSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductRepository;
 import com.dev.HiddenBATH.repository.product.ProductTagRepository;
+import com.dev.HiddenBATH.service.ConstructionService;
+import com.dev.HiddenBATH.service.GalleryService;
+import com.dev.HiddenBATH.service.product.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -47,6 +53,21 @@ public class IndexController {
 	
 	@Autowired
 	ProductTagRepository productTagRepository;
+	
+	@Autowired
+	GalleryRepository galleryRepository;
+	
+	@Autowired
+	GalleryService galleryService;
+	
+	@Autowired
+	ProductService productService;
+	
+	@Autowired
+	ConstructionRepository constructionRepository;
+	
+	@Autowired
+	ConstructionService constructionService;
 	
 	@ModelAttribute("menuList")
 	public MenuDTO menuList(MenuDTO menuDto) {
@@ -71,8 +92,14 @@ public class IndexController {
 	@GetMapping({"/", "", "/index"})
 	public String home(
 			HttpServletRequest request,
-			HttpSession session) {
+			HttpSession session,
+			Model model) {
 		System.out.println(session.getAttribute("user"));
+		model.addAttribute("construction", constructionRepository.findAll());
+		model.addAttribute("one", galleryService.getGalleriesInTwoHalves().get(0));
+		model.addAttribute("two", galleryService.getGalleriesInTwoHalves().get(1));
+		
+		
 		return "front/index";
 	}
 	
@@ -98,15 +125,20 @@ public class IndexController {
 		return "front/history";
 	}
 	
-	@GetMapping("/construction")
-	public String construction() {
+	@GetMapping("/exampleGallery")
+	public String exampleGallery(
+			Model model
+			) {
 		
+		model.addAttribute("con", constructionRepository.findAll());
 		return "front/construction";
 	}
 	
 	@GetMapping("/imageGallery")
-	public String imageGallery() {
-		
+	public String imageGallery(
+			Model model
+			) {
+		model.addAttribute("gal", galleryRepository.findAll());
 		return "front/imageGallery";
 	}
 	
@@ -178,45 +210,25 @@ public class IndexController {
 			@RequestParam(required = false, defaultValue = "0") Long colorId,
 			@PageableDefault(size=10) Pageable pageable
 			) {
-		
 		Page<Product> products = null;
 		if(id == 7l) {
 			products = productRepository.findAllByBigSortOrderByProductIndexAsc(pageable, productBigSortRepository.findById(id).get());
-			
+			List<MiddleSort> middles = new ArrayList<MiddleSort>();
+			MiddleSort sort = new MiddleSort();
+			sort.setName("전체제품조회");
+			sort.setId(0l);
+			middles.add(sort);
+			model.addAttribute("middleSortName", "분류전체");
+			model.addAttribute("middleSorts", middles);
 		}else {
-			if(middleId != 0l) {
-				if(tagId != 0l) {
-					if(colorId != 0l) {
-						products = productRepository.findByTagColorAndSorts(tagId, colorId, middleId, id, pageable);
-					}else {
-						products = productRepository.findByTagAndSorts(tagId, middleId, id, pageable);
-					}
-				}else {
-					if(colorId != 0l) {
-						products = productRepository.findByColorAndSorts(colorId, middleId, id, pageable);
-					}else {
-						products = productRepository.findBySorts(middleId, id, pageable);
-					}
-				}
-				model.addAttribute("middleSortName", productMiddleSortRepository.findById(middleId).get().getName());
-			}else {
-				if(tagId != 0l) {
-					if(colorId != 0l) {
-						products = productRepository.findByTagColorAndBig(tagId, colorId, id, pageable);
-					}else {
-						products = productRepository.findByTagAndBig(tagId, id, pageable);
-					}
-				}else {
-					if(colorId != 0l) {
-						products = productRepository.findByColorAndBig(colorId, id, pageable);
-					}else {
-						products = productRepository.findAllByBigSortOrderByProductIndexAsc(pageable, productBigSortRepository.findById(id).get());
-					}
-				}
-			}
+			products = productService.getProductsByCriteria(tagId, colorId, middleId, id, pageable);
+			model.addAttribute("middleSorts", productMiddleSortRepository.findAllByBigSort(productBigSortRepository.findById(id).get()));
 		}
+		int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
+		int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 		model.addAttribute("bigSortName", productBigSortRepository.findById(id).get().getName());
-		model.addAttribute("middleSorts", productMiddleSortRepository.findAllByBigSort(productBigSortRepository.findById(id).get()));
 		model.addAttribute("products", products);
 		model.addAttribute("tagId", tagId);
 		model.addAttribute("colorId", colorId);
@@ -229,15 +241,32 @@ public class IndexController {
 		return "front/productList";
 	}
 	
-	@GetMapping("/productDetail")
-	public String productDetail() {
+	@GetMapping("/productDetail/{id}")
+	public String productDetail(
+			@PathVariable Long id,
+			Model model
+			) {
 		
+		Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+		List<Product> relatedProducts = productService.getRandomProductsByTag(product);
+
+		model.addAttribute("product", product);
+        model.addAttribute("relatedProducts", relatedProducts);
 		return "front/productDetail";
 	}
 	
-	@GetMapping("/productDetailAdvanced")
-	public String productDetailAdvanced() {
+	@GetMapping("/productDetailAdvanced/{id}")
+	public String productDetailAdvanced(
+			@PathVariable Long id,
+			Model model
+			) {
 		
+		Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+		List<Product> relatedProducts = productService.getRandomProductsByTag(product);
+		int centerRotationNumber = Math.round(product.getProductRotationNumber() / 2.0f);
+        model.addAttribute("centerRotationNumber", centerRotationNumber);
+		model.addAttribute("product", product);
+        model.addAttribute("relatedProducts", relatedProducts);
 		return "front/productDetailAdvanced";
 	}
 	
@@ -247,9 +276,13 @@ public class IndexController {
 //		return "front/productDetailAdvanced01";
 //	}
 	
-	@GetMapping("/search")
-	public String search() {
-		
+	@PostMapping("/searchKeword")
+	public String searchKeword(
+			Model model,
+			String keyword
+			) {
+		model.addAttribute("name", productRepository.findByNameContaining(keyword));
+		model.addAttribute("code", productRepository.findByProductCodeContaining(keyword));
 		return "front/search";
 	}
 	

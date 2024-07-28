@@ -31,7 +31,15 @@ public class OrderController {
 			MirrorOrder order
 			) {
 		
-		return order.toString();
+		StringBuffer sb = new StringBuffer();
+		String msg = "문의 주셔서 감사합니다. 빠르게 연락드리도록 하겠습니다.";
+		
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/index'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+		
+		return sb.toString();
 	}
 	
 	@GetMapping("/top")

@@ -34,7 +34,7 @@
 												<div class="customer-details">
 													<div class="billing-fields">
 														<div class="billing-fields-wrapper">
-															<p class="form-row form-row-first validate-required">
+															<!--<p class="form-row form-row-first validate-required">
 																<label>공지사항 조회결과 <span class="required" title="required"
 																		style="color:gray; font-size:12px;vertical-align: super;;">*
 																		13건 조회</span></label>
@@ -91,60 +91,77 @@
 																		</div>
 																	</div>
 																</div>
-															</div>
+															</div>-->
 															<p class="form-row form-row-first validate-required">
-																<label>제품정보 조회결과 <span class="required" title="required"
+																<label>키워드가 제품명에 포함된 검색결과 <span class="required" title="required"
 																		style="color:gray; font-size:12px;vertical-align: super;;">*
-																		3건 조회</span></label>
+																		[[${name.size}]]건 조회</span></label>
 																<span class="input-wrapper"><input type="text"
 																		style="height:5px;" class="input-text"
 																		disabled></span>
 															</p>
 															<div class="post-details no-sidebar">
-																<div class="comments-area search-result-wrap">
+																<div th:each="n:${name}" 
+																class="comments-area search-result-wrap">
 																	<div class="comments-list">
 																		<div class="comment-item">
 																			<div class="comment-content-wrap">
 																				<div class="comment-author">
-																					제품명[제품코드]
+																					[[${n.name}]]/[[${n.productCode}]]
 																				</div>
 																				<div class="comment-time">
-																					대분류/중분류
+																					[[${n.bigSort.name}]]/[[${n.middleSort.name}]]
 																				</div>
-																				<a class="comment-reply-link"
-																					href="#">이동하기</a>
+																				<a 
+																				th:if="${n.productSign == false}" 
+																				th:href="@{|/productDetail/${n.id}|}" 
+																				class="comment-reply-link">
+																					상세페이지
+																				</a>
+																				<a 
+																				th:if="${n.productSign == true}" 
+																				th:href="@{|/productDetail/${n.id}|}" 
+																				class="comment-reply-link">
+																					상세페이지
+																				</a>
 																			</div>
 																		</div>
 																	</div>
 																</div>
-																<div class="comments-area search-result-wrap">
+															</div>
+															<p class="form-row form-row-first validate-required">
+																<label>키워드가 제품코드에 포함된 검색결과 
+																	<span class="required" title="required"
+																		style="color:gray; font-size:12px;vertical-align: super;;">*
+																		[[${code.size}]]건 조회</span></label>
+																<span class="input-wrapper"><input type="text"
+																		style="height:5px;" class="input-text"
+																		disabled></span>
+															</p>
+															<div class="post-details no-sidebar">
+																<div class="comments-area search-result-wrap"
+																th:each="c:${code}">
 																	<div class="comments-list">
 																		<div class="comment-item">
 																			<div class="comment-content-wrap">
 																				<div class="comment-author">
-																					제품명[제품코드]
+																					[[${c.name}]]/[[${c.productCode}]]
 																				</div>
 																				<div class="comment-time">
-																					대분류/중분류
+																					[[${c.bigSort.name}]]/[[${c.middleSort.name}]]
 																				</div>
-																				<a class="comment-reply-link"
-																					href="#">이동하기</a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<div class="comments-area search-result-wrap">
-																	<div class="comments-list">
-																		<div class="comment-item">
-																			<div class="comment-content-wrap">
-																				<div class="comment-author">
-																					제품명[제품코드]
-																				</div>
-																				<div class="comment-time">
-																					대분류/중분류
-																				</div>
-																				<a class="comment-reply-link"
-																					href="#">이동하기</a>
+																				<a 
+																				th:if="${c.productSign == false}" 
+																				th:href="@{|/productDetail/${c.id}|}" 
+																				class="comment-reply-link">
+																					상세페이지
+																				</a>
+																				<a 
+																				th:if="${c.productSign == true}" 
+																				th:href="@{|/productDetail/${c.id}|}" 
+																				class="comment-reply-link">
+																					상세페이지
+																				</a>
 																			</div>
 																		</div>
 																	</div>

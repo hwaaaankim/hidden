@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -28,7 +31,10 @@ import com.dev.HiddenBATH.repository.product.ProductImageRepository;
 import com.dev.HiddenBATH.repository.product.ProductRepository;
 import com.dev.HiddenBATH.utils.DirectoryRefactoringUtils;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ZipService {
 
 	@Autowired
@@ -54,167 +60,204 @@ public class ZipService {
 	}
 
 	@Transactional
-	public List<String> zipProductInsert(MultipartFile file) throws IOException {
-	    String productDirPath = commonPath + "/product";
-	    File productDir = new File(productDirPath);
+    public List<String> zipProductInsert(MultipartFile file) throws IOException {
+        String productDirPath = commonPath + "/product";
+        File productDir = new File(productDirPath);
 
-	    // 기존 ProductImage 및 ProductFile 정보 삭제
-	    productImageRepository.deleteAll();
-	    productFileRepository.deleteAll();
+        // 기존 ProductImage 및 ProductFile 정보 삭제
+        productImageRepository.deleteAll();
+        productFileRepository.deleteAll();
 
-	    // 기존 product 폴더 삭제
-	    cleanAndCreateDirectory(productDir);
+        // 기존 product 폴더 삭제
+        cleanAndCreateDirectory(productDir);
 
-	    File zipFile = new File(commonPath + "/product.zip");
-	    try (InputStream is = file.getInputStream(); FileOutputStream fos = new FileOutputStream(zipFile)) {
-	        byte[] buffer = new byte[1024];
-	        int bytesRead;
-	        while ((bytesRead = is.read(buffer)) != -1) {
-	            fos.write(buffer, 0, bytesRead);
-	        }
-	    }
+        // 기존 Product 엔티티의 이미지 필드 초기화
+        List<Product> allProducts = productRepository.findAll();
+        for (Product product : allProducts) {
+            product.setProductRepImageName(null);
+            product.setProductRepImageExtension(null);
+            product.setProductRepImageOriginalName(null);
+            product.setProductRepImagePath(null);
+            product.setProductRepImageRoad(null);
+            productRepository.save(product);
+        }
 
-	    unzipFile(zipFile, productDir);
-	    List<String> notFoundProductCodes = processProductFiles(productDir);
+        File zipFile = new File(commonPath + "/product.zip");
+        try (InputStream is = file.getInputStream(); FileOutputStream fos = new FileOutputStream(zipFile)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+            }
+        }
 
-	    // 업로드된 zip 파일 삭제 예약
-	    zipFile.deleteOnExit();
+        unzipFile(zipFile, productDir);
+        List<String> notFoundProductCodes = processProductFiles(productDir);
 
-	    return notFoundProductCodes;
-	}
+        // 업로드된 zip 파일 삭제 예약
+        zipFile.deleteOnExit();
 
-	private void cleanAndCreateDirectory(File directory) throws IOException {
-	    if (directory.exists() && directory.isDirectory()) {
-	        FileUtils.deleteDirectory(directory);
-	    }
-	    directory.mkdirs();
-	}
+        return notFoundProductCodes;
+    }
 
-	private void unzipFile(File zipFile, File destDir) throws IOException {
-	    if (!destDir.exists()) {
-	        destDir.mkdirs();
-	    }
+    private void cleanAndCreateDirectory(File directory) throws IOException {
+        if (directory.exists() && directory.isDirectory()) {
+            FileUtils.deleteDirectory(directory);
+        }
+        directory.mkdirs();
+    }
 
-	    try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile))) {
-	        ZipEntry entry;
-	        while ((entry = zis.getNextEntry()) != null) {
-	            File newFile = new File(destDir, entry.getName());
-	            if (entry.isDirectory()) {
-	                if (!newFile.isDirectory() && !newFile.mkdirs()) {
-	                    throw new IOException("Failed to create directory " + newFile);
-	                }
-	            } else {
-	                File parent = newFile.getParentFile();
-	                if (!parent.isDirectory() && !parent.mkdirs()) {
-	                    throw new IOException("Failed to create directory " + parent);
-	                }
+    private void unzipFile(File zipFile, File destDir) throws IOException {
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
 
-	                try (FileOutputStream fos = new FileOutputStream(newFile)) {
-	                    byte[] buffer = new byte[1024];
-	                    int len;
-	                    while ((len = zis.read(buffer)) > 0) {
-	                        fos.write(buffer, 0, len);
-	                    }
-	                }
-	            }
-	            zis.closeEntry();
-	        }
-	    }
-	}
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                File newFile = new File(destDir, entry.getName());
+                if (entry.isDirectory()) {
+                    if (!newFile.isDirectory() && !newFile.mkdirs()) {
+                        throw new IOException("Failed to create directory " + newFile);
+                    }
+                } else {
+                    File parent = newFile.getParentFile();
+                    if (!parent.isDirectory() && !parent.mkdirs()) {
+                        throw new IOException("Failed to create directory " + parent);
+                    }
 
-	private List<String> processProductFiles(File productDir) {
-	    List<String> notFoundProductCodes = new ArrayList<>();
-	    for (File product : Objects.requireNonNull(productDir.listFiles())) {
-	        if (product.isDirectory() && !product.getName().equals("product")) {
-	            String productCode = product.getName();
-	            productRepository.findByProductCode(productCode).ifPresentOrElse(
-	                productEntity -> {
-	                    for (File sort : Objects.requireNonNull(product.listFiles())) {
-	                        if (sort.isDirectory()) {
-	                            processSortedFiles(sort, productCode);
-	                        }
-	                    }
-	                },
-	                () -> notFoundProductCodes.add(productCode)
-	            );
-	        }
-	    }
-	    return notFoundProductCodes;
-	}
+                    try (FileOutputStream fos = new FileOutputStream(newFile)) {
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while ((len = zis.read(buffer)) > 0) {
+                            fos.write(buffer, 0, len);
+                        }
+                    }
+                }
+                zis.closeEntry();
+            }
+        }
+    }
 
-	private void processSortedFiles(File sort, String productCode) {
-	    switch (sort.getName()) {
-	        case "slide":
-	            productRepository.findByProductCode(productCode).ifPresent(productEntity -> saveProductImages(sort, productEntity, productCode));
-	            break;
-	        case "rep":
-	            saveRepImage(sort, productCode);
-	            break;
-	        case "files":
-	            productRepository.findByProductCode(productCode).ifPresent(productEntity -> saveProductFiles(sort, productEntity, productCode));
-	            break;
-	    }
-	}
+    private List<String> processProductFiles(File productDir) {
+        List<String> notFoundProductCodes = new ArrayList<>();
+        Set<String> folderProductCodes = Arrays.stream(Objects.requireNonNull(productDir.listFiles()))
+                .filter(File::isDirectory)
+                .map(File::getName)
+                .collect(Collectors.toSet());
 
-	private void saveProductImages(File sort, Product productEntity, String productCode) {
-	    for (File file : Objects.requireNonNull(sort.listFiles())) {
-	        String fileName = file.getName();
-	        ProductImage image = new ProductImage();
-	        image.setProductId(productEntity.getId());
-	        image.setProductImagePath(commonPath + "/product/" + productCode + "/slide/" + fileName);
-	        image.setProductImageRoad("/administration/upload/product/" + productCode + "/slide/" + fileName);
-	        image.setProductImageName(fileName);
-	        image.setSign(true);
-	        image.setProductImageExtension(fileName.substring(fileName.lastIndexOf('.')));
-	        image.setProductImageOriginalName(file.getName());
-	        image.setProductImageDate(new Date());
-	        productImageRepository.save(image);
-	    }
-	}
+        List<Product> allProducts = productRepository.findAll();
+        for (Product product : allProducts) {
+            String productCode = product.getProductCode();
+            if (folderProductCodes.contains(productCode)) {
+                File productFolder = new File(productDir, productCode);
+                for (File sort : Objects.requireNonNull(productFolder.listFiles())) {
+                    if (sort.isDirectory()) {
+                        processSortedFiles(sort, productCode);
+                    }
+                }
+            } else {
+                notFoundProductCodes.add(productCode);
+                setDefaultImagePaths(product);
+            }
+        }
+        return notFoundProductCodes;
+    }
 
-	private void saveRepImage(File sort, String productCode) {
-	    productRepository.findByProductCode(productCode).ifPresentOrElse(productEntity -> {
-	        for (File file : Objects.requireNonNull(sort.listFiles())) {
-	            String fileName = file.getName();
-	            productEntity.setProductRepImageName(fileName);
-	            productEntity.setProductRepImageExtension(fileName.substring(fileName.lastIndexOf('.')));
-	            productEntity.setProductRepImageOriginalName(fileName);
-	            productEntity.setProductRepImagePath(commonPath + "/product/" + productCode + "/rep/" + fileName);
-	            productEntity.setProductRepImageRoad("/administration/upload/product/" + productCode + "/rep/" + fileName);
-	            productRepository.save(productEntity); // Ensure save is called here
-	        }
-	    }, () -> System.out.println("No product entity found for code: " + productCode));
-	}
+    private void processSortedFiles(File sort, String productCode) {
+        switch (sort.getName()) {
+            case "slide":
+                productRepository.findByProductCode(productCode).ifPresent(productEntity -> saveProductImages(sort, productEntity, productCode));
+                break;
+            case "rep":
+                saveRepImage(sort, productCode);
+                break;
+            case "files":
+                productRepository.findByProductCode(productCode).ifPresent(productEntity -> saveProductFiles(sort, productEntity, productCode));
+                break;
+        }
+    }
 
-	private void saveProductFiles(File sort, Product productEntity, String productCode) {
-	    for (File file : Objects.requireNonNull(sort.listFiles())) {
-	        String fileName = file.getName();
-	        ProductFile productFile = new ProductFile();
-	        productFile.setProductId(productEntity.getId());
-	        productFile.setProductFilePath(commonPath + "/product/" + productCode + "/files/" + fileName);
-	        productFile.setProductFileRoad("/administration/upload/product/" + productCode + "/files/" + fileName);
-	        productFile.setProductFileName(fileName);
-	        productFile.setProductFileOriginalName(fileName);
-	        productFile.setSign(true);
-	        productFile.setProductFileExtension(fileName.substring(fileName.lastIndexOf('.')));
-	        productFile.setProductFileDate(new Date());
-	        productFileRepository.save(productFile);
-	    }
-	}
+    private void saveProductImages(File sort, Product productEntity, String productCode) {
+        for (File file : Objects.requireNonNull(sort.listFiles())) {
+            String fileName = file.getName();
+            ProductImage image = new ProductImage();
+            image.setProductId(productEntity.getId());
+            image.setProductImagePath(commonPath + "/product/" + productCode + "/slide/" + fileName);
+            image.setProductImageRoad("/administration/upload/product/" + productCode + "/slide/" + fileName);
+            image.setProductImageName(fileName);
+            image.setSign(true);
+            image.setProductImageExtension(fileName.substring(fileName.lastIndexOf('.')));
+            image.setProductImageOriginalName(file.getName());
+            image.setProductImageDate(new Date());
+            productImageRepository.save(image);
+        }
+    }
 
-	public File createZip(String env) throws IOException {
-	    String absolutePath = new File("").getAbsolutePath() + "/";
-	    String existFilePath = "";
-	    String zipFilePath = "";
-	    if (env.equals("local")) {
-	        existFilePath = absolutePath + commonPath + "/company";
-	        zipFilePath = absolutePath + "company.zip";
-	    } else if (env.equals("prod")) {
-	        existFilePath = commonPath + "/company";
-	        zipFilePath = commonPath + "company.zip";
-	    }
-	    ZipUtil.pack(new File(existFilePath), new File(zipFilePath));
-	    return new File(zipFilePath);
-	}
+    private void saveRepImage(File sort, String productCode) {
+        productRepository.findByProductCode(productCode).ifPresentOrElse(productEntity -> {
+            for (File file : Objects.requireNonNull(sort.listFiles())) {
+                String fileName = file.getName();
+                productEntity.setProductRepImageName(fileName);
+                productEntity.setProductRepImageExtension(fileName.substring(fileName.lastIndexOf('.')));
+                productEntity.setProductRepImageOriginalName(fileName);
+                productEntity.setProductRepImagePath(commonPath + "/product/" + productCode + "/rep/" + fileName);
+                productEntity.setProductRepImageRoad("/administration/upload/product/" + productCode + "/rep/" + fileName);
+                productRepository.save(productEntity); // Ensure save is called here
+            }
+        }, () -> System.out.println("No product entity found for code: " + productCode));
+    }
+
+    private void saveProductFiles(File sort, Product productEntity, String productCode) {
+        for (File file : Objects.requireNonNull(sort.listFiles())) {
+            String fileName = file.getName();
+            ProductFile productFile = new ProductFile();
+            productFile.setProductId(productEntity.getId());
+            productFile.setProductFilePath(commonPath + "/product/" + productCode + "/files/" + fileName);
+            productFile.setProductFileRoad("/administration/upload/product/" + productCode + "/files/" + fileName);
+            productFile.setProductFileName(fileName);
+            productFile.setProductFileOriginalName(fileName);
+            productFile.setSign(true);
+            productFile.setProductFileExtension(fileName.substring(fileName.lastIndexOf('.')));
+            productFile.setProductFileDate(new Date());
+            productFileRepository.save(productFile);
+        }
+    }
+
+    private void setDefaultImagePaths(Product product) {
+        product.setProductRepImageName("-");
+        product.setProductRepImageExtension("-");
+        product.setProductRepImageOriginalName("-");
+        product.setProductRepImagePath("-");
+        product.setProductRepImageRoad("/front/clean/sample/prepare.png");
+        
+        ProductImage slideImage = new ProductImage();
+        slideImage.setProductId(product.getId());
+        slideImage.setProductImagePath("-");
+        slideImage.setProductImageRoad("/front/clean/sample/prepare.png");
+        slideImage.setProductImageName("-");
+        slideImage.setSign(true);
+        slideImage.setProductImageExtension("-");
+        slideImage.setProductImageOriginalName("-");
+        slideImage.setProductImageDate(new Date());
+        productImageRepository.save(slideImage);
+
+        productRepository.save(product);
+    }
+
+    public File createZip(String env) throws IOException {
+        String absolutePath = new File("").getAbsolutePath() + "/";
+        String existFilePath = "";
+        String zipFilePath = "";
+        if (env.equals("local")) {
+            existFilePath = absolutePath + commonPath + "/company";
+            zipFilePath = absolutePath + "company.zip";
+        } else if (env.equals("prod")) {
+            existFilePath = commonPath + "/company";
+            zipFilePath = commonPath + "company.zip";
+        }
+        ZipUtil.pack(new File(existFilePath), new File(zipFilePath));
+        return new File(zipFilePath);
+    }
 
 }

@@ -41,6 +41,7 @@ import com.dev.HiddenBATH.service.product.ProductOptionService;
 import com.dev.HiddenBATH.service.product.ProductService;
 import com.dev.HiddenBATH.service.product.ProductSizeService;
 import com.dev.HiddenBATH.service.product.ProductTagService;
+import com.dev.HiddenBATH.utils.RotationUtils;
 
 @Controller
 @RequestMapping("/admin")
@@ -106,15 +107,35 @@ public class ProductAdminController {
 	@Autowired
 	ZipService zipService;
 	
+	@Autowired
+	RotationUtils rotationUtils;
+	
+//	@PostMapping("/resetZipUpload")
+//	@ResponseBody
+//	public List<String> resetZipUpload(
+//			MultipartFile file,
+//			Model model
+//			) throws IOException {
+//		return zipService.zipProductInsert(file);
+//	}
+	
 	@PostMapping("/resetZipUpload")
 	@ResponseBody
-	public List<String> resetZipUpload(
+	public void resetZipUpload(
 			MultipartFile file,
 			Model model
 			) throws IOException {
-//		zipService.directoryRefactoring(file);
-		return zipService.zipProductInsert(file);
+		rotationUtils.processUpload(file);
 	}
+	
+//	@PostMapping("/resetZipUpload")
+//	@ResponseBody
+//	public void resetZipUpload(
+//			MultipartFile file,
+//			Model model
+//			) throws IOException {
+//		zipService.directoryRefactoring(file);
+//	}
 	
 	@PostMapping("/resetExcelUpload")
 	@ResponseBody

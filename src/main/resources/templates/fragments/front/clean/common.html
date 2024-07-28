@@ -155,12 +155,12 @@
 																<div class="block block-posts recent-posts p-t-5">
 																	<ul class="posts-list">
 																		<li class="post-item">
-																			<a href="/construction" class="post-image">
+																			<a href="/example" class="post-image">
 																				<img src="/front/clean/new/con01.png">
 																			</a>
 																			<div class="post-content">
 																				<h2 class="post-title">
-																					<a href="/construction">
+																					<a href="/exampleGallery">
 																						[시공 갤러리]
 																					</a>
 																				</h2>
@@ -208,8 +208,10 @@
 																				class="menu-item-text">자주묻는질문</span></a>
 																	</li> -->
 																	<li>
-																		<a href="/contact"><span
-																				class="menu-item-text">고객문의</span></a>
+																		<!--<a href="/contact"><span
+																				class="menu-item-text">고객문의</span></a>-->
+																		<a href="javascript:alert('준비중입니다. 전화문의를 이용 해 주세요.')"><span
+																				class="menu-item-text">고객문의</span></a>		
 																	</li>
 																	<li>
 																		<a href="/catalog"><span
@@ -366,23 +368,29 @@
 		<div class="search-overlay">
 			<div class="close-search"></div>
 			<div class="wrapper-search">
-				<form role="search" method="get" class="search-from ajax-search" action="">
+				<form 
+				method="post" 
+				class="search-from" 
+				action="/searchKeword">
 					<div class="search-box">
 						<button id="searchsubmit" class="btn" type="submit">
 							<i class="icon-search"></i>
 						</button>
-						<input id="myInput" type="text" autocomplete="off" value="" name="s" class="input-search s"
-							placeholder="검색어를 입력 해 주세요.">
+						<input 
+						type="text" 
+						value="" 
+						name="keyword" 
+						required
+						class="input-search"
+						placeholder="검색어를 입력 해 주세요.">
 						<div class="search-top">
 							<div class="close-search">CLOSE</div>
 						</div>
 						<div class="content-menu_search">
-							<label>관심 키워드</label>
+							<label>조회영역</label>
 							<ul id="menu_search" class="menu">
 								<li><a href="#"># 제품코드</a></li>
-								<li><a href="#"># 제품코드</a></li>
-								<li><a href="#"># 제품코드</a></li>
-								<li><a href="#"># 제품코드</a></li>
+								<li><a href="#"># 제품명칭</a></li>
 							</ul>
 						</div>
 					</div>

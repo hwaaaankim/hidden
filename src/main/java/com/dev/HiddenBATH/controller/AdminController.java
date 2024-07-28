@@ -1,12 +1,27 @@
 package com.dev.HiddenBATH.controller;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.dev.HiddenBATH.service.ConstructionService;
+import com.dev.HiddenBATH.service.GalleryService;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+	
+	@Autowired
+	GalleryService galleryService;
+	
+	@Autowired
+	ConstructionService constructionService;
 	
 	@GetMapping({"/","", "/inquiryManager"})
 	public String adminIndex(){
@@ -92,6 +107,25 @@ public class AdminController {
 		return "administration/site/galleryInsertForm";
 	}
 	
+	@PostMapping("/galleryInsert")
+	@ResponseBody
+	public String galleryInsert(
+			MultipartFile thumb,
+			MultipartFile gallery
+			) throws IOException {
+		galleryService.insertGallery(thumb, gallery);
+		StringBuffer sb = new StringBuffer();
+		String msg = "갤러리 이미지가 등록 되었습니다.";
+		
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/admin/galleryInsertForm'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+		
+		return sb.toString();
+	}
+	
+	
 	@GetMapping("/exampleManager")
 	public String exampleManager() {
 		
@@ -102,6 +136,24 @@ public class AdminController {
 	public String exampleInsertForm() {
 		
 		return "administration/site/exampleInsertForm";
+	}
+	
+	@PostMapping("/exampleInsert")
+	@ResponseBody
+	public String exampleInsert(
+			MultipartFile thumb,
+			MultipartFile construction
+			) throws IOException {
+		constructionService.insertConstruction(thumb, construction);
+		StringBuffer sb = new StringBuffer();
+		String msg = "시공사례 이미지가 등록 되었습니다.";
+		
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/admin/exampleInsertForm'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+		
+		return sb.toString();
 	}
 	
 //	@GetMapping("/faqManager")
