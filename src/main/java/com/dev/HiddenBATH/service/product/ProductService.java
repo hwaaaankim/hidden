@@ -1,5 +1,6 @@
 package com.dev.HiddenBATH.service.product;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,12 +9,20 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.HiddenBATH.dto.ProductDTO;
 import com.dev.HiddenBATH.model.product.MiddleSort;
@@ -71,6 +80,45 @@ public class ProductService {
 
 	@Value("${spring.upload.path}")
 	private String commonPath;
+	
+	public byte[] processExcelFile(MultipartFile file) throws IOException {
+        // 엑셀 파일을 읽어들입니다.
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        XSSFSheet sheet = workbook.getSheetAt(2); // 세 번째 시트 (index 2)
+
+        // 셀 스타일 설정
+        CellStyle boldRedStyle = workbook.createCellStyle();
+        Font boldRedFont = workbook.createFont();
+        boldRedFont.setBold(true);
+        boldRedFont.setColor(IndexedColors.RED.getIndex());
+        boldRedStyle.setFont(boldRedFont);
+
+        // 세 번째 시트의 두 번째 열을 순회하며 제품 코드를 조회합니다.
+        for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) { // 두 번째 행부터 시작 (index 1)
+            Row row = sheet.getRow(rowIndex);
+            if (row != null) {
+                Cell cell = row.getCell(1); // 두 번째 열 (index 1)
+                if (cell != null) {
+                    String productCode = cell.getStringCellValue();
+                    Optional<Product> productOpt = productRepository.findByProductCode(productCode);
+
+                    if (productOpt.isPresent()) {
+                        Product product = productOpt.get();
+                        String productRepImageRoad = product.getProductRepImageRoad();
+                        if (productRepImageRoad != null && (productRepImageRoad.contains("/front/clean/sample/prepare.png") || productRepImageRoad.contains("prepare.png"))) {
+                            cell.setCellStyle(boldRedStyle);
+                        }
+                    }
+                }
+            }
+        }
+
+        // 엑셀 파일을 바이트 배열로 변환하여 반환합니다.
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        return outputStream.toByteArray();
+    }
 	
 	public Page<Product> getProductsByCriteria(
 			Long tagId, 

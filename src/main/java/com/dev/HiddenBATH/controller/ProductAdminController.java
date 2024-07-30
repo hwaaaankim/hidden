@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -137,11 +140,25 @@ public class ProductAdminController {
 //		zipService.directoryRefactoring(file);
 //	}
 	
+//	@PostMapping("/resetExcelUpload")
+//	@ResponseBody
+//	public List<String> addExcelUpload(MultipartFile file, Model model) throws IOException {
+//	    return excelUploadService.uploadExcel(file);
+//	}
+	
 	@PostMapping("/resetExcelUpload")
-	@ResponseBody
-	public List<String> addExcelUpload(MultipartFile file, Model model) throws IOException {
-	    return excelUploadService.uploadExcel(file);
-	}
+    public ResponseEntity<byte[]> addExcelUpload(@RequestParam("file") MultipartFile file) throws IOException {
+        byte[] modifiedFile = productService.processExcelFile(file);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "modified_excel.xlsx");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(modifiedFile);
+    }
 	
 	@GetMapping("/productCategoryManager")
 	public String productCategoryManager(
