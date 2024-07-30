@@ -165,7 +165,7 @@
 																<div class="products-content">
 																	<div class="contents text-center">
 																		<h3 th:if="${p.productSign == false}" class="product-title">
-																			<a th:href="@{|/productDetail/${p.id}|}">
+																			<a th:href="@{|/productDetail/${p.id}|}" th:text="${p.name}">
 																				
 																			</a>
 																		</h3>
@@ -220,7 +220,7 @@
 																		<span class="posted-in"> 중분류 : <a th:text="${p.middleSort.name}"></a></span>
 																	</h3>
 																	<h3 th:if="${p.productSign == false}" class="product-title">
-																		<a  th:href="@{|/productDetail/${p.id}|}">[[${p.name}]]-[[${p.productCode}]]</a>
+																		<a  th:href="@{|/productDetail/${p.id}|}">[[${p.name}]]</a>
 																		<span class="sku-wrapper"> 대분류 : <a th:text="${p.bigSort.name}"></a></span>
 																		<span class="posted-in"> 중분류 : <a th:text="${p.middleSort.name}"></a></span>
 																	</h3>
@@ -229,18 +229,18 @@
 																	<div class="product-list-meta">
 																		<div class="list-option">&#183; 제품코드 : <a class="sku" th:text="${p.productCode}">옵션 답변
 																				01</a></div>
-																		<div class="list-option">&#183; 비규격주문 가능여부 : 
+																		<div class="list-option">&#183; 비규격 주문 가능여부 : 
 																			<a th:if="${p.order == true}" >비규격 주문 가능</a>
 																			<a th:if="${p.order == false}" >비규격 주문 불가능</a>
 																		</div>
-																		<div class="list-option">&#183; 손잡이추가 가능여부 : 
-																			<a th:if="${p.handle == true}" >손잡이추가 가능</a>
-																			<a th:if="${p.handle == false}" >손잡이추가 불가능</a>
+																		<div class="list-option">&#183; 손잡이 추가 가능여부 : 
+																			<a th:if="${p.handle == true}" >손잡이 추가 가능</a>
+																			<a th:if="${p.handle == false}" >손잡이 추가 불가능</a>
 																		</div>
-																		<div class="list-option">&#183; 사이즈종류 : 
+																		<div class="list-option">&#183; 사이즈 종류 : 
 																			<a class="size" th:each="s:${p.productSizes}">[[${s.productSizeText}]] </a>
 																		</div>
-																		<div class="list-option">&#183; 색상종류 : 
+																		<div class="list-option">&#183; 색상 종류 : 
 																			<a class="color" th:each="c:${p.productColors}">[[${c.productColorSubject}]]</a>
 																		</div>		
 																	</div>
@@ -260,39 +260,41 @@
 
 										<nav class="pagination">
 											<ul class="pagination justify-content-center">
-												<li class="page-item"
-													th:classappend="${1 == products.pageable.pageNumber+1} ? 'disabled'">
-													<a class="page-link" href="#"
-													th:href="@{/productList/{id}(id=${id}, page=0, size=${param.size}, middleId=${middleId}, 
-													tagId=${tagId}, colorId=${colorId})}"
-													tabindex="-1" aria-disabled="true">First</a>
+												<li class="page-item" 
+												    th:classappend="${1 == products.pageable.pageNumber+1} ? 'disabled'">
+												    <a class="page-link" href="#"
+												       th:classappend="${1 == products.pageable.pageNumber+1} ? 'current'"
+												       th:href="@{/productList/{id}(id=${id}, page=0, size=${param.size}, middleId=${middleId}, tagId=${tagId}, colorId=${colorId})}"
+												       tabindex="-1" aria-disabled="true">&lt;&lt;</a>
 												</li>
 												<li class="page-item"
-													th:classappend="${1 == products.pageable.pageNumber+1} ? 'disabled'">
-													<a class="page-link" href="#"
-													th:href="@{/productList/{id}(id=${id}, page=${products.pageable.pageNumber - 1}, size=${param.size}, middleId=${middleId}, 
-													tagId=${tagId}, colorId=${colorId})}"
-													tabindex="-1" aria-disabled="true">Previous</a>
+												    th:classappend="${1 == products.pageable.pageNumber+1} ? 'disabled'">
+												    <a class="page-link" href="#"
+												       th:classappend="${1 == products.pageable.pageNumber+1} ? 'current'"
+												       th:href="@{/productList/{id}(id=${id}, page=${products.pageable.pageNumber - 1}, size=${param.size}, middleId=${middleId}, tagId=${tagId}, colorId=${colorId})}"
+												       tabindex="-1" aria-disabled="true">&lt;</a>
 												</li>
 												<li class="page-item"
-													th:classappend="${i == products.pageable.pageNumber+1} ? 'disabled'"
-													th:each="i : ${#numbers.sequence(startPage, endPage)}">
-													<a	class="page-link" href="#" th:text=${i}
-													th:href="@{/productList/{id}(id=${id}, page=${i-1}, size=${param.size}, middleId=${middleId}, 
-													tagId=${tagId}, colorId=${colorId})}">1</a>
+												    th:classappend="${i == products.pageable.pageNumber+1} ? 'disabled'"
+												    th:each="i : ${#numbers.sequence(startPage, endPage)}">
+												    <a class="page-link" href="#"
+												       th:classappend="${i == products.pageable.pageNumber+1} ? 'current'"
+												       th:text="${i}"
+												       th:href="@{/productList/{id}(id=${id}, page=${i-1}, size=${param.size}, middleId=${middleId}, tagId=${tagId}, colorId=${colorId})}">1</a>
 												</li>
 												<li class="page-item"
-													th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'disabled'">
-													<a class="page-link" href="#"
-													th:href="@{/productList/{id}(id=${id}, page=${products.pageable.pageNumber + 1}, size=${param.size}, middleId=${middleId}, 
-													tagId=${tagId}, colorId=${colorId})}">Next</a>
+												    th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'disabled'">
+												    <a class="page-link" href="#"
+												       th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'current'"
+												       th:href="@{/productList/{id}(id=${id}, page=${products.pageable.pageNumber + 1}, size=${param.size}, middleId=${middleId}, tagId=${tagId}, colorId=${colorId})}">&gt;</a>
 												</li>
 												<li class="page-item"
-													th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'disabled'">
-													<a class="page-link" href="#"
-													th:href="@{/productList/{id}(id=${id}, page=${products.totalPages-1}, size=${param.size}, middleId=${middleId}, 
-													tagId=${tagId}, colorId=${colorId})}">Last</a>
+												    th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'disabled'">
+												    <a class="page-link" href="#"
+												       th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'current'"
+												       th:href="@{/productList/{id}(id=${id}, page=${products.totalPages-1}, size=${param.size}, middleId=${middleId}, tagId=${tagId}, colorId=${colorId})}">&gt;&gt;</a>
 												</li>
+
 											</ul>
 										</nav>
 									</div>

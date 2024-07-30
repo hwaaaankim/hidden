@@ -128,16 +128,51 @@
 												</div>
 											</li>
 											<li class="level-0 menu-item menu-item-has-children ">
-												<a href="#"><span class="menu-item-text">PRODUCTs</span></a>
+												<a href="/productList/7"><span class="menu-item-text">PRODUCTs</span></a>
 												<div class="sub-menu">
 													<div class="row">
 														<div class="col-md-12">
 															<div class="menu-section">
 																<h2 class="sub-menu-title">PRODUCT</h2>
 																<ul class="menu-list">
-																	<li th:each="m:${menuList.bigSortList}">
+																	<!--<li th:each="m:${menuList.bigSortList}">
 																		<a th:href="@{|/productList/${m.id}|}"><span
 																				class="menu-item-text" th:text="${m.name}"></span></a>
+																	</li>-->
+																	<li>
+																		<a href="/productList/7">
+																			<span class="menu-item-text">전체제품</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a href="/productList/1">
+																			<span class="menu-item-text">상부장</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a href="/productList/2">
+																			<span class="menu-item-text">하부장</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a href="/productList/4">
+																			<span class="menu-item-text">거울</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a href="/productList/3">
+																			<span class="menu-item-text">슬라이드장</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a href="/productList/6">
+																			<span class="menu-item-text">플랩장</span>
+																		</a>
+																	</li>
+																	<li>
+																		<a href="/productList/5">
+																			<span class="menu-item-text">욕실용품</span>
+																		</a>
 																	</li>
 																</ul>
 															</div>

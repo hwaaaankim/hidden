@@ -212,7 +212,7 @@ public class IndexController {
 			) {
 		Page<Product> products = null;
 		if(id == 7l) {
-			products = productRepository.findAllByBigSortOrderByProductIndexAsc(pageable, productBigSortRepository.findById(id).get());
+			products = productRepository.findAllByOrderByProductIndexAsc(pageable);
 			List<MiddleSort> middles = new ArrayList<MiddleSort>();
 			MiddleSort sort = new MiddleSort();
 			sort.setName("전체제품조회");

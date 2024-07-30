@@ -1320,3 +1320,64 @@ h1.recruit-title {
 		z-index:-999;
 	}
 }
+
+.temp-modal {
+    display: none; 
+    position: fixed; 
+    z-index: 999999; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.temp-modal-content {
+    position: relative;
+    width: 80%;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    max-width: 600px;
+    background: white;
+    text-align: center;
+    padding: 20px 20px 0px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.temp-modal-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.temp-close {
+    position: absolute;
+    top: -10px;
+    right: 3px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.temp-close:hover,
+.temp-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.temp-footer {
+    margin-top: 10px;
+}
+
+img.bordered{
+	border: 1px solid black;
+    box-sizing: border-box; /* 테두리가 추가되어도 크기가 변하지 않도록 설정 */
+}
+

@@ -1463,7 +1463,7 @@ ul.slick-dots li.slick-active button {
 	vertical-align: middle;
 	color: #000;
 	font-size: 15px;
-	border: 1px solid #e5e5e5;
+	border: none;
 	-webkit-transition: none;
 	transition: none;
 	text-transform: uppercase;
@@ -1475,7 +1475,11 @@ ul.slick-dots li.slick-active button {
 	background: #000;
 	border-color: #000;
 }
-
+.pagination ul li a.page-link.current{
+	font-weight:600 !important;
+	color:black;
+	text-decoration: underline !important;
+}
 .pagination ul li a.prev,
 .pagination ul li a.next {
 	font-size: 0;
@@ -7185,7 +7189,7 @@ ul.slick-dots li.slick-active button {
 }
 
 .block-product-filter ul.filter-items.image li {
-	width: 25%;
+	width: 16.6%;
 	padding: 0 5px;
 	margin: 0 0 10px 0;
 }
@@ -9818,7 +9822,7 @@ ul.slick-dots li.slick-active button {
 	font-weight: 500;
 	letter-spacing: 1.5px;
 	text-transform: uppercase;
-	width: 80px;
+	display: inline-block; 
 }
 
 .shop-details .variations .label:after {
@@ -9855,20 +9859,28 @@ ul.slick-dots li.slick-active button {
 	display: inline-block;
 	font-size: 15px;
 	text-align: center;
-	border: 1px solid #d5d5d5;
-	cursor: pointer;
-	padding: 0px 10px;
+	border: none;
 	align-items: center;
 	display: flex;
 	justify-content: center;
 	border-radius: 5px;
-	;
+	color:black;
+	font-weight:600;
 }
 
-.shop-details .variations .attributes ul.text li span:hover {
-	border: 1px solid #000;
-	color: #000;
+.shop-details .variations .attributes ul.text li span::after {
+	content:"";
+	height:15px;
+	border-right:1px solid #d5d5d5;
+	margin-left:10px;
 }
+.shop-details .variations .attributes ul.text li:last-child span::after {
+    border-right: none;
+}
+/*.shop-details .variations .attributes ul.text li span:hover {
+	border: none;
+	color: #000;
+}*/
 
 .shop-details .variations .attributes ul.colors li span {
 	width: 50px;

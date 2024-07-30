@@ -115,7 +115,7 @@
 													제품코드
 												</span>
 												<div class="description">
-													<p th:if="${product.subject != ''}">== 제품의 묘사 문구가 삽입되는 영역입니다[관리자등록] ===</p>
+													<p th:if="${product.subject != ''}" th:text="${product.subject}">== 제품의 묘사 문구가 삽입되는 영역입니다[관리자등록] ===</p>
 													<p th:if="${product.subject == ''}">-</p>
 												</div>
 												<div class="variations">
@@ -126,9 +126,13 @@
 																<td class="label">COLORs</td>
 																<td class="attributes">
 																	<ul class="colors">
-																		<li th:each="c:${product.productColors}"><img width="50" height="50"
-																		th:src="@{${c.productColorRoad}}" alt=""
-																		title=""></li>
+																		<li th:each="c:${product.productColors}">
+																		    <img class="" width="50" height="50"
+																		         th:src="@{${c.productColorRoad}}"
+																		         th:classappend="${c.productColorSubject == 'HW'} ? 'bordered' : ''"
+																		         alt=""
+																		         title="">
+																		</li>
 																	</ul>
 																</td>
 															</tr>

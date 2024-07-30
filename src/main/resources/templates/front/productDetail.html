@@ -91,9 +91,13 @@
 																<td class="label">COLORs</td>
 																<td class="attributes">
 																	<ul class="colors">
-																		<li th:each="c:${product.productColors}"><img width="50" height="50"
-																		th:src="@{${c.productColorRoad}}" alt=""
-																		title=""></li>
+																		<li th:each="c:${product.productColors}">
+																		    <img class="" width="50" height="50"
+																		         th:src="@{${c.productColorRoad}}"
+																		         th:classappend="${c.productColorSubject == 'HW'} ? 'bordered' : ''"
+																		         alt=""
+																		         title="">
+																		</li>
 																	</ul>
 																</td>
 															</tr>

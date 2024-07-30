@@ -58,84 +58,6 @@
 
 						<section class="section section-padding p-t-50 p-b-50 m-b-0 scroll-section">
 							<div class="section-container">
-								<!--<div class="block block-intro service-title-wrap">
-									<div class="block-widget-wrap">
-										<div class="intro-text">
-											히든바스는 앞선 기술력을 바탕으로 풍요로운 <strong>욕실문화를 창조</strong>하며, <br>
-											다음과 같은 3가지의 <strong>핵심 서비스</strong>를 통해 고객과 소통합니다.
-										</div>
-									</div>
-								</div>
-								<div class="row service-wrap">
-									<div class="col-lg-6 col-md-7 col-sm-12 sm-p-0">
-										<div class="block block-newsletter layout-2 one-col align-left position-center">
-											<div class="block-widget-wrap">
-												<div class="newsletter-title-wrap">
-													<h2 class="newsletter-title">히든바스만의 기술로 제작된 핵심 제품</h2>
-													<div class="newsletter-text">욕실 공간을 아늑하고 화려하게.</div>
-												</div>
-												<div class="newsletter-form">
-													<p>고급스럽고 다양한 제품</p>
-													<span class="btn-submit">
-														<a>이동하기</a>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-5 sm-p-0">
-										<div class="block block-image text-center position-relative">
-											<img width="700" height="500" src="/front/clean/newnew/s01.jpg" alt="">
-										</div>
-									</div>
-								</div>
-								<div class="row service-wrap">
-									<div class="col-md-5 sm-p-0 sm-m-b-15">
-										<div class="block block-image text-center position-relative">
-											<img width="700" height="500" src="/front/clean/newnew/s02.jpg" alt="">
-										</div>
-									</div>
-									<div class="col-lg-6 col-md-7 col-sm-12 sm-p-0">
-										<div class="block block-newsletter layout-2 one-col align-left position-center">
-											<div class="block-widget-wrap">
-												<div class="newsletter-title-wrap">
-													<h2 class="newsletter-title">고객 맞춤형 주문 시스템</h2>
-													<div class="newsletter-text">개인의 취향과 개성을 반영하다.</div>
-												</div>
-												<div class="newsletter-form">
-													<p>Hidden Bath만의 차별화된 서비스</p>
-													<span class="btn-submit">
-														<a>이동하기</a>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-
-								</div>
-								<div class="row service-wrap">
-									<div class="col-lg-6 col-md-7 col-sm-12 sm-p-0">
-										<div class="block block-newsletter layout-2 one-col align-left position-center">
-											<div class="block-widget-wrap">
-												<div class="newsletter-title-wrap">
-													<h2 class="newsletter-title"> 히든바스 제품 카달로그</h2>
-													<div class="newsletter-text">친절하고 자세한 설명을 담다</div>
-												</div>
-												<div class="newsletter-form">
-													<p>상세한 제품 카달로그 제공</p>
-													<span class="btn-submit">
-														<a>이동하기</a>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-5 sm-p-0">
-										<div class="block block-image text-center position-relative">
-											<img width="700" height="500" src="/front/clean/newnew/s03.jpg" alt="">
-										</div>
-									</div>
-								</div>-->
 								<div class="section mb-0 border-bottom-0" id="scroll-content">
 									<div class="wrap01"></div>
 									<div class="wrap02"></div>
@@ -458,7 +380,7 @@
 												</div>
 											</div>
 											<div class="btn-all">
-												<a class="button-outline" href="/productList">모든제품 보러가기</a>
+												<a class="button-outline" href="/productList/7">모든제품 보러가기</a>
 											</div>
 										</div>
 									</div>
@@ -554,6 +476,46 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
 	<script src="/front/clean/assets/js/infinite.js"></script>
+	<div id="myModal" class="temp-modal">
+	    <div class="temp-modal-content">
+	        <span class="temp-close" id="closeBtn">&times;</span>
+	        <img src="/front/clean/assets/img/popup.jpg" alt="Popup Image">
+	        <div class="temp-footer">
+	            <input type="checkbox" id="doNotShowAgain">
+	            <label for="doNotShowAgain">다시 보지 않기</label>
+	        </div>
+	    </div>
+	</div>
+<script>
+   	document.addEventListener('DOMContentLoaded', function() {
+        if (!localStorage.getItem('doNotShowPopup')) {
+            document.getElementById('myModal').style.display = "block";
+        }
+
+        document.getElementById('closeBtn').onclick = function() {
+            closeModal();
+        }
+
+        document.getElementById('myModal').onclick = function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        }
+
+        document.getElementById('doNotShowAgain').onclick = function() {
+            if (this.checked) {
+                localStorage.setItem('doNotShowPopup', true);
+            } else {
+                localStorage.removeItem('doNotShowPopup');
+            }
+        }
+    });
+
+    function closeModal() {
+        const modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+    }
+</script>
 </body>
 
 </html>
