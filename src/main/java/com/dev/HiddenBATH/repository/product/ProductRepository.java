@@ -66,7 +66,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
            "WHERE t.id = :tagId " +
            "AND c.id = :colorId " +
            "AND bs.id = :bigSortId " +
-           "ORDER BY p.productIndex DESC")
+           "ORDER BY p.productIndex ASC")
     Page<Product> findByTagColorAndBigSort(@Param("tagId") Long tagId,
                                            @Param("colorId") Long colorId,
                                            @Param("bigSortId") Long bigSortId,
@@ -81,7 +81,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
             "AND c.id = :colorId " +
             "AND ms.id = :middleSortId " +
             "AND bs.id = :bigSortId " +
-            "ORDER BY p.productIndex DESC")
+            "ORDER BY p.productIndex ASC")
      Page<Product> findByTagColorAndSorts(@Param("tagId") Long tagId,
                                           @Param("colorId") Long colorId,
                                           @Param("middleSortId") Long middleSortId,
@@ -95,7 +95,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
             "WHERE c.id = :colorId " +
             "AND ms.id = :middleSortId " +
             "AND bs.id = :bigSortId " +
-            "ORDER BY p.productIndex DESC")
+            "ORDER BY p.productIndex ASC")
      Page<Product> findByColorAndSorts(@Param("colorId") Long colorId,
                                        @Param("middleSortId") Long middleSortId,
                                        @Param("bigSortId") Long bigSortId,
@@ -108,7 +108,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
             "WHERE t.id = :tagId " +
             "AND ms.id = :middleSortId " +
             "AND bs.id = :bigSortId " +
-            "ORDER BY p.productIndex DESC")
+            "ORDER BY p.productIndex ASC")
      Page<Product> findByTagAndSorts(@Param("tagId") Long tagId,
                                      @Param("middleSortId") Long middleSortId,
                                      @Param("bigSortId") Long bigSortId,
@@ -119,7 +119,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
             "JOIN p.bigSort bs " +
             "WHERE ms.id = :middleSortId " +
             "AND bs.id = :bigSortId " +
-            "ORDER BY p.productIndex DESC")
+            "ORDER BY p.productIndex ASC")
     Page<Product> findBySorts(@Param("middleSortId") Long middleSortId,
                                @Param("bigSortId") Long bigSortId,
                                Pageable pageable);
@@ -131,7 +131,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	           "WHERE t.id = :tagId " +
 	           "AND c.id = :colorId " +
 	           "AND bs.id = :bigSortId "+
-	           "ORDER BY p.productIndex DESC")
+	           "ORDER BY p.productIndex ASC")
 	Page<Product> findByTagColorAndBig(@Param("tagId") Long tagId,
                                       @Param("colorId") Long colorId,
                                       @Param("bigSortId") Long bigSortId,
@@ -141,7 +141,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
            "JOIN p.bigSort bs " +
            "WHERE t.id = :tagId " +
            "AND bs.id = :bigSortId " +
-           "ORDER BY p.productIndex DESC")
+           "ORDER BY p.productIndex ASC")
     Page<Product> findByTagAndBigSort(@Param("tagId") Long tagId,
                                       @Param("bigSortId") Long bigSortId,
                                       Pageable pageable);
@@ -151,7 +151,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
            "JOIN p.bigSort bs " +
            "WHERE c.id = :colorId " +
            "AND bs.id = :bigSortId " +
-           "ORDER BY p.productIndex DESC")
+           "ORDER BY p.productIndex ASC")
     Page<Product> findByColorAndBigSort(@Param("colorId") Long colorId,
                                         @Param("bigSortId") Long bigSortId,
                                         Pageable pageable);
@@ -159,7 +159,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	@Query("SELECT p FROM Product p " +
            "JOIN p.bigSort bs " +
            "WHERE bs.id = :bigSortId " +
-           "ORDER BY p.productIndex DESC")
+           "ORDER BY p.productIndex ASC")
     Page<Product> findByBigSort(@Param("bigSortId") Long bigSortId,
                                 Pageable pageable);
 	

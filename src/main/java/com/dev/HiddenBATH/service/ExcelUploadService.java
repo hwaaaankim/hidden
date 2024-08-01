@@ -3,6 +3,7 @@ package com.dev.HiddenBATH.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -17,6 +18,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dev.HiddenBATH.model.product.BigSort;
+import com.dev.HiddenBATH.model.product.MiddleSort;
 import com.dev.HiddenBATH.model.product.Product;
 import com.dev.HiddenBATH.model.product.ProductColor;
 import com.dev.HiddenBATH.model.product.ProductOption;
@@ -78,6 +81,57 @@ public class ExcelUploadService {
 	@Autowired
 	private PlatformTransactionManager transactionManager; // TransactionManager 주입
 
+	
+	public List<String> updateProductsFromExcel(MultipartFile file) throws IOException {
+	    List<String> missingProducts = new ArrayList<>();
+	    Workbook workbook = new XSSFWorkbook(file.getInputStream());
+	    Sheet sheet = workbook.getSheetAt(2); // 3번째 시트 (index 2)
+
+	    for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
+	        Row row = sheet.getRow(i);
+	        if (row != null) {
+	            String productCode = excelUtils.getCellValue(row.getCell(1)); // 2번째 열 (index 1)
+	            Optional<Product> productOptional = productRepository.findByProductCode(productCode);
+
+	            if (productOptional.isPresent()) {
+	                Product product = productOptional.get();
+	                TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+	                transactionTemplate.execute(status -> {
+	                    try {
+	                        Long middleSortId = Long.parseLong(excelUtils.getCellValue(row.getCell(8))); // 9번째 열 (index 8)
+	                        Long bigSortId = Long.parseLong(excelUtils.getCellValue(row.getCell(9))); // 10번째 열 (index 9)
+	                        int productIndex = Integer.parseInt(excelUtils.getCellValue(row.getCell(15))); // 16번째 열 (index 15)
+
+	                        MiddleSort middleSort = productMiddleSortRepository.findById(middleSortId)
+	                                .orElseThrow(() -> new RuntimeException("MiddleSort not found with ID: " + middleSortId));
+	                        BigSort bigSort = productBigSortRepository.findById(bigSortId)
+	                                .orElseThrow(() -> new RuntimeException("BigSort not found with ID: " + bigSortId));
+
+	                        product.setMiddleSort(middleSort);
+	                        product.setBigSort(bigSort);
+	                        product.setProductIndex(productIndex);
+
+	                        productRepository.save(product);
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                        throw new RuntimeException(e);
+	                    }
+	                    return null;
+	                });
+	            } else {
+	                missingProducts.add(productCode); // 제품이 존재하지 않으면 목록에 추가
+	            }
+	        }
+	    }
+
+	    if (!missingProducts.isEmpty()) {
+	        System.out.println("Missing products: " + String.join(", ", missingProducts));
+	    }
+
+	    return missingProducts;
+	}
+
+	
 	public List<String> uploadExcel(MultipartFile file) throws IOException {
 	    List<String> result = new ArrayList<>();
 	    ExecutorService executorService = Executors.newSingleThreadExecutor();

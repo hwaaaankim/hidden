@@ -159,6 +159,12 @@ public class ProductAdminController {
                 .headers(headers)
                 .body(modifiedFile);
     }
+    
+	@PostMapping("/updateExcelUpload")
+	@ResponseBody
+    public void updateExcelUpload(@RequestParam("file") MultipartFile file) throws IOException {
+		excelUploadService.updateProductsFromExcel(file);
+    }
 	
 	@GetMapping("/productCategoryManager")
 	public String productCategoryManager(
