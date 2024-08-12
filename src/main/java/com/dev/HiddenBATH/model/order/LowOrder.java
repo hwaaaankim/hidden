@@ -8,60 +8,66 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Table(name="mirror_order")
-public class LowOrder {
+@Table(name="tb_low_order")
+public class LowOrder{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="MIRROR_ID")
-	private Long id;
+	@Column(name="LOW_ID")
+	private Long lowId;
 	
-	@Column(name="MIRROR_MODEL")
-	private String model;
+	@Column(name="LOW_MODEL")
+	private String lowMdel;
 	
-	@Column(name="MIRROR_FRAME")
-	private String frame;
+	@Column(name="LOW_COLOR")
+	private String lowColor;
 	
-	@Column(name="MIRROR_FRAME_STYLE")
-	private String frameStyle;
+	@Column(name="LOW_FORM")
+	private String lowForm;
 	
-	@Column(name="MIRROR_FRAME_COLOR")
-	private String frameColoe;
+	@Column(name="LOW_WIDTH")
+	private String lowWidth;
 	
-	@Column(name="MIRROR_WIDTH")
-	private String width;
+	@Column(name="LOW_HEIGHT")
+	private String lowHeight;
 	
-	@Column(name="MIRROR_HEIGHT")
-	private String height;
+	@Column(name="LOW_DEPTH")
+	private String lowDepth; 
 	
-	@Column(name="MIRROR_SIZE_MESSAGE")
-	private String sizeMessage;
+	@Column(name="LOW_MARBLE_COLOR")
+	private String lowMarbleColor;
 	
-	@Column(name="MIRROR_LED")
-	private String led;
+	@Column(name="LOW_WASHSTAND")
+	private String lowWashstand;
 	
-	@Column(name="MIRROR_LED_METHOD")
-	private String ledMethod;
+	@Column(name="LOW_WASHSTAND_TOPBALL")
+	private String lowWashstandTopball;
 	
-	@Column(name="MIRROR_LED_FORM")
-	private String ledForm;
+	@Column(name="LOW_WASHSTAND_DIRECTION")
+	private String lowWashstandDirection;
 	
-	@Column(name="MIRROR_SENSOR")
-	private String sensor;
+	@Column(name="LOW_DOOR")
+	private String lowDoor;
 	
-	@Column(name="MIRROR_SENSOR_FORM")
-	private String sensorForm;
+	@Column(name="LOW_DOOR_COUNT")
+	private String lowDoorCount;
 	
-	@Column(name="MIRROR_CLIENT_NAME")
+	@Column(name="LOW_HANDLE")
+	private String lowHandle;
+	
+	@Column(name="LOW_HANDLE_COLOR")
+	private String lowHandleColor;
+	
+	@Column(name="LOW_CLIENT_NAME")
 	private String name;
 	
-	@Column(name="MIRROR_CLIENT_PHONE")
+	@Column(name="LOW_CLIENT_PHONE")
 	private String phone;
 	
-	@Column(name="MIRROR_CLIENT_EMAIL")
+	@Column(name="LOW_CLIENT_EMAIL")
 	private String email;
 	
-	@Column(name="MIRROR_CLIENT_MESSAGE")
+	@Column(name="LOW_CLIENT_MESSAGE")
 	private String message;
 	
 }

@@ -8,60 +8,57 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Table(name="mirror_order")
+@Table(name="tb_flap_order")
 public class FlapOrder {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="MIRROR_ID")
-	private Long id;
+	@Column(name="FLAP_ID")
+	private Long flapId;
 	
-	@Column(name="MIRROR_MODEL")
-	private String model;
+	@Column(name="FLAP_MODEL")
+	private String flapModel;
 	
-	@Column(name="MIRROR_FRAME")
-	private String frame;
+	@Column(name="FLAP_COLOR")
+	private String flapColor;
 	
-	@Column(name="MIRROR_FRAME_STYLE")
-	private String frameStyle;
+	@Column(name="FLAP_SIZE_WIDTH")
+	private String flapSize;
 	
-	@Column(name="MIRROR_FRAME_COLOR")
-	private String frameColoe;
+	@Column(name="FLAP_WIDTH")
+	private String flapWidth;
 	
-	@Column(name="MIRROR_WIDTH")
-	private String width;
+	@Column(name="FLAP_HEIGHT")
+	private String flapHeight;
 	
-	@Column(name="MIRROR_HEIGHT")
-	private String height;
+	@Column(name="FLAP_DEPTH")
+	private String flapDdepth;
+
+	@Column(name="DOOR_DIRECTION")
+	private String flapDoorDirection;
 	
-	@Column(name="MIRROR_SIZE_MESSAGE")
-	private String sizeMessage;
+	@Column(name="FLAP_LED")
+	private String flapLed;
 	
-	@Column(name="MIRROR_LED")
-	private String led;
+	@Column(name="FLAP_LED_COLOR")
+	private String flapLedColor;
 	
-	@Column(name="MIRROR_LED_METHOD")
-	private String ledMethod;
+	@Column(name="FLAP_CONCENT")
+	private String flapConcent;
 	
-	@Column(name="MIRROR_LED_FORM")
-	private String ledForm;
+	@Column(name="FLAP_CONCENT_POSITION")
+	private String flapConcentPosition;
 	
-	@Column(name="MIRROR_SENSOR")
-	private String sensor;
-	
-	@Column(name="MIRROR_SENSOR_FORM")
-	private String sensorForm;
-	
-	@Column(name="MIRROR_CLIENT_NAME")
+	@Column(name="FLAP_CLIENT_NAME")
 	private String name;
 	
-	@Column(name="MIRROR_CLIENT_PHONE")
+	@Column(name="FLAP_CLIENT_PHONE")
 	private String phone;
 	
-	@Column(name="MIRROR_CLIENT_EMAIL")
+	@Column(name="FLAP_CLIENT_EMAIL")
 	private String email;
 	
-	@Column(name="MIRROR_CLIENT_MESSAGE")
+	@Column(name="FLAP_CLIENT_MESSAGE")
 	private String message;
 	
 }

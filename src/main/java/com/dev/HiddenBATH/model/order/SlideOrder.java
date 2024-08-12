@@ -8,60 +8,51 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Table(name="mirror_order")
+@Table(name="tb_slide_order")
 public class SlideOrder {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="MIRROR_ID")
-	private Long id;
+	@Column(name="SLIDE_ID")
+	private Long slideId;
 	
-	@Column(name="MIRROR_MODEL")
-	private String model;
+	@Column(name="SLIDE_MODEL")
+	private String slideModel;
 	
-	@Column(name="MIRROR_FRAME")
-	private String frame;
+	@Column(name="SLIDE_COLOR")
+	private String slideColor;
 	
-	@Column(name="MIRROR_FRAME_STYLE")
-	private String frameStyle;
+	@Column(name="SLIDE_WIDTH")
+	private String slideWidth;
 	
-	@Column(name="MIRROR_FRAME_COLOR")
-	private String frameColoe;
+	@Column(name="SLIDE_HEIGHT")
+	private String slideHeight;
 	
-	@Column(name="MIRROR_WIDTH")
-	private String width;
+	@Column(name="SLIDE_DEPTH")
+	private String slideDepth;
 	
-	@Column(name="MIRROR_HEIGHT")
-	private String height;
+	@Column(name="SLIDE_LED")
+	private String slideLed;
 	
-	@Column(name="MIRROR_SIZE_MESSAGE")
-	private String sizeMessage;
+	@Column(name="SLIDE_LED_COLOR")
+	private String slideLedColor;
 	
-	@Column(name="MIRROR_LED")
-	private String led;
+	@Column(name="SLIDE_CONCENT")
+	private String slideConcent;
 	
-	@Column(name="MIRROR_LED_METHOD")
-	private String ledMethod;
+	@Column(name="SLIDE_CONCENT_POSITION")
+	private String slideConcentPosition;
 	
-	@Column(name="MIRROR_LED_FORM")
-	private String ledForm;
-	
-	@Column(name="MIRROR_SENSOR")
-	private String sensor;
-	
-	@Column(name="MIRROR_SENSOR_FORM")
-	private String sensorForm;
-	
-	@Column(name="MIRROR_CLIENT_NAME")
+	@Column(name="SLIDE_CLIENT_NAME")
 	private String name;
 	
-	@Column(name="MIRROR_CLIENT_PHONE")
+	@Column(name="SLIDE_CLIENT_PHONE")
 	private String phone;
 	
-	@Column(name="MIRROR_CLIENT_EMAIL")
+	@Column(name="SLIDE_CLIENT_EMAIL")
 	private String email;
 	
-	@Column(name="MIRROR_CLIENT_MESSAGE")
+	@Column(name="SLIDE_CLIENT_MESSAGE")
 	private String message;
 	
 }

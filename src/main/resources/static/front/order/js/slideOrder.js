@@ -81,47 +81,29 @@
 		if(result){
 			
 		
-		var mirrorForm = $('<form></form>');
+		var slideForm = $('<form></form>');
 		//set attribute (form) 
-		mirrorForm.attr("method","post");
-		mirrorForm.attr("action","/order/mirrorOrderInsert");
+		slideForm.attr("method","post");
+		slideForm.attr("action","/order/mirrorOrderInsert");
 	
 		// create element & set attribute (input) 
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'model', value:$('#mirrorShape').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frame', value:$('#mirrorFrame').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameStyle', value:$('#mirrorStyle').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameColoe', value:$('#mirrorColor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'width', value:$('#mirrorWidth').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'height', value:$('#mirrorHeight').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sizeMessage', value:$('#mirrorMessage').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'led', value:$('#mirrorLed').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledMethod', value:$('#mirrorLedMethod').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledForm', value:$('#mirrorLedForm').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensor', value:$('#mirrorSensor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensorForm', value:$('#mirrorSensorForm').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value:$('#name').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value:$('#phone').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value:$('#email').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value:$('#addedMessage').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideModel', value: $('#slideModel').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideColor', value: $('#slideColor').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideWidth', value: $('#slideWidth').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideHeight', value: $('#slideHeight').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideDepth', value: $('#slideDepth').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideLed', value: $('#slideLed').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideLedColor', value: $('#slideLedColor').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideConcent', value: $('#slideOption').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideConcentPosition', value: $('#slideOptionPosition').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
+
 	
-		mirrorForm.appendTo('body');
-	/*	console.log($('#mirrorShape').val());
-		console.log($('#mirrorFrame').val());
-		console.log($('#mirrorStyle').val());
-		console.log($('#mirrorColor').val());
-		console.log($('#mirrorWidth').val());
-		console.log($('#mirrorHeight').val());
-		console.log($('#mirrorMessage').val());
-		console.log($('#mirrorLed').val());
-		console.log($('#mirrorLedMethod').val());
-		console.log($('#mirrorLedForm').val());
-		console.log($('#mirrorSensor').val());
-		console.log($('#mirrorSensorForm').val());
-		console.log($('#name').val());
-		console.log($('#phone').val());
-		console.log($('#email').val());
-		console.log($('#addedMessage').val());*/
-		mirrorForm.submit();
+		slideForm.appendTo('body');
+		slideForm.submit();
 		}
 	});
 	$("#wizard_container").wizard({

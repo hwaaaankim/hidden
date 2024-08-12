@@ -34,8 +34,11 @@
 										<div class="block-widget-wrap">
 											<iframe
 												src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3172.558847573314!2d127.49261190000001!3d37.329276199999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3563598a53228b8d%3A0x4495bca6f1938250!2z6rK96riw64-EIOydtOyynOyLnCDrsLHsgqzrqbQg7LKt67Cx66as66GcMzkz67KI6ri4IDM5NQ!5e0!3m2!1sko!2skr!4v1712026244417!5m2!1sko!2skr"
-												width="100%" height="550" style="border:0;" allowfullscreen=""
-												loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+												width="100%" 
+												height="550" 
+												style="border:0;" allowfullscreen=""
+												loading="lazy" 
+												referrerpolicy="no-referrer-when-downgrade"></iframe>
 										</div>
 									</div>
 									<div class="block block-contact-info">
@@ -110,61 +113,69 @@
 												<div class="sub-title">문의 확인 후 빠르게 답변드리겠습니다.</div>
 											</div>
 											<div class="block-content">
-												<form action="" method="post" class="contact-form"
-													novalidate="novalidate">
+												<form 
+													action="/clientInsert" 
+													method="post" 
+													class="contact-form"
+													>
 													<div class="contact-us-form">
 														<div class="row">
 															<div class="col-sm-12 col-md-6">
 																<label class="required">성함</label><br>
 																<span class="form-control-wrap">
-																	<input type="text" name="name" value="" size="40"
-																		class="form-control" aria-required="true">
+																	<input 
+																		type="text" 
+																		name="name"
+																		required
+																		class="form-control" 
+																		aria-required="true">
 																</span>
 															</div>
 															<div class="col-sm-12 col-md-6">
 																<label class="required">이메일</label><br>
 																<span class="form-control-wrap">
-																	<input type="email" name="email" value="" size="40"
-																		class="form-control" aria-required="true">
+																	<input 
+																		type="email" 
+																		name="email" 
+																		class="form-control" 
+																		required																		class="form-control" 
+																		aria-required="true">
 																</span>
 															</div>
 															<div class="col-sm-12 col-md-6">
 																<label class="required">연락처</label><br>
 																<span class="form-control-wrap">
-																	<input type="text" name="name" value="" size="40"
-																		class="form-control" aria-required="true">
+																	<input 
+																	type="text" 
+																	name="phone" 
+																	required
+																	class="form-control" 
+																	aria-required="true">
 																</span>
 															</div>
 															<div class="col-sm-12 col-md-6">
-																<label class="required">문의주제</label><br>
-																<span class="form-control-wrap">
-																	<select class="form-control">
-																		<option selected>=== 가격문의 ===</option>
-																		<option selected>=== 비규격문의 ===</option>
-																		<option selected>=== 제품문의 ===</option>
+																<label>문의주제</label><br>
+																<span 
+																class="form-control-wrap">
+																	<select 
+																	name="topic"
+																	class="form-control">
+																		<option value="기타문의">=== 기타문의 ===</option>
+																		<option value="가격문의">=== 가격문의 ===</option>
+																		<option value="비규격문의">=== 비규격문의 ===</option>
+																		<option value="제품문의">=== 제품문의 ===</option>
 																	</select>
 																</span>
 															</div>
-															<!--<div class="col-sm-12 col-md-6">
-																<label>제품 코드</label><br>
-																<span class="form-control-wrap">
-																	<input type="text" name="name" value="" size="40"
-																		class="form-control" aria-required="true">
-																</span>
-															</div>
-															<div class="col-sm-12 col-md-6">
-																<label>제품 대분류</label><br>
-																<span class="form-control-wrap">
-																	<input type="text" name="name" value="" size="40"
-																		class="form-control" aria-required="true">
-																</span>
-															</div>-->
 														</div>
 														<div class="row">
 															<div class="col-sm-12">
-																<label class="required">남기실 말씀</label><br>
+																<label>남기실 말씀</label><br>
 																<span class="form-control-wrap">
-																	<textarea name="message" cols="40" rows="10"
+																	<textarea 
+																		name="comment" 
+																		cols="40" 
+																		rows="10"
 																		class="form-control"
 																		aria-required="true"></textarea>
 																</span>

@@ -1,7 +1,7 @@
 # 동작 환경 설정
 spring:
   profiles:
-    active: prod
+    active: test
 server:
   port: 8080
   servlet:
@@ -35,7 +35,7 @@ spring:
     console:
       enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.MariaDBDialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
@@ -79,7 +79,7 @@ spring:
     console:
       enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.MariaDBDialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect

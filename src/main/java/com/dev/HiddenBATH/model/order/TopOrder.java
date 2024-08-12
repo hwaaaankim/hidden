@@ -8,60 +8,54 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Table(name="mirror_order")
+@Table(name="tb_top_order")
 public class TopOrder {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="MIRROR_ID")
-	private Long id;
+	@Column(name="TOP_ID")
+	private Long topId;
 	
-	@Column(name="MIRROR_MODEL")
-	private String model;
+	@Column(name="TOP_MODEL")
+	private String topModel;
 	
-	@Column(name="MIRROR_FRAME")
-	private String frame;
+	@Column(name="TOP_COLOR")
+	private String topColor;
 	
-	@Column(name="MIRROR_FRAME_STYLE")
-	private String frameStyle;
+	@Column(name="TOP_WIDTH")
+	private String topWidth;
 	
-	@Column(name="MIRROR_FRAME_COLOR")
-	private String frameColoe;
+	@Column(name="TOP_HEIGHT")
+	private String topHeight;
 	
-	@Column(name="MIRROR_WIDTH")
-	private String width;
+	@Column(name="TOP_DEPTH")
+	private String topDepth;
 	
-	@Column(name="MIRROR_HEIGHT")
-	private String height;
+	@Column(name="TOP_DOOR_COUNT")
+	private String topDoorPosition;
 	
-	@Column(name="MIRROR_SIZE_MESSAGE")
-	private String sizeMessage;
+	@Column(name="TOP_LED")
+	private String topLed;
 	
-	@Column(name="MIRROR_LED")
-	private String led;
+	@Column(name="TOP_LED_COLOR")
+	private String topLedColor;
 	
-	@Column(name="MIRROR_LED_METHOD")
-	private String ledMethod;
+	@Column(name="TOP_CONCENT")
+	private String topConcent;
 	
-	@Column(name="MIRROR_LED_FORM")
-	private String ledForm;
-	
-	@Column(name="MIRROR_SENSOR")
-	private String sensor;
-	
-	@Column(name="MIRROR_SENSOR_FORM")
-	private String sensorForm;
-	
-	@Column(name="MIRROR_CLIENT_NAME")
+	@Column(name="TOP_CONCENT_POSITION")
+	private String topConcentPosition;
+
+	@Column(name="TOP_CLIENT_NAME")
 	private String name;
 	
-	@Column(name="MIRROR_CLIENT_PHONE")
+	@Column(name="TOP_CLIENT_PHONE")
 	private String phone;
 	
-	@Column(name="MIRROR_CLIENT_EMAIL")
+	@Column(name="TOP_CLIENT_EMAIL")
 	private String email;
 	
-	@Column(name="MIRROR_CLIENT_MESSAGE")
+	@Column(name="TOP_CLIENT_MESSAGE")
 	private String message;
 	
 }

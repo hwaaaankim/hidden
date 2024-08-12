@@ -8,49 +8,40 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Table(name="mirror_order")
+@Table(name="tb_mirror_order")
 public class MirrorOrder {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="MIRROR_ID")
-	private Long id;
+	private Long mirrorId;
 	
 	@Column(name="MIRROR_MODEL")
-	private String model;
+	private String mirrorModel;
 	
 	@Column(name="MIRROR_FRAME")
-	private String frame;
+	private String mirrorFrame;
 	
 	@Column(name="MIRROR_FRAME_STYLE")
-	private String frameStyle;
+	private String mirrorFrameStyle;
 	
 	@Column(name="MIRROR_FRAME_COLOR")
-	private String frameColoe;
+	private String mirrorFrameColor;
 	
 	@Column(name="MIRROR_WIDTH")
-	private String width;
+	private String mirrorWidth;
 	
 	@Column(name="MIRROR_HEIGHT")
-	private String height;
-	
-	@Column(name="MIRROR_SIZE_MESSAGE")
-	private String sizeMessage;
-	
+	private String mirrorHeight;
+
 	@Column(name="MIRROR_LED")
-	private String led;
+	private String mirrorLed;
 	
 	@Column(name="MIRROR_LED_METHOD")
-	private String ledMethod;
+	private String mirrorLedMethod;
 	
 	@Column(name="MIRROR_LED_FORM")
-	private String ledForm;
-	
-//	@Column(name="MIRROR_SENSOR")
-//	private String sensor;
-//	
-//	@Column(name="MIRROR_SENSOR_FORM")
-//	private String sensorForm;
+	private String mirrorLedForm;
 	
 	@Column(name="MIRROR_CLIENT_NAME")
 	private String name;

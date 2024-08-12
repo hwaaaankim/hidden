@@ -2,12 +2,6 @@
 	jQuery(function ($) {
 		"use strict";
 		$('#submitBtn').attr('disabled', true);
-		// Chose here which method to send the email, available:
-		// Simple phpmail text/plain > form_send_multiple_branch.php (default)
-		// PHPMailer text/html > phpmailer/multiple_branch_phpmailer.php
-		// PHPMailer text/html SMTP > phpmailer/multiple_branch_phpmailer_smtp.php
-		// PHPMailer with html template > phpmailer/multiple_branch_phpmailer_template.php
-		// PHPMailer with html template SMTP> phpmailer/multiple_branch_phpmailer_template_smtp.php
 		$('form#wrapped').attr('POST', '/order/orderInsert');
 		$("#wizard_container").wizard({
 			stepsWrapper: "#wrapped",
@@ -104,46 +98,33 @@
 		if(result){
 			
 		
-		var mirrorForm = $('<form></form>');
+		var lowForm = $('<form></form>');
 		//set attribute (form) 
-		mirrorForm.attr("method","post");
-		mirrorForm.attr("action","/order/mirrorOrderInsert");
+		lowForm.attr("method","post");
+		lowForm.attr("action","/order/lowOrderInsert");
 	
 		// create element & set attribute (input) 
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'model', value:$('#mirrorShape').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frame', value:$('#mirrorFrame').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameStyle', value:$('#mirrorStyle').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameColoe', value:$('#mirrorColor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'width', value:$('#mirrorWidth').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'height', value:$('#mirrorHeight').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sizeMessage', value:$('#mirrorMessage').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'led', value:$('#mirrorLed').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledMethod', value:$('#mirrorLedMethod').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledForm', value:$('#mirrorLedForm').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensor', value:$('#mirrorSensor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensorForm', value:$('#mirrorSensorForm').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value:$('#name').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value:$('#phone').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value:$('#email').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value:$('#addedMessage').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'model', value: $('#lowModel').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowColor', value: $('#lowColor').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowForm', value: $('#lowForm').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'width', value: $('#lowWidth').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'height', value: $('#lowHeight').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'depth', value: $('#lowDepth').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowMarbleColor', value: $('#lowMarbleColor').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowWashstand', value: $('#lowWashstand').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowWashstandTopball', value: $('#lowTopWashstand').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowWashstandDirection', value: $('#lowWashstandPosition').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowDoor', value: $('#lowDoor').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowDoorCount', value: $('#lowDoorCount').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowHandle', value: $('#lowHandle').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'lowHandleColor', value: $('#lowHandleColor').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
+
 	
-		mirrorForm.appendTo('body');
-	/*	console.log($('#mirrorShape').val());
-		console.log($('#mirrorFrame').val());
-		console.log($('#mirrorStyle').val());
-		console.log($('#mirrorColor').val());
-		console.log($('#mirrorWidth').val());
-		console.log($('#mirrorHeight').val());
-		console.log($('#mirrorMessage').val());
-		console.log($('#mirrorLed').val());
-		console.log($('#mirrorLedMethod').val());
-		console.log($('#mirrorLedForm').val());
-		console.log($('#mirrorSensor').val());
-		console.log($('#mirrorSensorForm').val());
-		console.log($('#name').val());
-		console.log($('#phone').val());
-		console.log($('#email').val());
-		console.log($('#addedMessage').val());*/
+		lowForm.appendTo('body');
 		mirrorForm.submit();
 		}
 	});

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev.HiddenBATH.dto.MenuDTO;
+import com.dev.HiddenBATH.model.Client;
 import com.dev.HiddenBATH.model.product.MiddleSort;
 import com.dev.HiddenBATH.model.product.Product;
 import com.dev.HiddenBATH.repository.ConstructionRepository;
@@ -29,6 +30,7 @@ import com.dev.HiddenBATH.repository.product.ProductColorRepository;
 import com.dev.HiddenBATH.repository.product.ProductMiddleSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductRepository;
 import com.dev.HiddenBATH.repository.product.ProductTagRepository;
+import com.dev.HiddenBATH.service.ClientService;
 import com.dev.HiddenBATH.service.ConstructionService;
 import com.dev.HiddenBATH.service.GalleryService;
 import com.dev.HiddenBATH.service.product.ProductService;
@@ -68,6 +70,9 @@ public class IndexController {
 	
 	@Autowired
 	ConstructionService constructionService;
+	
+	@Autowired
+	ClientService clientService;
 	
 	@ModelAttribute("menuList")
 	public MenuDTO menuList(MenuDTO menuDto) {
@@ -270,11 +275,21 @@ public class IndexController {
 		return "front/productDetailAdvanced";
 	}
 	
-//	@GetMapping("/productDetailAdvanced01")
-//	public String productDetailAdvanced01() {
-//		
-//		return "front/productDetailAdvanced01";
-//	}
+	@PostMapping("/clientInsert")
+	public String clientInsert(Client client) {
+		
+		clientService.clientInsert(client);
+		
+		StringBuffer sb = new StringBuffer();
+		String msg = "문의 주셔서 감사합니다. 빠르게 연락드리도록 하겠습니다.";
+		
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/index'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+		
+		return sb.toString();
+	}
 	
 	@PostMapping("/searchKeword")
 	public String searchKeword(

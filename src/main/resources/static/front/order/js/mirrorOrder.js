@@ -66,19 +66,8 @@
 					}else{
 						$('#mirrorLedForm').val('LED 형태 : 해당없음');
 					}
-/*					
-					if($('input[name=sensor]:checked').attr('id')!=undefined){
-						$('#mirrorSensor').val('센서 추가여부 : ' + $('input[name=sensor]:checked').attr('id'));
-					}else{
-						$('#mirrorSensor').val('센서 추가여부 : 해당없음');
-					}
-					
-					if($('input[name=sensor_form]:checked').attr('id')!=undefined){
-						$('#mirrorSensorForm').val('센서 형태 : ' + $('input[name=sensor_form]:checked').attr('id'));
-					}else{
-						$('#mirrorSensorForm').val('센서 형태 : 해당없음');
-					}
-*/				}
+
+				}
 			}
 		}).validate({
 			errorPlacement: function (error, element) {
@@ -104,37 +93,18 @@
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'model', value:$('#mirrorShape').val() }));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frame', value:$('#mirrorFrame').val() }));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameStyle', value:$('#mirrorStyle').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameColoe', value:$('#mirrorColor').val()}));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameColor', value:$('#mirrorColor').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'width', value:$('#mirrorWidth').val() }));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'height', value:$('#mirrorHeight').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sizeMessage', value:$('#mirrorMessage').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'led', value:$('#mirrorLed').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledMethod', value:$('#mirrorLedMethod').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledForm', value:$('#mirrorLedForm').val()}));
-/*		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensor', value:$('#mirrorSensor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensorForm', value:$('#mirrorSensorForm').val()}));*/
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value:$('#name').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value:$('#phone').val() }));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value:$('#email').val()}));
 		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value:$('#addedMessage').val() }));
 	
 		mirrorForm.appendTo('body');
-	/*	console.log($('#mirrorShape').val());
-		console.log($('#mirrorFrame').val());
-		console.log($('#mirrorStyle').val());
-		console.log($('#mirrorColor').val());
-		console.log($('#mirrorWidth').val());
-		console.log($('#mirrorHeight').val());
-		console.log($('#mirrorMessage').val());
-		console.log($('#mirrorLed').val());
-		console.log($('#mirrorLedMethod').val());
-		console.log($('#mirrorLedForm').val());
-		console.log($('#mirrorSensor').val());
-		console.log($('#mirrorSensorForm').val());
-		console.log($('#name').val());
-		console.log($('#phone').val());
-		console.log($('#email').val());
-		console.log($('#addedMessage').val());*/
 		mirrorForm.submit();
 		}
 	});

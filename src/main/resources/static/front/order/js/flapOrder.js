@@ -2,12 +2,6 @@
 	jQuery(function ($) {
 		"use strict";
 		$('#submitBtn').attr('disabled', true);
-		// Chose here which method to send the email, available:
-		// Simple phpmail text/plain > form_send_multiple_branch.php (default)
-		// PHPMailer text/html > phpmailer/multiple_branch_phpmailer.php
-		// PHPMailer text/html SMTP > phpmailer/multiple_branch_phpmailer_smtp.php
-		// PHPMailer with html template > phpmailer/multiple_branch_phpmailer_template.php
-		// PHPMailer with html template SMTP> phpmailer/multiple_branch_phpmailer_template_smtp.php
 		$('form#wrapped').attr('POST', '/order/orderInsert');
 		$("#wizard_container").wizard({
 			stepsWrapper: "#wrapped",
@@ -89,31 +83,30 @@
 		if(result){
 			
 		
-		var mirrorForm = $('<form></form>');
+		var flapForm = $('<form></form>');
 		//set attribute (form) 
-		mirrorForm.attr("method","post");
-		mirrorForm.attr("action","/order/mirrorOrderInsert");
+		flapForm.attr("method","post");
+		flapForm.attr("action","/order/flapOrderInsert");
 	
 		// create element & set attribute (input) 
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'model', value:$('#mirrorShape').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frame', value:$('#mirrorFrame').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameStyle', value:$('#mirrorStyle').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameColoe', value:$('#mirrorColor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'width', value:$('#mirrorWidth').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'height', value:$('#mirrorHeight').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sizeMessage', value:$('#mirrorMessage').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'led', value:$('#mirrorLed').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledMethod', value:$('#mirrorLedMethod').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledForm', value:$('#mirrorLedForm').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensor', value:$('#mirrorSensor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'sensorForm', value:$('#mirrorSensorForm').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value:$('#name').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value:$('#phone').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value:$('#email').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value:$('#addedMessage').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapModel', value: $('#flapModel').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapColor', value: $('#flapColor').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapWidth', value: $('#flapWidth').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapHeight', value: $('#flapHeight').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapDepth', value: $('#flapDepth').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapDoorDirection', value: $('#flapDirection').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapLed', value: $('#flapLed').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapLedColor', value: $('#flapLedColor').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapConcent', value: $('#flapOption').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'flapConcentPosition', value: $('#flapOptionPosition').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
+
 	
-		mirrorForm.appendTo('body');
-		mirrorForm.submit();
+		flapForm.appendTo('body');
+		flapForm.submit();
 		}
 	});
 	$("#wizard_container").wizard({
