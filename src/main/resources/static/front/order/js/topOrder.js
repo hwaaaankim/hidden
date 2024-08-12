@@ -2,7 +2,7 @@
 	jQuery(function ($) {
 		"use strict";
 		$('#submitBtn').attr('disabled', true);
-		$('form#wrapped').attr('POST', '/order/orderInsert');
+		$('form#wrapped').attr('POST', '/order/topOrderInsert');
 		$("#wizard_container").wizard({
 			stepsWrapper: "#wrapped",
 			submit: ".submit",
@@ -87,30 +87,31 @@
 			
 		
 		var topForm = $('<form></form>');
-		// set attribute (form) 
-		topForm.attr("method", "post");
-		topForm.attr("action", "/order/topOrderInsert");
-		
-		// create element & set attribute (input) 
-		topForm.append($('<input/>', {type: 'hidden', name: 'topModel', value: $('#topModel').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topColor', value: $('#topColor').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topWidth', value: $('#topWidth').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topHeight', value: $('#topHeight').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topDepth', value: $('#topDepth').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topDoorPosition', value: $('#topDoor').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topLed', value: $('#topLed').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topLedColor', value: $('#topLedColor').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topConcent', value: $('#topOption').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'topConcentPosition', value: $('#topOptionPosition').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'sensorForm', value: $('#topDoorDirection').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
-		topForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
-		
-		topForm.appendTo('body');
-		topForm.submit();
-
+			// set attribute (form) 
+			topForm.attr("method", "post");
+			topForm.attr("action", "/order/topOrderInsert");
+			
+			// create element & set attribute (input) 
+			topForm.append($('<input/>', {type: 'hidden', name: 'orderType', value: 'TOP' })); // 주문 유형을 나타내는 필드
+			topForm.append($('<input/>', {type: 'hidden', name: 'model', value: $('#topModel').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'color', value: $('#topColor').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'width', value: $('#topWidth').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'height', value: $('#topHeight').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'depth', value: $('#topDepth').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'led', value: $('#topLed').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'ledColor', value: $('#topLedColor').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'concent', value: $('#topOption').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'concentPosition', value: $('#topOptionPosition').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'topDoor', value: $('#topDoor').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'topDoorDirection', value: $('#topDoorDirection').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
+			topForm.append($('<input/>', {type: 'hidden', name: 'subject', value: '상부장 비규격주문' }));
+			
+			topForm.appendTo('body');
+			topForm.submit();
 		}
 	});
 	$("#wizard_container").wizard({

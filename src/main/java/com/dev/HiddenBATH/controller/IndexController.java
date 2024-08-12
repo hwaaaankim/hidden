@@ -276,6 +276,7 @@ public class IndexController {
 	}
 	
 	@PostMapping("/clientInsert")
+	@ResponseBody
 	public String clientInsert(Client client) {
 		
 		clientService.clientInsert(client);

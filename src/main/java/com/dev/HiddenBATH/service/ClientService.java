@@ -15,7 +15,7 @@ public class ClientService {
 	ClientRepository clientRepository;
 	
 	public void clientInsert(Client client) {
-		client.setCheckDate(new Date());
+		client.setJoinDate(new Date());
 		client.setCheckDate(new Date());
 		client.setContact(false);
 		

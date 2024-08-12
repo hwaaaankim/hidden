@@ -2,13 +2,7 @@
 	jQuery(function ($) {
 		"use strict";
 		$('#submitBtn').attr('disabled', true);
-		// Chose here which method to send the email, available:
-		// Simple phpmail text/plain > form_send_multiple_branch.php (default)
-		// PHPMailer text/html > phpmailer/multiple_branch_phpmailer.php
-		// PHPMailer text/html SMTP > phpmailer/multiple_branch_phpmailer_smtp.php
-		// PHPMailer with html template > phpmailer/multiple_branch_phpmailer_template.php
-		// PHPMailer with html template SMTP> phpmailer/multiple_branch_phpmailer_template_smtp.php
-		$('form#wrapped').attr('POST', '/order/orderInsert');
+		$('form#wrapped').attr('POST', '/order/slideOrderInsert');
 		$("#wizard_container").wizard({
 			stepsWrapper: "#wrapped",
 			submit: ".submit",
@@ -82,28 +76,30 @@
 			
 		
 		var slideForm = $('<form></form>');
-		//set attribute (form) 
-		slideForm.attr("method","post");
-		slideForm.attr("action","/order/mirrorOrderInsert");
-	
+		// set attribute (form) 
+		slideForm.attr("method", "post");
+		slideForm.attr("action", "/order/slideOrderInsert");
+		
 		// create element & set attribute (input) 
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideModel', value: $('#slideModel').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideColor', value: $('#slideColor').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideWidth', value: $('#slideWidth').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideHeight', value: $('#slideHeight').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideDepth', value: $('#slideDepth').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideLed', value: $('#slideLed').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideLedColor', value: $('#slideLedColor').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideConcent', value: $('#slideOption').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'slideConcentPosition', value: $('#slideOptionPosition').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
-
-	
+		slideForm.append($('<input/>', {type: 'hidden', name: 'orderType', value: 'SLIDE' })); // 주문 유형을 나타내는 필드
+		slideForm.append($('<input/>', {type: 'hidden', name: 'model', value: $('#slideModel').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'color', value: $('#slideColor').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'width', value: $('#slideWidth').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'height', value: $('#slideHeight').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'depth', value: $('#slideDepth').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'led', value: $('#slideLed').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'ledColor', value: $('#slideLedColor').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'concent', value: $('#slideOption').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'concentPosition', value: $('#slideOptionPosition').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
+		slideForm.append($('<input/>', {type: 'hidden', name: 'subject', value: '슬라이드장 비규격주문' }));
+		
 		slideForm.appendTo('body');
 		slideForm.submit();
+
 		}
 	});
 	$("#wizard_container").wizard({

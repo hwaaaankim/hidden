@@ -2,7 +2,7 @@
 	jQuery(function ($) {
 		"use strict";
 		$('#submitBtn').attr('disabled', true);
-		$('form#wrapped').attr('POST', '/order/orderInsert');
+		$('form#wrapped').attr('POST', '/order/lowOrderInsert');
 		$("#wizard_container").wizard({
 			stepsWrapper: "#wrapped",
 			submit: ".submit",
@@ -99,13 +99,14 @@
 			
 		
 		var lowForm = $('<form></form>');
-		//set attribute (form) 
-		lowForm.attr("method","post");
-		lowForm.attr("action","/order/lowOrderInsert");
-	
+		// set attribute (form) 
+		lowForm.attr("method", "post");
+		lowForm.attr("action", "/order/lowOrderInsert");
+		
 		// create element & set attribute (input) 
+		lowForm.append($('<input/>', {type: 'hidden', name: 'orderType', value: 'LOW' })); // 주문 유형을 나타내는 필드
 		lowForm.append($('<input/>', {type: 'hidden', name: 'model', value: $('#lowModel').val() }));
-		lowForm.append($('<input/>', {type: 'hidden', name: 'lowColor', value: $('#lowColor').val() }));
+		lowForm.append($('<input/>', {type: 'hidden', name: 'color', value: $('#lowColor').val() }));
 		lowForm.append($('<input/>', {type: 'hidden', name: 'lowForm', value: $('#lowForm').val() }));
 		lowForm.append($('<input/>', {type: 'hidden', name: 'width', value: $('#lowWidth').val() }));
 		lowForm.append($('<input/>', {type: 'hidden', name: 'height', value: $('#lowHeight').val() }));
@@ -122,10 +123,11 @@
 		lowForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
 		lowForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
 		lowForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
-
-	
+		lowForm.append($('<input/>', {type: 'hidden', name: 'subject', value: '하부장 비규격주문' }));
+		
 		lowForm.appendTo('body');
-		mirrorForm.submit();
+		lowForm.submit();
+
 		}
 	});
 	$("#wizard_container").wizard({

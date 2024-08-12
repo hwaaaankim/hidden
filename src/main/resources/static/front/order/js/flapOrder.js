@@ -2,7 +2,7 @@
 	jQuery(function ($) {
 		"use strict";
 		$('#submitBtn').attr('disabled', true);
-		$('form#wrapped').attr('POST', '/order/orderInsert');
+		$('form#wrapped').attr('POST', '/order/flapOrderInsert');
 		$("#wizard_container").wizard({
 			stepsWrapper: "#wrapped",
 			submit: ".submit",
@@ -82,31 +82,33 @@
 		var result = confirm("제출 하시겠습니까?");
 		if(result){
 			
-		
 		var flapForm = $('<form></form>');
-		//set attribute (form) 
-		flapForm.attr("method","post");
-		flapForm.attr("action","/order/flapOrderInsert");
-	
+		// set attribute (form) 
+		flapForm.attr("method", "post");
+		flapForm.attr("action", "/order/flapOrderInsert");
+		
 		// create element & set attribute (input) 
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapModel', value: $('#flapModel').val() }));
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapColor', value: $('#flapColor').val() }));
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapWidth', value: $('#flapWidth').val() }));
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapHeight', value: $('#flapHeight').val() }));
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapDepth', value: $('#flapDepth').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'orderType', value: 'FLAP' })); // 주문 유형을 나타내는 필드
+		flapForm.append($('<input/>', {type: 'hidden', name: 'model', value: $('#flapModel').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'color', value: $('#flapColor').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'width', value: $('#flapWidth').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'height', value: $('#flapHeight').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'depth', value: $('#flapDepth').val() }));
 		flapForm.append($('<input/>', {type: 'hidden', name: 'flapDoorDirection', value: $('#flapDirection').val() }));
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapLed', value: $('#flapLed').val() }));
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapLedColor', value: $('#flapLedColor').val() }));
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapConcent', value: $('#flapOption').val() }));
-		flapForm.append($('<input/>', {type: 'hidden', name: 'flapConcentPosition', value: $('#flapOptionPosition').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'led', value: $('#flapLed').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'ledColor', value: $('#flapLedColor').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'concent', value: $('#flapOption').val() }));
+		flapForm.append($('<input/>', {type: 'hidden', name: 'concentPosition', value: $('#flapOptionPosition').val() }));
 		flapForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
 		flapForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
 		flapForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
 		flapForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#message').val() }));
-
-	
+		flapForm.append($('<input/>', {type: 'hidden', name: 'subject', value: '플랩장 비규격주문' }));
+		
 		flapForm.appendTo('body');
 		flapForm.submit();
+
+
 		}
 	});
 	$("#wizard_container").wizard({

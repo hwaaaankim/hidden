@@ -2,13 +2,7 @@
 	jQuery(function ($) {
 		"use strict";
 		$('#submitBtn').attr('disabled', true);
-		// Chose here which method to send the email, available:
-		// Simple phpmail text/plain > form_send_multiple_branch.php (default)
-		// PHPMailer text/html > phpmailer/multiple_branch_phpmailer.php
-		// PHPMailer text/html SMTP > phpmailer/multiple_branch_phpmailer_smtp.php
-		// PHPMailer with html template > phpmailer/multiple_branch_phpmailer_template.php
-		// PHPMailer with html template SMTP> phpmailer/multiple_branch_phpmailer_template_smtp.php
-		$('form#wrapped').attr('POST', '/order/orderInsert');
+		$('form#wrapped').attr('POST', '/order/mirrorOrderInsert');
 		$("#wizard_container").wizard({
 			stepsWrapper: "#wrapped",
 			submit: ".submit",
@@ -85,27 +79,30 @@
 			
 		
 		var mirrorForm = $('<form></form>');
-		//set attribute (form) 
-		mirrorForm.attr("method","post");
-		mirrorForm.attr("action","/order/mirrorOrderInsert");
-	
+		// set attribute (form) 
+		mirrorForm.attr("method", "post");
+		mirrorForm.attr("action", "/order/mirrorOrderInsert");
+		
 		// create element & set attribute (input) 
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'model', value:$('#mirrorShape').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frame', value:$('#mirrorFrame').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameStyle', value:$('#mirrorStyle').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'frameColor', value:$('#mirrorColor').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'width', value:$('#mirrorWidth').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'height', value:$('#mirrorHeight').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'led', value:$('#mirrorLed').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledMethod', value:$('#mirrorLedMethod').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'ledForm', value:$('#mirrorLedForm').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value:$('#name').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value:$('#phone').val() }));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value:$('#email').val()}));
-		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value:$('#addedMessage').val() }));
-	
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'orderType', value: 'MIRROR' })); // 주문 유형을 나타내는 필드
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'model', value: $('#mirrorShape').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'mirrorFrame', value: $('#mirrorFrame').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'mirrorFrameStyle', value: $('#mirrorStyle').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'mirrorFrameColor', value: $('#mirrorColor').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'width', value: $('#mirrorWidth').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'height', value: $('#mirrorHeight').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'led', value: $('#mirrorLed').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'mirrorLedMethod', value: $('#mirrorLedMethod').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'mirrorLedForm', value: $('#mirrorLedForm').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'name', value: $('#name').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'phone', value: $('#phone').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'email', value: $('#email').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'message', value: $('#addedMessage').val() }));
+		mirrorForm.append($('<input/>', {type: 'hidden', name: 'subject', value: '거울 비규격주문' }));
+		
 		mirrorForm.appendTo('body');
 		mirrorForm.submit();
+
 		}
 	});
 	$("#wizard_container").wizard({

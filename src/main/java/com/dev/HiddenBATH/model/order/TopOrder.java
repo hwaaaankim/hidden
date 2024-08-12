@@ -1,61 +1,22 @@
 package com.dev.HiddenBATH.model.order;
 
+import com.dev.HiddenBATH.model.Client;
+
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Entity
+@DiscriminatorValue("TOP")
 @Data
-@Table(name="tb_top_order")
-public class TopOrder {
+@EqualsAndHashCode(callSuper = true)
+public class TopOrder extends Client {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="TOP_ID")
-	private Long topId;
-	
-	@Column(name="TOP_MODEL")
-	private String topModel;
-	
-	@Column(name="TOP_COLOR")
-	private String topColor;
-	
-	@Column(name="TOP_WIDTH")
-	private String topWidth;
-	
-	@Column(name="TOP_HEIGHT")
-	private String topHeight;
-	
-	@Column(name="TOP_DEPTH")
-	private String topDepth;
-	
-	@Column(name="TOP_DOOR_COUNT")
-	private String topDoorPosition;
-	
-	@Column(name="TOP_LED")
-	private String topLed;
-	
-	@Column(name="TOP_LED_COLOR")
-	private String topLedColor;
-	
-	@Column(name="TOP_CONCENT")
-	private String topConcent;
-	
-	@Column(name="TOP_CONCENT_POSITION")
-	private String topConcentPosition;
-
-	@Column(name="TOP_CLIENT_NAME")
-	private String name;
-	
-	@Column(name="TOP_CLIENT_PHONE")
-	private String phone;
-	
-	@Column(name="TOP_CLIENT_EMAIL")
-	private String email;
-	
-	@Column(name="TOP_CLIENT_MESSAGE")
-	private String message;
-	
+    @Column(name="TOP_DOOR_COUNT")
+    private String topDoor;
+    
+    @Column(name="TOP_DOOR_DIRECTION")
+    private String topDoorDirection;
 }

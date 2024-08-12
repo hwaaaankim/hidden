@@ -1,17 +1,25 @@
 package com.dev.HiddenBATH.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dev.HiddenBATH.model.order.FlapOrder;
+import com.dev.HiddenBATH.model.order.LowOrder;
 import com.dev.HiddenBATH.model.order.MirrorOrder;
+import com.dev.HiddenBATH.model.order.SlideOrder;
+import com.dev.HiddenBATH.model.order.TopOrder;
+import com.dev.HiddenBATH.service.ClientService;
 
 @Controller
 @RequestMapping("/order")
 public class OrderController {
 
+	@Autowired
+	ClientService clientService;
 	
 	@GetMapping({"", "/"})
 	public String mirrorHome() {
@@ -24,12 +32,36 @@ public class OrderController {
 		
 		return "front/order/mirror/information";
 	}
+		
+	@GetMapping("/top")
+	public String topHome() {
+		
+		return "front/order/top/index";
+	}
+	
+	@GetMapping("/low")
+	public String lowHome() {
+		
+		return "front/order/low/index";
+	}
+	
+	@GetMapping("/flap")
+	public String flapHome() {
+		
+		return "front/order/flap/index";
+	}
+	
+	@GetMapping("/slide")
+	public String slideHome() {
+		
+		return "front/order/slide/index";
+	}
 	
 	@PostMapping("/mirrorOrderInsert")
 	@ResponseBody
-	public String mirrorOrderInsert(
-			MirrorOrder order
-			) {
+	public String mirrorOrderInsert(MirrorOrder client) {
+		
+		clientService.clientInsert(client);
 		
 		StringBuffer sb = new StringBuffer();
 		String msg = "문의 주셔서 감사합니다. 빠르게 연락드리도록 하겠습니다.";
@@ -42,51 +74,71 @@ public class OrderController {
 		return sb.toString();
 	}
 	
-	@GetMapping("/top")
-	public String topHome() {
+	@PostMapping("/lowOrderInsert")
+	@ResponseBody
+	public String lowOrderInsert(LowOrder client) {
 		
-		return "front/order/top/index";
+		clientService.clientInsert(client);
+		
+		StringBuffer sb = new StringBuffer();
+		String msg = "문의 주셔서 감사합니다. 빠르게 연락드리도록 하겠습니다.";
+		
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/index'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+		
+		return sb.toString();
 	}
 	
-	@GetMapping("/topInformation")
-	public String topInformation() {
+	@PostMapping("/topOrderInsert")
+	@ResponseBody
+	public String topOrderInsert(TopOrder client) {
 		
-		return "front/order/top/information";
+		clientService.clientInsert(client);
+		
+		StringBuffer sb = new StringBuffer();
+		String msg = "문의 주셔서 감사합니다. 빠르게 연락드리도록 하겠습니다.";
+		
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/index'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+		
+		return sb.toString();
 	}
 	
-	@GetMapping("/low")
-	public String lowHome() {
+	@PostMapping("/slideOrderInsert")
+	@ResponseBody
+	public String slideOrderInsert(SlideOrder client) {
 		
-		return "front/order/low/index";
+		clientService.clientInsert(client);
+		
+		StringBuffer sb = new StringBuffer();
+		String msg = "문의 주셔서 감사합니다. 빠르게 연락드리도록 하겠습니다.";
+		
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/index'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+		
+		return sb.toString();
 	}
 	
-	@GetMapping("/lowInformation")
-	public String lowInformation() {
+	@PostMapping("/flapOrderInsert")
+	@ResponseBody
+	public String flapOrderInsert(FlapOrder client) {
 		
-		return "front/order/low/information";
-	}
-	
-	@GetMapping("/flap")
-	public String flapHome() {
+		clientService.clientInsert(client);
 		
-		return "front/order/flap/index";
-	}
-	
-	@GetMapping("/flapInformation")
-	public String flapInformation() {
+		StringBuffer sb = new StringBuffer();
+		String msg = "문의 주셔서 감사합니다. 빠르게 연락드리도록 하겠습니다.";
 		
-		return "front/order/flap/information";
-	}
-	
-	@GetMapping("/slide")
-	public String slideHome() {
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/index'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
 		
-		return "front/order/slide/index";
-	}
-	
-	@GetMapping("/slideInformation")
-	public String slideInformation() {
-		
-		return "front/order/slide/information";
+		return sb.toString();
 	}
 }
