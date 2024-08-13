@@ -476,6 +476,46 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
 	<script src="/front/clean/assets/js/infinite.js"></script>
+	<div id="myModal" class="temp-modal">
+	    <div class="temp-modal-content">
+	        <span class="temp-close" id="closeBtn">&times;</span>
+	        <img src="/front/clean/assets/img/popup.jpg" alt="Popup Image">
+	        <div class="temp-footer">
+	            <input type="checkbox" id="doNotShowAgain">
+	            <label for="doNotShowAgain">다시 보지 않기</label>
+	        </div>
+	    </div>
+	</div>
+	<script>
+	   	document.addEventListener('DOMContentLoaded', function() {
+	        if (!localStorage.getItem('doNotShowPopup')) {
+	            document.getElementById('myModal').style.display = "block";
+	        }
+	
+	        document.getElementById('closeBtn').onclick = function() {
+	            closeModal();
+	        }
+	
+	        document.getElementById('myModal').onclick = function(event) {
+	            if (event.target === this) {
+	                closeModal();
+	            }
+	        }
+	
+	        document.getElementById('doNotShowAgain').onclick = function() {
+	            if (this.checked) {
+	                localStorage.setItem('doNotShowPopup', true);
+	            } else {
+	                localStorage.removeItem('doNotShowPopup');
+	            }
+	        }
+	    });
+	
+	    function closeModal() {
+	        const modal = document.getElementById('myModal');
+	        modal.style.display = 'none';
+	    }
+	</script>
 </body>
 
 </html>
