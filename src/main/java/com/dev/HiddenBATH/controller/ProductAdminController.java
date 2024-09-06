@@ -1,9 +1,12 @@
 package com.dev.HiddenBATH.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +37,7 @@ import com.dev.HiddenBATH.repository.product.ProductRepository;
 import com.dev.HiddenBATH.repository.product.ProductSizeRepository;
 import com.dev.HiddenBATH.repository.product.ProductTagRepository;
 import com.dev.HiddenBATH.service.ExcelUploadService;
+import com.dev.HiddenBATH.service.RefactoringService;
 import com.dev.HiddenBATH.service.ZipService;
 import com.dev.HiddenBATH.service.product.ProductBigSortService;
 import com.dev.HiddenBATH.service.product.ProductColorService;
@@ -113,6 +117,9 @@ public class ProductAdminController {
 	@Autowired
 	RotationUtils rotationUtils;
 	
+	@Autowired
+	RefactoringService refactoringService;
+	
 //	@PostMapping("/resetZipUpload")
 //	@ResponseBody
 //	public List<String> resetZipUpload(
@@ -130,6 +137,56 @@ public class ProductAdminController {
 			) throws IOException {
 		rotationUtils.processUpload(file);
 	}
+	
+	@PostMapping("/refactoringZipUpload")
+    public ResponseEntity<Resource> refactoringZipUpload(@RequestParam("file") MultipartFile file) throws IOException {
+        // 파일 처리
+        String zipFilePath = refactoringService.refactorAndZip(file);
+
+        // 처리 완료 후 파일 다운로드
+        File zipFile = new File(zipFilePath);
+        Resource resource = new FileSystemResource(zipFile);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + zipFile.getName());
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(zipFile.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
+	
+//	@PostMapping("/refactoringZipUpload")
+//    @ResponseBody
+//    public ResponseEntity<Resource> refactoringZipUpload(MultipartFile file) {
+//        try {
+//            zipService.refactorAndPrepareDownload(file);
+//
+//            // 파일 경로 지정
+//            File finalZipFile = new File("D:/Refactoring/PRODUCT.zip");
+//
+//            // 파일을 Resource로 변환
+//            Resource resource = new FileSystemResource(finalZipFile);
+//            if (!resource.exists()) {
+//                return ResponseEntity.notFound().build();
+//            }
+//
+//            // 파일 다운로드를 위한 헤더 설정
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + finalZipFile.getName());
+//            headers.add(HttpHeaders.CONTENT_TYPE, "application/zip");
+//
+//            // 파일 다운로드
+//            return ResponseEntity.ok()
+//                    .headers(headers)
+//                    .body(resource);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
 	
 //	@PostMapping("/resetZipUpload")
 //	@ResponseBody

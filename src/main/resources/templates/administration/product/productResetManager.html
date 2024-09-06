@@ -188,6 +188,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title mb-0">폴더 리팩토링용 파일 업로드</h4>
+                                </div>
+
+                                <div class="card-body">
+									<form
+									action="/admin/refactoringZipUpload" method="post" enctype="multipart/form-data">
+										<input class="form-control" type="file" name="file">
+										<button class="mt-1 btn btn-primary" type="submit">제출</button>
+									</form>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-12" id="reset_result">
                             <div class="card">
 								<div class="card-header">
@@ -224,6 +239,37 @@
 	<script src="/administration/assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js"></script>
 	<script src="/administration/assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js"></script>
 	<script src="/administration/assets/js/fileUpload.js"></script>
+	<script>
+	    document.addEventListener('DOMContentLoaded', function() {
+	        const uploadForm = document.querySelector('form[action="/refactoringZipUpload"]');
+	        
+	        uploadForm.addEventListener('submit', function(event) {
+	            event.preventDefault();
+	
+	            const formData = new FormData(uploadForm);
+	
+	            fetch(uploadForm.action, {
+	                method: 'POST',
+	                body: formData
+	            })
+	            .then(response => {
+	                if (response.ok) {
+	                    return response.blob();
+	                } else {
+	                    throw new Error('File processing failed');
+	                }
+	            })
+	            .then(blob => {
+	                alert('Processing completed. Downloading file...');
+	                const link = document.createElement('a');
+	                link.href = window.URL.createObjectURL(blob);
+	                link.download = 'PRODUCT.zip';
+	                link.click();
+	            })
+	            .catch(error => console.error('Error:', error));
+	        });
+	    });
+	</script>
 </body>
 
 </html>
