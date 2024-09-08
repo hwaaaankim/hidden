@@ -660,9 +660,9 @@
     });
 })(jQuery);
 var sessionCheck = document.getElementById('sessionCheck');
-console.log(sessionCheck.value);
+//console.log(sessionCheck.value);
 window.addEventListener('load', function(event){
-	console.log(event.target.URL);
+	//console.log(event.target.URL);
 	if(!event.target.URL.includes('localhost')){
 		fetch('http://localhost:8080/close', {
 	        method:'post',

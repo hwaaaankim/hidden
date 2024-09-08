@@ -1167,7 +1167,7 @@ h1.recruit-title {
 	font-weight: 600;
 	font-size: 18px;
 	padding: 2px 5px 2px 5px;
-	margin-bottom:5px;
+	margin-bottom: 5px;
 	position: relative;
 }
 
@@ -1275,109 +1275,231 @@ h1.recruit-title {
 }
 
 .services-ticker-block {
-  position: relative;
-  display:flex; 
-  align-items:center;
-  overflow-x: hidden;
+	position: relative;
+	display: flex;
+	align-items: center;
+	overflow-x: hidden;
 }
 
 .stb_line_single {
-  position: relative;
-  white-space: nowrap;
-  padding: 0;
-  will-change: transform;
-  margin-bottom:10px;
+	position: relative;
+	white-space: nowrap;
+	padding: 0;
+	will-change: transform;
+	margin-bottom: 10px;
 }
 
 .stb-item {
-  padding: 0;
-  font-size: 6.4rem;
-  display: inline-block;
-  margin-right: 20px;
+	padding: 0;
+	font-size: 6.4rem;
+	display: inline-block;
+	margin-right: 20px;
 }
-.stb-item img{
-	width:300px;
-	box-shadow:0px 5px 15px rgba(0,0,0,0.5);
+
+.stb-item img {
+	width: 300px;
+	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
 }
+
 .stb-item:hover {
-    color: #C02534;
+	color: #C02534;
 }
-.product-title span{
-	font-size:13px;
-	font-weight:500;
+
+.product-title span {
+	font-size: 13px;
+	font-weight: 500;
 }
-.product-title span a{
-	color:gray !important;
+
+.product-title span a {
+	color: gray !important;
 }
-#jsv-holder{
-	margin-top:-100px !important;
-	margin-left:-20px !important; 
+
+#jsv-holder {
+	margin-top: -100px !important;
+	margin-left: -20px !important;
 }
-@media(max-width:760px){
-	#jsv-holder{
-		margin-top:0px !important;
-		margin-left:-30px !important; 
-		z-index:-999;
+
+@media(max-width:760px) {
+	#jsv-holder {
+		margin-top: 0px !important;
+		margin-left: -30px !important;
+		z-index: -999;
 	}
 }
 
 .temp-modal {
-    display: none; 
-    position: fixed; 
-    z-index: 999999; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0,0,0,0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: none;
+	position: fixed;
+	z-index: 999999;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .temp-modal-content {
-    position: relative;
-    width: 80%;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
-    max-width: 600px;
-    background: white;
-    text-align: center;
-    padding: 20px 20px 0px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+	position: relative;
+	width: 80%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 600px;
+	background: white;
+	text-align: center;
+	padding: 20px 20px 0px 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
 }
 
 .temp-modal-content img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
 }
 
 .temp-close {
-    position: absolute;
-    top: -10px;
-    right: 3px;
-    color: #aaa;
-    font-size: 24px;
-    font-weight: bold;
+	position: absolute;
+	top: -10px;
+	right: 3px;
+	color: #aaa;
+	font-size: 24px;
+	font-weight: bold;
 }
 
 .temp-close:hover,
 .temp-close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 .temp-footer {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
-img.bordered{
+img.bordered {
 	border: 1px solid black;
-    box-sizing: border-box; /* 테두리가 추가되어도 크기가 변하지 않도록 설정 */
+	box-sizing: border-box;
+	/* 테두리가 추가되어도 크기가 변하지 않도록 설정 */
+}
+
+/* temp css */
+.btn-add-to-cart {
+	position: absolute;
+	bottom: 0 !important;
+}
+
+
+/* Overlay */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 9999998;
+}
+
+/* Initial small box */
+.box {
+	position: fixed;
+	bottom: 80px;
+	right: 30px;
+	width: 40px;
+	height: 40px;
+	background-color: white;
+	border: 2px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s, width 0.5s, height 0.5s;
+	cursor: pointer;
+	z-index: 9999999;
+}
+
+.box i {
+	font-size: 16px;
+	color: black;
+}
+
+/* Box hover effect */
+.box:hover {
+	background-color: darkgray;
+}
+
+/* Expanded box */
+.box.expanded {
+	bottom: 0;
+	right: 0;
+	width: 400px;
+	height: 100vh;
+	background-color: white;
+}
+
+.sidebar-content {
+	display: none;
+	padding: 10px;
+}
+
+/* Show sidebar content when box is expanded */
+.box.expanded .sidebar-content {
+	display: block;
+}
+
+/* Close button */
+.box .close-btn {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	font-size: 24px;
+	cursor: pointer;
+}
+
+/* Wrapper to position the button and input together */
+.search-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+/* Input field styling */
+.search-container input {
+	padding-left: 40px;
+	/* To make space for the icon */
+	height: 40px;
+	width: 100%;
+	font-size: 16px;
+	border: 1px solid black;
+}
+
+/* Search icon button styling */
+.search-container button {
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	border: none;
+	background: none;
+	padding: 0;
+	margin: 0;
+	cursor: pointer;
+}
+
+/* Search icon styling */
+.search-container button i {
+	font-size: 18px;
+	color: #333;
+}
+
+/* Optional: Add some styling to the input field on focus */
+.search-container input:focus {
+	outline: 2px solid #007bff;
 }
 

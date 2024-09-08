@@ -1547,7 +1547,9 @@ ul.slick-dots li.slick-active button {
 }
 
 .left-sidebar {
+	/* temp css*/
 	padding-right: 30px;
+	padding-left: 30px;
 }
 
 .right-sidebar {
@@ -3738,10 +3740,10 @@ ul.slick-dots li.slick-active button {
 =========================================================================*/
 .site-main .page-title {
 	background-image: url(../../media/site-header.jpg);
-	padding: 145px 15px 0 15px;
+	padding: 100px 15px 0 15px;
 	margin: 0 0 70px;
 	font-size: 20px;
-	padding-bottom: 50px;
+	padding-bottom: 40px;
 	background-position: top;
 	position: relative;
 	text-align: center;
@@ -3752,11 +3754,12 @@ ul.slick-dots li.slick-active button {
 	position: relative;
 	align-items: center;
 }
-
+/* temp css */
 .site-main .page-title .content-title-heading .text-title-heading {
 	text-transform: capitalize;
 	margin-top: 0;
-	font-size: 50px;
+	/* temp css */
+	font-size: 30px;
 	font-weight: 600;
 	text-align: center;
 	color: white;
@@ -7189,7 +7192,8 @@ ul.slick-dots li.slick-active button {
 }
 
 .block-product-filter ul.filter-items.image li {
-	width: 16.6%;
+	/* temp css */
+	width: 25%;
 	padding: 0 5px;
 	margin: 0 0 10px 0;
 }
