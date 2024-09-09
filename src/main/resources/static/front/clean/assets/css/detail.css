@@ -1503,3 +1503,397 @@ img.bordered {
 	outline: 2px solid #007bff;
 }
 
+.glb-wrap {
+	min-height: 300px;
+	height: calc(80vh - 106px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.main-wrap-container {
+	position: absolute;
+	height: 100vh;
+	width: 100%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 1360px;
+
+}
+
+div.left-content {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+div.right-content {
+	position: absolute;
+	right: 10%;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.main-wrap-container p.first-content,
+.main-wrap-container p.rep-content,
+.main-wrap-container p.last-content {
+	color: white;
+}
+
+.main-wrap-container p.first-content {
+	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	padding-left: 2px;
+}
+
+.main-wrap-container p.rep-content {
+	font-size: 80px;
+	font-weight: 300;
+	letter-spacing: 2px;
+	line-height: 1.2;
+}
+
+.main-wrap-container p.rep-content strong {
+	font-weight: 600;
+}
+
+.main-wrap-container p.last-content {
+	margin-bottom: 0px;
+	font-size: 16px;
+	line-height: 1.4p;
+	padding-left: 2px;
+}
+
+@media(max-width:760px) {
+
+	div.left-content,
+	div.right-content {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		padding-left: 10px;
+		padding-right: 10px;
+		width: 100%;
+		justify-content: center;
+	}
+
+	.main-wrap-container p.first-content {
+		font-size: 16px;
+		font-weight: 600;
+		letter-spacing: 1px;
+		padding-left: 2px;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.main-wrap-container p.rep-content {
+		font-size: 40px;
+		font-weight: 300;
+		letter-spacing: 2px;
+		line-height: 1.2;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.main-wrap-container p.rep-content strong {
+		font-weight: 600;
+	}
+
+	.main-wrap-container p.last-content {
+		margin-bottom: 0px;
+		font-size: 16px;
+		line-height: 1.2p;
+		padding-left: 2px;
+		justify-content: center;
+		text-align: center;
+	}
+}
+
+.process-text-content h1 {
+	font-size: 32px;
+	font-weight: 600;
+}
+
+.process-text-content .text-block h5 {
+	font-size: 22px;
+}
+
+.process-text {
+	height: 850px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	/* 수직 중앙 정렬 */
+}
+
+.process-text-left {
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.process-text-right {
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.process-img-wrap {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.process-title {
+	position: absolute;
+	top: -15px;
+	width: 100%;
+}
+
+.process-title p {
+	margin-bottom: 0px;
+	color: rgb(125, 125, 125);
+	font-size: 24px;
+	line-height: 1.4;
+}
+
+p.process-title-line {
+	position: relative;
+	padding-right: 20px;
+	background-color: white;
+	z-index: 11;
+	display: inline-block;
+	/* 텍스트 크기에 맞춰 가상 요소를 배치하기 위함 */
+}
+
+.topline {
+	border: 1px solid rgb(229, 229, 229);
+	height: 1px;
+	width: 105%;
+	position: absolute;
+	top: 15px;
+}
+
+.underline {
+	border: 1px solid rgb(229, 229, 229);
+	height: 1px;
+	width: 105%;
+	position: absolute;
+	bottom: 0;
+}
+
+.agency-button {
+	display: inline-flex;
+	align-items: center;
+	padding: 10px 20px;
+	font-size: 16px;
+	border: none;
+	border-radius: 0px;
+	background-color: black;
+	color: white;
+	cursor: pointer;
+	width: 100%;
+	justify-content: center;
+	transition: all 0.3s ease-in;
+}
+
+.agency-button i {
+	margin-right: 8px;
+	/* 아이콘과 텍스트 사이의 간격 */
+}
+
+
+.agency-button:hover {
+	background-color: darkgray;
+}
+
+.agency-btn-wrap {
+	display: flex;
+	width: 100%;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.agency-info-wrap {
+	display: flex;
+	flex-direction: column;
+}
+
+
+.agency-search-form-control {
+	border: none !important;
+	/* 충돌 방지 */
+	border-bottom: 3px solid black !important;
+	/* 하단 테두리만 적용 */
+	border-radius: 0 !important;
+	/* 테두리 둥글기 제거 */
+	outline: none;
+	box-shadow: none !important;
+	width: 100%;
+	height: 45px;
+	/* 다른 요소와 동일한 높이 */
+}
+
+.agency-search-select-wrapper {
+	position: relative;
+	width: 100%;
+}
+
+.agency-search-select-wrapper select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	position: relative;
+	width: 100%;
+}
+
+.agency-search-select-wrapper::after {
+	content: '\f0d7';
+	/* Font Awesome 아래 화살표 */
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	transition: transform 0.3s;
+}
+
+.agency-search-select-wrapper select:focus+ ::after,
+.agency-search-select-wrapper select:active+ ::after {
+	transform: translateY(-50%) rotate(180deg);
+	/* 선택 시 화살표 회전 */
+}
+
+.agency-search-btn-custom {
+	width: 200px;
+	/* 버튼의 너비 */
+	height: 45px;
+	cursor: pointer;
+	/* 다른 요소와 동일한 높이 */
+	transition: background-color 0.3s, transform 0.3s;
+}
+
+.agency-search-btn-search {
+	background-color: #007bff;
+	color: white;
+}
+
+.agency-search-btn-dealer {
+	background-color: #28a745;
+	color: white;
+}
+
+.agency-search-btn:hover {
+	transform: translateY(-2px);
+	/* Hover 시 버튼 약간 위로 이동 */
+}
+
+.agency-search-btn-search:hover {
+	background-color: #0056b3;
+	/* 검색 버튼 Hover 시 색상 변경 */
+}
+
+.agency-search-btn-dealer:hover {
+	background-color: #218838;
+	/* 대리점 찾기 버튼 Hover 시 색상 변경 */
+}
+
+.agency-search-btn i {
+	margin-right: 8px;
+}
+
+.agency-block-title {
+	margin-bottom: 50px;
+}
+
+.agency-title {
+	font-size: 30px;
+	font-weight: 600;
+	margin-bottom: 0px;
+}
+
+
+
+.checkout-review-order {
+	position: relative;
+	/* hidden-content가 이 안에서 절대 위치 */
+	margin-bottom: 20px;
+	padding: 20px;
+}
+
+.checkout-review-order-table {
+	border: 1px solid #ccc;
+	padding: 20px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+.checkout-payment {
+	margin-top: 20px;
+}
+
+.agency-btn-wrap {
+	display: flex;
+	gap: 10px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.agency-search-modal-background {
+	visibility: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 9999999999;
+	opacity: 0;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 모달 창 */
+.agency-search-modal {
+	visibility: hidden;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 450px;
+	height: 90vh;
+	background-color: #fff;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	z-index: 99999999999;
+	border:1px solid black;
+	opacity: 0;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 닫기 버튼 */
+.agency-search-modal .agency-search-close-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	cursor: pointer;
+	font-size: 20px;
+	font-weight:900;
+	
+}
+
+/* Fade in 효과 */
+.agency-search-modal.show,
+.agency-search-modal-background.show {
+	visibility: visible;
+	opacity: 1;
+}

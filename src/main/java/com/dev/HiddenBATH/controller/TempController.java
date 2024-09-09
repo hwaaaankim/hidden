@@ -128,6 +128,12 @@ public class TempController {
 		return "temp/findAgency";
 	}
 	
+	@GetMapping("/findAgencyTwo")
+	public String findAgencyTwo() {
+		
+		return "temp/findAgencyTwo";
+	}
+	
 	@GetMapping("/findAgencyList")
 	public String findAgencyList() {
 		

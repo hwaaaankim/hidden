@@ -37,8 +37,8 @@
 								<div class="section-padding">
 									<div class="section-container p-l-r">
 										<div class="product-detail">
-											<div class="row">
-												<div class="col-lg-7 product-detail-media">
+											<div class="row" style="justify-content: space-between;">
+												<div class="col-lg-6 product-detail-media">
 													<div class="b-top-black"></div>
 													<div class="cms-element-">
 														<div class="row">
@@ -49,7 +49,7 @@
 																			<div class="tns-inner">
 																				<div class="tns-horizontal">
 																					<div class="tns-item">
-																						<div style="min-height: 100%; height:calc(100vh - 106px);display:flex;justify-content: center;align-items: center;">
+																						<div class="glb-wrap">
 																							<!-- GLB 모델을 렌더링할 컨테이너 -->
 																							<div id="glb-container">
 																								<!-- Google Model Viewer 적용 -->
@@ -70,11 +70,33 @@
 																							</div>
 																						</div>
 																					</div>
-																					<div
-																						class="tns-item">
-																						<div class="js-magnifier-container"
-																							style="min-height: 100%; height:calc(100vh - 106px);display:flex;justify-content: center;align-items: center;">
+																					<div class="tns-item">
+																						<div class="glb-wrap">
+																							<!-- GLB 모델을 렌더링할 컨테이너 -->
 																							<div id="glb-container">
+																								<!-- Google Model Viewer 적용 -->
+																								<model-viewer
+																									id="hiddenbath-demo"
+																									src="/temp/d4.glb"
+																									alt="3D Model" ar
+																									camera-controls
+																									auto-rotate
+																									shadow-intensity="1">
+																									<div class="progress-bar hide"
+																										slot="progress-bar">
+																										<div
+																											class="update-bar">
+																										</div>
+																									</div>
+																								</model-viewer>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="tns-item">
+																						<div class="glb-wrap">
+																							<!-- GLB 모델을 렌더링할 컨테이너 -->
+																							<div id="glb-container">
+																								<!-- Google Model Viewer 적용 -->
 																								<model-viewer
 																									id="hiddenbath-demo"
 																									src="/temp/d4.glb"

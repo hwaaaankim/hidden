@@ -3204,7 +3204,7 @@ ul.slick-dots li.slick-active button {
 	display: block;
 }
 
-.mini-cart .cart-popup a.product-name {
+.mini-cart .cart-popup a.agency-name {
 	color: #000 !important;
 	padding-right: 20px;
 	width: calc(100% - 20px);
@@ -10555,18 +10555,18 @@ ul.slick-dots li.slick-active button {
 	width: 80px;
 }
 
-.shop-cart .cart-items tbody tr td.product-thumbnail .product-name {
+.shop-cart .cart-items tbody tr td.product-thumbnail .agency-name {
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: 20px;
 }
 
-.shop-cart .cart-items tbody tr td.product-thumbnail .product-name a {
+.shop-cart .cart-items tbody tr td.product-thumbnail .agency-name a {
 	font-size: 16px;
 	color: #000;
 }
 
-.shop-cart .cart-items tbody tr td.product-thumbnail .product-name a:hover {
+.shop-cart .cart-items tbody tr td.product-thumbnail .agency-name a:hover {
 	color: #000;
 }
 
@@ -10910,7 +10910,7 @@ ul.slick-dots li.slick-active button {
 }
 
 .shop-checkout .checkout-review-order {
-	padding: 30px 40px;
+	padding: 20px 20px;
 	border: 1px solid #000;
 }
 
@@ -10923,6 +10923,7 @@ ul.slick-dots li.slick-active button {
 	font-size: 22px;
 	color: #000;
 	margin-bottom: 22px;
+	font-weight:600;
 }
 
 .shop-checkout .checkout-review-order .cart-item {
@@ -10933,6 +10934,7 @@ ul.slick-dots li.slick-active button {
 
 .shop-checkout .checkout-review-order .cart-item .info-product {
 	display: flex;
+	justify-content: center;
 }
 
 .shop-checkout .checkout-review-order .cart-item .info-product .product-thumbnail {
@@ -10943,15 +10945,15 @@ ul.slick-dots li.slick-active button {
 	border: 1px solid #e8e8e8;
 }
 
-.shop-checkout .checkout-review-order .cart-item .info-product .product-name {
-	padding-left: 20px;
+.shop-checkout .checkout-review-order .cart-item .info-product .agency-name {
 	color: #000;
 	text-transform: uppercase;
 	word-break: break-word;
-	font-size: 14px;
+	font-size: 15px;
+	margin-bottom:0px;
 }
 
-.shop-checkout .checkout-review-order .cart-item .info-product .product-name .product-quantity {
+.shop-checkout .checkout-review-order .cart-item .info-product .agency-name .product-quantity {
 	display: block;
 	font-weight: 500;
 }
@@ -10987,7 +10989,7 @@ ul.slick-dots li.slick-active button {
 	align-items: center;
 	justify-content: space-between;
 	border-top: 1px solid #dedede;
-	padding: 27px 0;
+	padding: 15px 0;
 }
 
 .shop-checkout .checkout-review-order .shipping-methods {
@@ -11004,8 +11006,7 @@ ul.slick-dots li.slick-active button {
 }
 
 .shop-checkout .checkout-review-order .checkout-payment .payment-methods {
-	padding: 20px;
-	margin-bottom: 30px;
+	padding: 10px;
 	list-style: none;
 	border: 1px solid #d9d9d9;
 }
