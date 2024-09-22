@@ -17,12 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dev.HiddenBATH.model.product.MiddleSort;
 import com.dev.HiddenBATH.model.product.Product;
+import com.dev.HiddenBATH.repository.ConstructionRepository;
 import com.dev.HiddenBATH.repository.product.ProductBigSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductColorRepository;
 import com.dev.HiddenBATH.repository.product.ProductMiddleSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductRepository;
 import com.dev.HiddenBATH.repository.product.ProductTagRepository;
+import com.dev.HiddenBATH.service.GalleryService;
 import com.dev.HiddenBATH.service.product.ProductService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/temp")
@@ -47,8 +52,21 @@ public class TempController {
 	@Autowired
 	ProductService productService;
 	
+	@Autowired
+	GalleryService galleryService;
+	
+	@Autowired
+	ConstructionRepository constructionRepository;
+	
 	@GetMapping("/index")
-	public String home() {
+	public String home(
+			HttpServletRequest request,
+			HttpSession session,
+			Model model
+			) {
+		model.addAttribute("construction", constructionRepository.findAll());
+		model.addAttribute("one", galleryService.getGalleriesInTwoHalves().get(0));
+		model.addAttribute("two", galleryService.getGalleriesInTwoHalves().get(1));
 		return "temp/index";
 	}
 	
@@ -60,7 +78,7 @@ public class TempController {
 			@RequestParam(required = false, defaultValue = "0") Long middleId,
 			@RequestParam(required = false, defaultValue = "0") Long tagId,
 			@RequestParam(required = false, defaultValue = "0") Long colorId,
-			@PageableDefault(size=10) Pageable pageable
+			@PageableDefault(size=12) Pageable pageable
 			) {
 		Page<Product> products = null;
 		if(id == 7l) {

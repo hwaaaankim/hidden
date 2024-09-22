@@ -2054,7 +2054,7 @@ ul.slick-dots li.slick-active button {
 .site-navigation ul>li.level-0.current-menu-item>a,
 .site-navigation ul>li.level-0.current_page_item>a,
 .site-navigation ul>li.level-0:hover>a {
-	color: #000;
+	color: darkgray;
 }
 
 .color-white .site-navigation ul>li.level-0.current-menu-ancestor>a,
@@ -10916,6 +10916,7 @@ ul.slick-dots li.slick-active button {
 
 .shop-checkout .checkout-review-order h2 {
 	margin: 0;
+	font-weight:600;
 	font-size: 15px;
 }
 

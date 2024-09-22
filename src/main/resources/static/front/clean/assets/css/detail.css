@@ -1531,7 +1531,7 @@ div.left-content {
 
 div.right-content {
 	position: absolute;
-	right: 10%;
+	right: 0;
 	top: 50%;
 	transform: translateY(-50%);
 }
@@ -1832,7 +1832,7 @@ p.process-title-line {
 }
 
 .checkout-review-order-table {
-	border: 1px solid #ccc;
+	border: none;
 	padding: 20px;
 	margin-bottom: 10px;
 	cursor: pointer;
@@ -1896,4 +1896,9 @@ p.process-title-line {
 .agency-search-modal-background.show {
 	visibility: visible;
 	opacity: 1;
+}
+span.distance-text{
+	font-size:15px;
+	color:blue;
+	vertical-align: super;
 }

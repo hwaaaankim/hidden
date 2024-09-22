@@ -28,12 +28,13 @@ public class WebSecurityConfig {
 			"/**", 
 			"/administration/**",
 			"/api/v1/**", 
-			"/temp/**" 
+			
 	};
 	
 	// 관리자
 	private final String[] adminsUrls = {
-			"/admin/**"
+			"/admin/**",
+			"/temp/**" 
 	};
 	
 	@Bean
