@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html 
+lang="ko" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="cleanHead">
 	<meta charset="UTF-8">
@@ -261,7 +264,7 @@
 													</div>
 												</div>
 											</li>
-											<li class="level-0 menu-item menu-item-has-children ">
+											<li class="level-0 menu-item menu-item-has-children" sec:authorize="isAuthenticated()">
 												<a href="#"><span class="menu-item-text">테스트페이지</span></a>
 												<div class="sub-menu">
 													<div class="row">
