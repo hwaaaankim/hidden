@@ -70,23 +70,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 			<div class="header-mobile-fixed">
 				<div class="shop-page">
-					<a href="#"><i class="wpb-icon-shop"></i></a>
+					<a href="/index"><i class="wpb-icon-shop"></i></a>
 				</div>
 
 				<div class="my-account">
 					<div class="login-header">
-						<a href="#"><i class="wpb-icon-user"></i></a>
+						<a href="/about"><i class="wpb-icon-user"></i></a>
 					</div>
 				</div>
 
 				<!-- Search -->
 				<div class="search-box">
-					<div class="#"><i class="wpb-icon-magnifying-glass"></i></div>
+					<a class="search-toggle"><i class="wpb-icon-magnifying-glass"></i></a>
 				</div>
 
 				<!-- Wishlist -->
 				<div class="wishlist-box">
-					<a href="#"><i class="icon-large-paper-bag"></i></a>
+					<a href="/productList/7"><i class="icon-large-paper-bag"></i></a>
 				</div>
 			</div>
 		</div>
@@ -453,6 +453,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<div class="search-overlay">
 			<div class="close-search"></div>
 			<div class="wrapper-search">
+				<button class="search-close-btn">X</button>
 				<form 
 				method="post" 
 				class="search-from" 
@@ -739,6 +740,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 					}
 				});
 			});
+			document.querySelector('.search-close-btn').addEventListener('click', function() {
+			    const searchOverlay = document.querySelector('.search-overlay');
+			    searchOverlay.classList.remove('search-visible');
+			  });
+			
 		</script>
 	</th:block>
 

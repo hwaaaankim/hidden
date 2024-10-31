@@ -1521,7 +1521,27 @@ img.bordered {
 	max-width: 1360px;
 
 }
-
+@media(max-width:760px){
+	.main-wrap-container {
+		position: absolute;
+		height: calc(100vh - 76px) !important; 
+		width: 100%;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		max-width: 1360px;
+	
+	}
+	.block-sliders .item-content{
+		height: calc(100vh - 129px) !important; 
+	}
+	.item-content .content-image picture img{
+	    object-fit: cover; /* 이미지 중앙에 맞추고 넘치는 부분 잘라냄 */
+  		object-position: center bottom;
+  		height: calc(100vh - 129px) !important; 
+  		min-height:calc(100vh - 129px) !important; 
+	}
+}
 div.left-content {
 	position: absolute;
 	left: 0;
@@ -1569,34 +1589,39 @@ div.right-content {
 
 @media(max-width:760px) {
 
-	div.left-content,
-	div.right-content {
+	div.left-content, div.right-content{
 		position: absolute;
 		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
+		top: 80%;
+		transform: translate(-50%, -20%);
 		padding-left: 10px;
 		padding-right: 10px;
 		width: 100%;
 		justify-content: center;
 	}
-
+	
+	.main-text-wrap.content{
+		padding-left:20px;
+	}
+	
 	.main-wrap-container p.first-content {
-		font-size: 16px;
+		font-size: 14px;
 		font-weight: 600;
 		letter-spacing: 1px;
+		margin-bottom: 0px;
 		padding-left: 2px;
 		justify-content: center;
-		text-align: center;
+		text-align: left;
 	}
 
 	.main-wrap-container p.rep-content {
 		font-size: 40px;
+		margin-bottom:0px;
 		font-weight: 300;
 		letter-spacing: 2px;
 		line-height: 1.2;
-		justify-content: center;
-		text-align: center;
+		justify-content: left;
+		text-align: left;
 	}
 
 	.main-wrap-container p.rep-content strong {
@@ -1605,11 +1630,11 @@ div.right-content {
 
 	.main-wrap-container p.last-content {
 		margin-bottom: 0px;
-		font-size: 16px;
-		line-height: 1.2p;
+		font-size: 14px;
+		line-height: 1.2;
 		padding-left: 2px;
-		justify-content: center;
-		text-align: center;
+		justify-content: left;
+		text-align: left;
 	}
 }
 
@@ -1901,4 +1926,12 @@ span.distance-text{
 	font-size:15px;
 	color:blue;
 	vertical-align: super;
+}
+.search-close-btn{
+	cursor: pointer;
+	position:absolute; 
+	top:20px; 
+	right:20px;
+	background-color:transparent;
+	font-weight:700;
 }
