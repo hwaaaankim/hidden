@@ -1,7 +1,7 @@
 # 동작 환경 설정
 spring:
   profiles:
-    active: prod
+    active: test
 server:
   port: 8080
   servlet:
@@ -24,6 +24,9 @@ spring:
     url: jdbc:mariadb://203.245.44.103:3306/hidden7557?useUnicode=true&characterEncoding=utf8
     username: hidden7557
     password: hidden3660!@
+#    url: jdbc:mariadb://localhost:3306/hiddenauto?useUnicode=true&characterEncoding=utf8
+#    username: root
+#    password: ghksrka3849!
     hikari:
       connectionTimeout: 30000
       maximumPoolSize: 10

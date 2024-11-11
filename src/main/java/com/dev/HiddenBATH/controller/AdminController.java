@@ -215,7 +215,4 @@ public class AdminController {
 		
 		return "administration/analytics/siteAnalytics";
 	}
-	
-	
-	
 }

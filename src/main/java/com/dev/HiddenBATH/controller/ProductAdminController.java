@@ -197,25 +197,25 @@ public class ProductAdminController {
 //		zipService.directoryRefactoring(file);
 //	}
 	
-//	@PostMapping("/resetExcelUpload")
-//	@ResponseBody
-//	public List<String> addExcelUpload(MultipartFile file, Model model) throws IOException {
-//	    return excelUploadService.uploadExcel(file);
-//	}
-	
 	@PostMapping("/resetExcelUpload")
-    public ResponseEntity<byte[]> addExcelUpload(@RequestParam("file") MultipartFile file) throws IOException {
-        byte[] modifiedFile = productService.processExcelFile(file);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "modified_excel.xlsx");
-
-        return ResponseEntity
-                .ok()
-                .headers(headers)
-                .body(modifiedFile);
-    }
+	@ResponseBody
+	public List<String> addExcelUpload(MultipartFile file, Model model) throws IOException {
+	    return excelUploadService.uploadExcel(file);
+	}
+	
+//	@PostMapping("/resetExcelUpload")
+//    public ResponseEntity<byte[]> addExcelUpload(@RequestParam("file") MultipartFile file) throws IOException {
+//        byte[] modifiedFile = productService.processExcelFile(file);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDispositionFormData("attachment", "modified_excel.xlsx");
+//
+//        return ResponseEntity
+//                .ok()
+//                .headers(headers)
+//                .body(modifiedFile);
+//    }
     
 	@PostMapping("/updateExcelUpload")
 	@ResponseBody
