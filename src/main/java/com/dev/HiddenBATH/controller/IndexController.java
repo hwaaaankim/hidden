@@ -183,6 +183,12 @@ public class IndexController {
 		return "front/catalog/2024";
 	}
 	
+	@GetMapping("/2025")
+	public String catalog2025() {
+		
+		return "front/catalog/2025";
+	}
+	
 	@GetMapping("/noticeDetail")
 	public String noticeDetail() {
 		

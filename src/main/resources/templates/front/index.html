@@ -23,7 +23,8 @@
 										<div class="item-content">
 											<div class="content-image">
 												<picture>
-													<source srcset = "/front/clean/20240831/m002.png" media="(max-width:760px)">
+													<source srcset="/front/clean/20240831/m002.png"
+														media="(max-width:760px)">
 													<img width="1920" height="1080" src="/front/clean/20240831/w01.png"
 														alt="Image Slider">
 												</picture>
@@ -42,15 +43,16 @@
 											</div>
 										</div>
 									</div>
-									
+
 									<div class="item slick-slide">
 										<div class="item-content">
 											<div class="content-image">
 												<picture>
-													<source srcset = "/front/clean/20240831/m001.png" media="(max-width:760px)">
+													<source srcset="/front/clean/20240831/m001.png"
+														media="(max-width:760px)">
 													<img width="1920" height="1080" src="/front/clean/20240831/w03.png"
 														alt="Image Slider">
-												</picture>	
+												</picture>
 											</div>
 										</div>
 										<div class="section-container main-wrap-container">
@@ -70,7 +72,8 @@
 										<div class="item-content">
 											<div class="content-image">
 												<picture>
-													<source srcset = "/front/clean/20240831/m003.png" media="(max-width:760px)">
+													<source srcset="/front/clean/20240831/m003.png"
+														media="(max-width:760px)">
 													<img width="1920" height="1080" src="/front/clean/20240831/w02.png"
 														alt="Image Slider">
 												</picture>
@@ -106,7 +109,7 @@
 														</p>
 														<p><strong>01.</strong></p>
 													</div>
-													
+
 													<div class="process-text-content">
 														<h1>나만의 욕실에 딱 맞는</h1>
 														<h1>하나뿐인 그 제품</h1>
@@ -575,45 +578,77 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
 	<script src="/front/clean/assets/js/infinite.js"></script>
 	<!--<div id="myModal" class="temp-modal">
-	    <div class="temp-modal-content">
-	        <span class="temp-close" id="closeBtn">&times;</span>
-	        <img src="/front/clean/assets/img/popup.jpg" alt="Popup Image">
-	        <div class="temp-footer">
-	            <input type="checkbox" id="doNotShowAgain">
-	            <label for="doNotShowAgain">다시 보지 않기</label>
-	        </div>
-	    </div>
-	</div>
-	<script>
-	   	document.addEventListener('DOMContentLoaded', function() {
-	        if (!localStorage.getItem('doNotShowPopup')) {
-	            document.getElementById('myModal').style.display = "block";
-	        }
-	
-	        document.getElementById('closeBtn').onclick = function() {
-	            closeModal();
-	        }
-	
-	        document.getElementById('myModal').onclick = function(event) {
-	            if (event.target === this) {
-	                closeModal();
-	            }
-	        }
-	
-	        document.getElementById('doNotShowAgain').onclick = function() {
-	            if (this.checked) {
-	                localStorage.setItem('doNotShowPopup', true);
-	            } else {
-	                localStorage.removeItem('doNotShowPopup');
-	            }
-	        }
-	    });
-	
-	    function closeModal() {
-	        const modal = document.getElementById('myModal');
-	        modal.style.display = 'none';
-	    }
-	</script>-->
+      <div class="temp-modal-content">
+        <span class="temp-close" id="closeBtn">&times;</span>
+
+        <div class="swiper popup-swiper">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="swiper_img_wrapper">
+					   <img src="https://hidden3661.cafe24.com/hopopup.png" alt="Popup Image">
+					</div>
+				</div>
+				
+			  <div class="swiper-slide">
+					<div class="swiper_img_wrapper">
+						 <img src="/front/clean/assets/img/popup.png" alt="Popup Image">
+					</div>
+				</div>
+			</div>
+		</div>
+        <img
+          src="https://hidden3661.cafe24.com/holliday_6.png"
+          alt="Popup Image"
+        />
+        <div class="temp-footer">
+          <input type="checkbox" id="doNotShowAgain" />
+          <label for="doNotShowAgain">다시 보지 않기</label>
+        </div>
+      </div>
+    </div>
+    
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!localStorage.getItem("doNotShowPopup")) {
+          document.getElementById("myModal").style.display = "block";
+        }
+
+        document.getElementById("closeBtn").onclick = function () {
+          closeModal();
+        };
+
+        document.getElementById("myModal").onclick = function (event) {
+          if (event.target === this) {
+            closeModal();
+          }
+        };
+
+        document.getElementById("doNotShowAgain").onclick = function () {
+          if (this.checked) {
+            localStorage.setItem("doNotShowPopup", true);
+          } else {
+            localStorage.removeItem("doNotShowPopup");
+          }
+        };
+      });
+
+      function closeModal() {
+        const modal = document.getElementById("myModal");
+        modal.style.display = "none";
+      }
+    </script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+      let popupSwiper = new Swiper(".popup-swiper", {
+        loop: true, // 슬라이드를 루프합니다.
+        autoplay: {
+          //자동슬라이드 (false-비활성화)
+          delay: 5000, // 시간 설정
+          disableOnInteraction: false, // false-스와이프 후 자동 재생
+        },
+      });
+    </script>-->
 </body>
 
 </html>
