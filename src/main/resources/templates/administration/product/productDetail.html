@@ -5,296 +5,301 @@
 <head th:replace="fragments/administration/common :: adminHead"></head>
 
 <body>
-
-	<!-- Begin page -->
 	<div id="layout-wrapper">
-
 		<header th:replace="fragments/administration/common :: adminHeader"></header>
 		<th:block th:replace="fragments/administration/common :: adminNav"></th:block>
-
 		<div class="main-content">
-
 			<div class="page-content">
 				<div class="container-fluid">
-
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0">비규격주문</h4>
-
+								<h4 class="mb-sm-0">제품관리</h4>
 								<div class="page-title-right">
 									<ol class="breadcrumb m-0">
-										<li class="breadcrumb-item"><a href="javascript: void(0);">고객관리</a></li>
-										<li class="breadcrumb-item active">비규격주문</li>
+										<li class="breadcrumb-item"><a href="javascript: void(0);">제품 상세</a></li>
+										<li class="breadcrumb-item active">제품 상세</li>
 									</ol>
 								</div>
-
 							</div>
 						</div>
 					</div>
-
-					<div class="row">
-						<div class="col-xl-12">
-							<div class="card">
-								<div class="card-header align-items-center d-flex">
-									<h4 class="card-title mb-0 flex-grow-1">총 문의 : <span>11 회</span></h4>
+					<form autocomplete="off" class="needs-validation" method="post" action="/admin/productUpdate"
+						enctype="multipart/form-data" id="productDetailForm">
+						<input type="hidden" name="productId" th:value="${product.id}" />
+						<!-- 삭제정보 Hidden -->
+						<input type="hidden" name="deleteRepImage" id="deleteRepImage" value="false" />
+						<input type="hidden" name="deleteDrawingImage" id="deleteDrawingImage" value="false" />
+						<input type="hidden" name="deleteSlideImageIds" id="deleteSlideImageIds" value="" />
+						<div class="row">
+							<div class="col-lg-8">
+								<!-- 제품 정보 -->
+								<div class="card">
+									<div class="card-body">
+										<div class="mb-3">
+											<label class="form-label" for="product-name-input">제품명</label>
+											<input type="text" class="form-control" id="product-name-input"
+												name="productName" th:value="${product.name}" required>
+										</div>
+										<div class="mb-3">
+											<label class="form-label" for="product-code-input">제품코드</label>
+											<input type="text" class="form-control" id="product-code-input"
+												name="productCode" th:value="${product.productCode}" required>
+											<div id="product-code-check-msg" class="mt-1" style="font-size:0.95em;">
+											</div>
+										</div>
+										<div class="mb-3">
+											<label class="form-label" for="product-title-input">제품타이틀</label>
+											<input type="text" class="form-control" name="productTitle"
+												id="product-title-input" th:value="${product.title}">
+										</div>
+									</div>
 								</div>
-								<div class="card-body">
-									<p class="text-muted"># <code>안내메시지</code> </p>
-									<div class="live-preview">
-										<form>
-											<div class="row">
-												<div class="col-lg-2 pr-0">
-													<select class="form-select mb-3" aria-label="Default select example">
-														<option selected>== 10개씩 보기 ==</option>
-														<option value="1">== 30개씩 보기 ==</option>
-														<option value="2">== 50개씩 보기 ==</option>
-														<option value="3">== 100개씩 보기 ==</option>
-													</select>
-												</div>
-												<div class="col-lg-2 pr-0">
-													<select class="form-select mb-3" aria-label="Default select example">
-														<option selected>== 검색주제 ==</option>
-														<option value="1">연락처 검색</option>
-														<option value="2">고객명 검색</option>
-														<option value="3">주제별 검색</option>
-													</select>
-												</div>
-												<div class="col-lg-2 pr-0">
-													<input type="text" class="form-control" id="placeholderInput" placeholder="검색어를 입력 해 주세요.">
-												</div>
-												<div class="col-lg-2 pr-0">
-    												<button class="btn btn-primary" type="button">검색하기</button>
+								<!-- 이미지 -->
+								<div class="card">
+									<div class="card-header">
+										<h5 class="card-title mb-0">제품이미지등록</h5>
+									</div>
+									<div class="card-body">
+										<!-- 대표이미지 -->
+										<div class="mb-4">
+											<h5 class="fs-15 mb-1">제품 대표이미지</h5>
+											<p class="text-muted">제품의 대표이미지를 선택 해 주세요.</p>
+											<div>
+												<input class="form-control" id="product-image-input" name="productImage"
+													type="file" accept="image/png, image/gif, image/jpeg">
+												<div id="product-image-preview" class="mt-2 d-flex flex-wrap gap-2">
+													<th:block th:if="${product.productRepImageRoad != null}">
+														<div class="position-relative rep-img-origin"
+															th:data-id="${product.id}">
+															<img th:src="@{${product.productRepImageRoad}}"
+																style="width:150px;height:auto;"
+																class="rounded border" />
+															<button type="button"
+																class="btn btn-sm btn-danger position-absolute top-0 end-0 del-rep-img-btn">&times;</button>
+														</div>
+													</th:block>
 												</div>
 											</div>
-										</form>
+										</div>
+										<!-- 슬라이드이미지 (여러개) -->
+										<div class="mb-4">
+											<h5 class="fs-15 mb-1">제품 슬라이드 이미지</h5>
+											<p class="text-muted">제품의 슬라이드 이미지를 선택 해 주세요.</p>
+											<div>
+												<input class="form-control" type="file" multiple name="slideImages"
+													id="slide-image-input" accept="image/png, image/gif, image/jpeg">
+												<div id="slide-image-preview" class="mt-2 d-flex flex-wrap gap-2">
+													<th:block th:each="img : ${product.images}">
+														<div class="position-relative slide-img-origin"
+															th:data-id="${img.id}">
+															<img th:src="@{${img.productImageRoad}}"
+																style="width:150px;height:auto;"
+																class="rounded border" />
+															<button type="button"
+																class="btn btn-sm btn-danger position-absolute top-0 end-0 del-slide-img-btn">&times;</button>
+														</div>
+													</th:block>
+												</div>
+											</div>
+										</div>
+										<!-- 도면이미지 -->
+										<div class="mb-4">
+											<h5 class="fs-15 mb-1">도면 이미지</h5>
+											<p class="text-muted">도면 이미지를 등록 해 주세요.</p>
+											<div>
+												<input class="form-control" type="file" name="files"
+													id="drawing-image-input" accept="image/png, image/gif, image/jpeg">
+												<div id="drawing-image-preview" class="mt-2 d-flex flex-wrap gap-2">
+													<th:block th:each="img : ${product.files}">
+														<div class="position-relative drawing-img-origin"
+															th:data-id="${img.id}">
+															<img th:src="@{${img.productFileRoad}}"
+																style="width:150px;height:auto;"
+																class="rounded border" />
+															<button type="button"
+																class="btn btn-sm btn-danger position-absolute top-0 end-0 del-drawing-img-btn">&times;</button>
+														</div>
+													</th:block>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
-								<div class="card-body">
-									
-
-									<div class="live-preview">
-										<div class="table-responsive">
-											<table class="table table-bordered align-middle table-nowrap mb-0">
-												<thead>
-													<tr>
-														<th scope="col">번호</th>
-														<th scope="col">고객이름</th>
-														<th scope="col">문의제품</th>
-														<th scope="col">고객연락처</th>
-														<th scope="col">고객체크상태</th>
-														<th scope="col">비고</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-primary">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-primary">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-primary">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-primary">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-success">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-primary">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-primary">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-primary">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-primary">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td class="fw-medium">01</td>
-														<td><a href="/admin/orderDetail">고객명</a></td>
-														<td>슬라이드장</td>
-														<td><a href="TEL : 010-1234-1234">010-1234-1234</a></td>
-														<td><span
-																class="badge bg-primary-subtle text-success">체크완료</span>
-														</td>
-														<td>
-															<div class="hstack gap-3 fs-15">
-																<a href="javascript:void(0);" class="link-primary"><i
-																		class="ri-settings-4-line"></i></a>
-																<a href="javascript:void(0);" class="link-danger"><i
-																		class="ri-delete-bin-5-line"></i></a>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											</table>
+								<!-- 멀티셀렉트(사이즈, 색상, 옵션, 태그) -->
+								<div class="card">
+									<div class="card-header">
+										<ul class="nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
+											<li class="nav-item"><a class="nav-link active" data-bs-toggle="tab"
+													href="#addproduct-size" role="tab">제품 사이즈등록</a></li>
+											<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
+													href="#addproduct-metadata" role="tab">제품 색상등록</a></li>
+											<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
+													href="#addproduct-option" role="tab">제품 옵션등록</a></li>
+											<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
+													href="#addproduct-tag" role="tab">제품 태그등록</a></li>
+										</ul>
+									</div>
+									<div class="card-body">
+										<div class="tab-content">
+											<!-- 사이즈 -->
+											<div class="tab-pane active" id="addproduct-size" role="tabpanel">
+												<div class="row">
+													<div class="col-lg-12">
+														<div class="mt-4 mt-lg-0">
+															<h5 class="fs-14 mb-1">사이즈</h5>
+															<p class="text-muted">제품에 적용될 사이즈들을 선택 해 주세요.</p>
+															<select multiple="multiple" name="sizes"
+																id="multiselect-header">
+																<option th:each="s:${sizes}" th:value="${s.id}"
+																	th:text="${s.productSizeText}"
+																	th:selected="${#lists.contains(product.productSizes, s)}">
+																</option>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- 색상 -->
+											<div class="tab-pane" id="addproduct-metadata" role="tabpanel">
+												<div class="row">
+													<div class="col-lg-12">
+														<div class="mt-4 mt-lg-0">
+															<h5 class="fs-14 mb-1">색상선택</h5>
+															<p class="text-muted">제품에 적용될 색상들을 선택 해 주세요.</p>
+															<select multiple="multiple" name="colors"
+																id="multiselect-header02">
+																<option th:each="c:${colors}" th:value="${c.id}"
+																	th:text="${c.productColorSubject}"
+																	th:selected="${#lists.contains(product.productColors, c)}">
+																</option>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- 옵션 -->
+											<div class="tab-pane" id="addproduct-option" role="tabpanel">
+												<div class="row">
+													<div class="col-lg-12">
+														<div class="mt-4 mt-lg-0">
+															<h5 class="fs-14 mb-1">옵션선택</h5>
+															<p class="text-muted">제품에 적용될 옵션들을 선택 해 주세요.</p>
+															<select multiple="multiple" name="options"
+																id="multiselect-header03">
+																<option th:each="o:${options}" th:value="${o.id}"
+																	th:text="${o.productOptionText}"
+																	th:selected="${#lists.contains(product.productOptions, o)}">
+																</option>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- 태그 -->
+											<div class="tab-pane" id="addproduct-tag" role="tabpanel">
+												<div class="row">
+													<div class="col-lg-12">
+														<div class="mt-4 mt-lg-0">
+															<h5 class="fs-14 mb-1">태그선택</h5>
+															<p class="text-muted">제품에 적용될 태그들을 선택 해 주세요.</p>
+															<select multiple="multiple" name="tags"
+																id="multiselect-header04">
+																<option th:each="t:${tags}" th:value="${t.id}"
+																	th:text="${t.productTagText}"
+																	th:selected="${#lists.contains(product.productTags, t)}">
+																</option>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
-										<nav aria-label="Page navigation example" style="margin-top:10px;">
-											<ul class="pagination justify-content-center">
-												<li class="page-item disabled">
-													<a class="page-link" href="#" tabindex="-1">First</a>
-												</li>
-												<li class="page-item disabled">
-													<a class="page-link" href="#" tabindex="-1">Previous</a>
-												</li>
-												<li class="page-item"><a class="page-link" href="#">1</a></li>
-												<li class="page-item"><a class="page-link" href="#">2</a></li>
-												<li class="page-item"><a class="page-link" href="#">3</a></li>
-												<li class="page-item">
-													<a class="page-link" href="#">Next</a>
-												</li>
-												<li class="page-item">
-													<a class="page-link" href="#">Last</a>
-												</li>
-											</ul>
-										</nav>
+									</div>
+								</div>
+								<div class="text-end mb-3">
+									<button type="submit" class="btn btn-success w-sm">제품수정</button>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<!-- 제품분류 -->
+								<div class="card">
+									<div class="card-header">
+										<h5 class="card-title mb-0">제품분류</h5>
+									</div>
+									<div class="card-body">
+										<div class="mb-3">
+											<label class="form-label">대분류</label>
+											<select required id="bigSort" class="form-select" name="bigSort">
+												<option value="">=== 대분류선택 ===</option>
+												<option th:each="b:${bigsorts}" th:value="${b.id}" th:text="${b.name}"
+													th:selected="${product.bigSort.id == b.id}"></option>
+											</select>
+										</div>
+										<div>
+											<label class="form-label">중분류</label>
+											<select required id="middleSort" name="middleSort" class="form-select">
+												<option value="">대분류를 먼저 선택 해 주세요.</option>
+												<option th:each="m:${middlesorts}" th:value="${m.id}"
+													th:text="${m.name}" th:selected="${product.middleSort.id == m.id}">
+												</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<!-- 제품 선택사항 -->
+								<div class="card">
+									<div class="card-header">
+										<h5 class="card-title mb-0">제품 선택사항</h5>
+									</div>
+									<div class="card-body">
+										<div class="mb-3">
+											<label class="form-label">비규격주문 가능여부</label>
+											<select required name="order" class="form-select">
+												<option value="">=== 비규격 주문 가능여부 선택 ===</option>
+												<option value="true" th:selected="${product.order} == true">비규격 주문 가능
+												</option>
+												<option value="false" th:selected="${product.order} == false">비규격 주문 불가능
+												</option>
+											</select>
+										</div>
+										<div>
+											<label class="form-label">손잡이 가능여부</label>
+											<select required name="handle" class="form-select">
+												<option value="">=== 손잡이 가능여부 선택 ===</option>
+												<option value="true" th:selected="${product.handle} == true">손잡이 가능
+												</option>
+												<option value="false" th:selected="${product.handle} == false">손잡이 불가능
+												</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<!-- 제품설명 -->
+								<div class="card">
+									<div class="card-header">
+										<h5 class="card-title mb-0">제품설명</h5>
+									</div>
+									<div class="card-body">
+										<p class="text-muted mb-2">제품 설명 문구를 입력 해 주세요.</p>
+										<textarea class="form-control" name="subject" placeholder="제품의 설명 문구를 입력 해 주세요."
+											rows="5" th:text="${product.subject}"></textarea>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 			<footer th:replace="fragments/administration/common :: adminFooter"></footer>
 		</div>
 	</div>
-
-
 	<th:block th:replace="fragments/administration/common :: adminButton"></th:block>
 	<div th:replace="fragments/administration/common :: adminTheme"></div>
-
 	<th:block th:replace="fragments/administration/common :: adminScript"></th:block>
+	<script src="/administration/assets/libs/dropzone/dropzone-min.js"></script>
+	<script src="/administration/assets/libs/multi.js/multi.min.js"></script>
+	<script src="/administration/assets/js/productDetail.js"></script>
 </body>
 
 </html>

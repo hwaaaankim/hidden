@@ -36,69 +36,72 @@ public class ProductImageService {
 	@Value("${spring.upload.path}")
 	private String commonPath;
 	
-	public String imageUpload(
-			Product product,
-			List<MultipartFile> images
-			) throws IllegalStateException, IOException {
-	
-        // 실제 파일 저장 위치
- 		String path = commonPath 
- 				+ "/product/"
- 				+ product.getProductCode()
- 				+ "/slide/";
+	public String imageUpload(Product product, List<MultipartFile> images)
+	        throws IllegalStateException, IOException {
 
- 		// 파일 resource 로드 url
- 		String road = "/upload/product/"
- 				+ product.getProductCode()
- 				+ "/slide/";
-        
-        int leftLimit = 48; // numeral '0'
-		int rightLimit = 122; // letter 'z'
-		int targetStringLength = 10;
-		Random random = new Random();
-		
-        for(MultipartFile file : images) {
-        	if(!file.isEmpty()) {
-        		String generatedString = random.ints(leftLimit,rightLimit + 1)
-      				  .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-      				  .limit(targetStringLength)
-      				  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-      				  .toString();
-        		ProductImage f = new ProductImage();
-        		f.setProductId(product.getId());
-            	String contentType = file.getContentType();
-                String originalFileExtension = "";
-                // 확장자 명이 없으면 이 파일은 잘 못 된 것이다
-                if (ObjectUtils.isEmpty(contentType)){
-                    return "NONE";
-                }else {
-        			if (contentType.contains("image/jpeg")) {
-        				originalFileExtension = ".jpg";
-        			} else if (contentType.contains("image/png")) {
-        				originalFileExtension = ".png";
-        			} 
-                }
-                String productImageName = generatedString + originalFileExtension;
-				String productImagePath = path + "/slides/" + productImageName;
-				String productImageRoad = road + "/slides/" + productImageName;
-				String productImageSavePath = productImagePath;
-				File productImageSaveFile = new File(productImageSavePath);	
-				if (!productImageSaveFile.exists()) {
-					productImageSaveFile.mkdirs();
-				}
-                file.transferTo(productImageSaveFile);
-                f.setProductImageOriginalName(file.getOriginalFilename());
-                f.setProductImageExtension(originalFileExtension);
-                f.setProductImagePath(productImagePath);
-                f.setProductImageRoad(productImageRoad);
-                f.setProductImageName(productImageName);
-                f.setProductImageDate(new Date());
-                f.setSign(true);
-                productImageRepository.save(f);
-            }
-        }
-        
-        return "success";
+	    String path = commonPath
+	            + "/product/"
+	            + product.getProductCode()
+	            + "/slide/"; // 마지막 / 꼭 포함
+
+	    String road = "/administration/upload/product/"
+	            + product.getProductCode()
+	            + "/slide/"; // 마지막 / 꼭 포함
+
+	    // 폴더 생성
+	    File dir = new File(path);
+	    if (!dir.exists()) dir.mkdirs();
+
+	    int leftLimit = 48;
+	    int rightLimit = 122;
+	    int targetStringLength = 10;
+	    Random random = new Random();
+
+	    for (MultipartFile file : images) {
+	        if (file != null && !file.isEmpty()) {
+	            String generatedString = random.ints(leftLimit, rightLimit + 1)
+	                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	                    .limit(targetStringLength)
+	                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	                    .toString();
+	            ProductImage f = new ProductImage();
+	            f.setProduct(product);
+	            String contentType = file.getContentType();
+	            String originalFileExtension = "";
+
+	            if (ObjectUtils.isEmpty(contentType)) {
+	                throw new IllegalArgumentException("파일의 contentType이 비어 있습니다.");
+	            } else {
+	                if (contentType.contains("image/jpeg")) {
+	                    originalFileExtension = ".jpg";
+	                } else if (contentType.contains("image/png")) {
+	                    originalFileExtension = ".png";
+	                } else {
+	                    throw new IllegalArgumentException("허용되지 않는 이미지 타입입니다: " + contentType);
+	                }
+	            }
+	            String productImageName = generatedString + originalFileExtension;
+	            String productImagePath = path + productImageName;
+	            String productImageRoad = road + productImageName;
+
+	            // 파일 저장
+	            File productImageSaveFile = new File(productImagePath);
+	            File parentDir = productImageSaveFile.getParentFile();
+	            if (!parentDir.exists()) parentDir.mkdirs();
+	            file.transferTo(productImageSaveFile);
+
+	            f.setProductImageOriginalName(file.getOriginalFilename());
+	            f.setProductImageExtension(originalFileExtension);
+	            f.setProductImagePath(productImagePath);
+	            f.setProductImageRoad(productImageRoad);
+	            f.setProductImageName(productImageName);
+	            f.setProductImageDate(new Date());
+	            f.setSign(true);
+
+	            productImageRepository.save(f);
+	        }
+	    }
+	    return "success";
 	}
 	
 	public Boolean imageDelete(
@@ -114,5 +117,4 @@ public class ProductImageService {
 		
 		return true;
 	}
-
 }

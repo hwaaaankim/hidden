@@ -13,24 +13,39 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="tb_product_color")
+@Table(name = "tb_product_color")
 @Data
 public class ProductColor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="PRODUCT_COLOR_ID")
+	@Column(name = "PRODUCT_COLOR_ID")
 	private Long id;
-	
-	@Column(name="PRODUCT_COLOR_SUBJECT")
+
+	@Column(name = "PRODUCT_COLOR_SUBJECT")
 	private String productColorSubject;
 
-	@Column(name="PRODUCT_COLOR_ROAD")
+	@Column(name = "PRODUCT_COLOR_ROAD")
 	private String productColorRoad;
-	
-	@Column(name="PRODUCT_COLOR_PATH")
+
+	@Column(name = "PRODUCT_COLOR_PATH")
 	private String productColorPath;
-	
+
 	@ManyToMany(mappedBy = "productColors", fetch = FetchType.EAGER)
-    private List<Product> products;
+	private List<Product> products;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof ProductColor))
+			return false;
+		ProductColor that = (ProductColor) o;
+		return id != null && id.equals(that.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return id != null ? id.hashCode() : 0;
+	}
 }

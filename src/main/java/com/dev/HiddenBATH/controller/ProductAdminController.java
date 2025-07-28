@@ -2,17 +2,22 @@ package com.dev.HiddenBATH.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -120,14 +125,20 @@ public class ProductAdminController {
 	@Autowired
 	RefactoringService refactoringService;
 	
-//	@PostMapping("/resetZipUpload")
-//	@ResponseBody
-//	public List<String> resetZipUpload(
-//			MultipartFile file,
-//			Model model
-//			) throws IOException {
-//		return zipService.zipProductInsert(file);
-//	}
+	@GetMapping("/code-duplicate")
+	@ResponseBody
+	public boolean checkProductCodeDuplicate(
+	        @RequestParam String code,
+	        @RequestParam(required = false) Long productId // 추가 (없으면 null)
+	) {
+	    if (productId != null) {
+	        // 수정 시: 본인 id의 상품은 중복 아님 처리
+	        return productService.isProductCodeDuplicate(code, productId);
+	    } else {
+	        // 신규 등록 등 기존 방식
+	        return productService.isProductCodeDuplicate(code);
+	    }
+	}
 	
 	@PostMapping("/resetZipUpload")
 	@ResponseBody
@@ -156,66 +167,12 @@ public class ProductAdminController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
-	
-//	@PostMapping("/refactoringZipUpload")
-//    @ResponseBody
-//    public ResponseEntity<Resource> refactoringZipUpload(MultipartFile file) {
-//        try {
-//            zipService.refactorAndPrepareDownload(file);
-//
-//            // 파일 경로 지정
-//            File finalZipFile = new File("D:/Refactoring/PRODUCT.zip");
-//
-//            // 파일을 Resource로 변환
-//            Resource resource = new FileSystemResource(finalZipFile);
-//            if (!resource.exists()) {
-//                return ResponseEntity.notFound().build();
-//            }
-//
-//            // 파일 다운로드를 위한 헤더 설정
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + finalZipFile.getName());
-//            headers.add(HttpHeaders.CONTENT_TYPE, "application/zip");
-//
-//            // 파일 다운로드
-//            return ResponseEntity.ok()
-//                    .headers(headers)
-//                    .body(resource);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
-	
-//	@PostMapping("/resetZipUpload")
-//	@ResponseBody
-//	public void resetZipUpload(
-//			MultipartFile file,
-//			Model model
-//			) throws IOException {
-//		zipService.directoryRefactoring(file);
-//	}
-	
+
 	@PostMapping("/resetExcelUpload")
 	@ResponseBody
 	public List<String> addExcelUpload(MultipartFile file, Model model) throws IOException {
 	    return excelUploadService.uploadExcel(file);
 	}
-	
-//	@PostMapping("/resetExcelUpload")
-//    public ResponseEntity<byte[]> addExcelUpload(@RequestParam("file") MultipartFile file) throws IOException {
-//        byte[] modifiedFile = productService.processExcelFile(file);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//        headers.setContentDispositionFormData("attachment", "modified_excel.xlsx");
-//
-//        return ResponseEntity
-//                .ok()
-//                .headers(headers)
-//                .body(modifiedFile);
-//    }
     
 	@PostMapping("/updateExcelUpload")
 	@ResponseBody
@@ -350,10 +307,74 @@ public class ProductAdminController {
 	
 	@GetMapping("/productManager")
 	public String productManager(
-			
-			) {
-		
+			@RequestParam(value = "bigId", required = false) Long bigId,
+			@RequestParam(value = "middleId", required = false) Long middleId,
+			@RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size,
+			Model model) {
+
+		Page<Product> productPage = productService.getFilteredProductList(bigId, middleId, keyword, page, size);
+
+		model.addAttribute("productPage", productPage);
+		model.addAttribute("size", size);
+		model.addAttribute("page", page);
+		model.addAttribute("bigId", bigId);
+		model.addAttribute("middleId", middleId);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("bigList", productService.getAllBigSorts());
+
+		// 선택된 대분류에 속한 중분류 목록
+		List<MiddleSort> middleList = (bigId != null)
+				? productService.getMiddleSortsByBigSort(bigId)
+				: new ArrayList<>();
+		model.addAttribute("middleList", middleList);
+
 		return "administration/product/productManager";
+	}
+	
+	@GetMapping("/productDetail/{id}")
+    public String productManager(
+            @PathVariable("id") Long id,
+            Model model
+    ) {
+        Product product = productService.findProductWithDetails(id);
+        if (product == null) {
+            model.addAttribute("errorMessage", "해당 제품을 찾을 수 없습니다.");
+            return "administration/product/productDetail"; // 또는 에러 안내 페이지
+        }
+
+        // 대분류 전체
+        List<BigSort> bigsorts = productBigSortRepository.findAll();
+
+        // 중분류 (해당 대분류에 속한 것만)
+        List<MiddleSort> middlesorts = productMiddleSortRepository.findAllByBigSort(product.getBigSort());
+
+        // 멀티셀렉트용 데이터
+        List<ProductSize> sizes = productSizeRepository.findAll();
+        List<ProductColor> colors = productColorRepository.findAll();
+        List<ProductOption> options = productOptionRepository.findAll();
+        List<ProductTag> tags = productTagRepository.findAll();
+        model.addAttribute("product", product);
+        model.addAttribute("bigsorts", bigsorts);
+        model.addAttribute("middlesorts", middlesorts);
+        model.addAttribute("sizes", sizes);
+        model.addAttribute("colors", colors);
+        model.addAttribute("options", options);
+        model.addAttribute("tags", tags);
+
+        return "administration/product/productDetail";
+    }
+	
+	@DeleteMapping("/productDelete/{id}")
+	@ResponseBody
+	public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+		try {
+			productService.deleteProduct(id);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+		}
 	}
 	
 	@GetMapping("/productInsertForm")
@@ -424,7 +445,6 @@ public class ProductAdminController {
 			ProductDTO dto
 			) throws IllegalStateException, IOException {
 		
-		
 		Product savedProduct = productService.productInsert(dto);
 		
 		if(dto.getSlideImages() != null 
@@ -449,11 +469,128 @@ public class ProductAdminController {
 		return sb.toString();
 	}
 	
-	@GetMapping("/productDetail")
-	public String productDetail() {
-	
-		return "administration/product/productDetail";
-	}
+	@PostMapping("/productUpdate")
+    public String updateProduct(
+            @RequestParam("productId") Long productId,
+            @RequestParam("productName") String name,
+            @RequestParam("productCode") String code,
+            @RequestParam(value = "productTitle", required = false) String title,
+            @RequestParam(value = "subject", required = false) String subject,
+            @RequestParam("bigSort") Long bigSortId,
+            @RequestParam("middleSort") Long middleSortId,
+            @RequestParam("order") Boolean order,
+            @RequestParam("handle") Boolean handle,
+            @RequestParam(value = "sizes", required = false) List<Long> sizeIds,
+            @RequestParam(value = "colors", required = false) List<Long> colorIds,
+            @RequestParam(value = "options", required = false) List<Long> optionIds,
+            @RequestParam(value = "tags", required = false) List<Long> tagIds,
+            // 이미지
+            @RequestParam(value = "productImage", required = false) MultipartFile productImage,
+            @RequestParam(value = "slideImages", required = false) List<MultipartFile> slideImages,
+            @RequestParam(value = "files", required = false) MultipartFile drawingImage,
+            // 삭제 관련
+            @RequestParam(value = "deleteRepImage", required = false, defaultValue = "false") Boolean deleteRepImage,
+            @RequestParam(value = "deleteDrawingImage", required = false, defaultValue = "false") Boolean deleteDrawingImage,
+            @RequestParam(value = "deleteSlideImageIds", required = false) String deleteSlideImageIds,
+            Model model
+    ) {
+        // 1. 파라미터 프린트 (유지/삭제/변경 완벽히 확인)
+        System.out.println("=== 제품 수정 요청 디버깅 ===");
+        System.out.println("productId=" + productId);
+        System.out.println("name=" + name);
+        System.out.println("code=" + code);
+        System.out.println("title=" + title);
+        System.out.println("subject=" + subject);
+        System.out.println("bigSortId=" + bigSortId);
+        System.out.println("middleSortId=" + middleSortId);
+        System.out.println("order=" + order);
+        System.out.println("handle=" + handle);
+        System.out.println("sizeIds=" + sizeIds);
+        System.out.println("colorIds=" + colorIds);
+        System.out.println("optionIds=" + optionIds);
+        System.out.println("tagIds=" + tagIds);
+
+        // 대표이미지 체크
+        System.out.println("deleteRepImage=" + deleteRepImage);
+        System.out.println("productImage=" + (productImage != null && !productImage.isEmpty()));
+        // 도면이미지 체크
+        System.out.println("deleteDrawingImage=" + deleteDrawingImage);
+        System.out.println("drawingImage=" + (drawingImage != null && !drawingImage.isEmpty()));
+        // 슬라이드 이미지 체크
+        System.out.println("deleteSlideImageIds=" + deleteSlideImageIds);
+        System.out.println("slideImages=" + (slideImages != null && slideImages.stream().anyMatch(f -> !f.isEmpty())));
+
+        // 대표이미지 분기 로직 예시
+        if (Boolean.TRUE.equals(deleteRepImage)) {
+            if (productImage != null && !productImage.isEmpty()) {
+                System.out.println(">> 대표이미지 '변경' 요청");
+            } else {
+                System.out.println(">> 대표이미지 '삭제' 요청 (에러 - 대표이미지는 필수)");
+            }
+        } else if (productImage != null && !productImage.isEmpty()) {
+            System.out.println(">> 대표이미지 '변경' 요청 (기존 삭제 + 새로 등록)");
+        } else {
+            System.out.println(">> 대표이미지 '유지'");
+        }
+
+        // 도면이미지 분기 로직 예시
+        if (Boolean.TRUE.equals(deleteDrawingImage)) {
+            if (drawingImage != null && !drawingImage.isEmpty()) {
+                System.out.println(">> 도면이미지 '변경' 요청");
+            } else {
+                System.out.println(">> 도면이미지 '삭제' 요청");
+            }
+        } else if (drawingImage != null && !drawingImage.isEmpty()) {
+            System.out.println(">> 도면이미지 '변경' 요청 (기존 삭제 + 새로 등록)");
+        } else {
+            System.out.println(">> 도면이미지 '유지'");
+        }
+
+        // 슬라이드 이미지 분기 로직 예시
+        if (deleteSlideImageIds != null && !deleteSlideImageIds.trim().isEmpty()) {
+            System.out.println(">> 슬라이드이미지 '일부 또는 전체 삭제' 요청. 삭제 ID: " + deleteSlideImageIds);
+        }
+        if (slideImages != null && slideImages.stream().anyMatch(f -> !f.isEmpty())) {
+            System.out.println(">> 슬라이드이미지 '변경(신규등록)' 요청. (기존이미지 전체 삭제 후 새로운 이미지로 대체)");
+        }
+        if ((deleteSlideImageIds == null || deleteSlideImageIds.trim().isEmpty()) &&
+                (slideImages == null || slideImages.stream().allMatch(f -> f.isEmpty()))) {
+            System.out.println(">> 슬라이드이미지 '유지'");
+        }
+
+        try {
+            // 완성형 서비스 호출
+            productService.updateProduct(
+                    productId,
+                    name,
+                    code,
+                    title,
+                    subject,
+                    bigSortId,
+                    middleSortId,
+                    order,
+                    handle,
+                    sizeIds,
+                    colorIds,
+                    optionIds,
+                    tagIds,
+                    productImage,
+                    slideImages,
+                    drawingImage,
+                    deleteRepImage,
+                    deleteDrawingImage,
+                    deleteSlideImageIds
+            );
+        } catch (Exception e) {
+            // 예외처리 (로그, 메시지 등)
+            e.printStackTrace();
+            model.addAttribute("errorMsg", "제품 수정에 실패했습니다: " + e.getMessage());
+            return "redirect:/admin/productManager"; // 에러 시 상세페이지로 이동(상황에 따라 조정)
+        }
+
+        // 폼으로 리다이렉트 (리스트페이지 등)
+        return "redirect:/admin/productManager";
+    }
 	
 	@GetMapping("/productTagManager")
 	public String productTagManager(

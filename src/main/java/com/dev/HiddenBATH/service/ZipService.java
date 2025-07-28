@@ -282,7 +282,7 @@ public class ZipService {
         for (File file : Objects.requireNonNull(sort.listFiles())) {
             String fileName = file.getName();
             ProductImage image = new ProductImage();
-            image.setProductId(productEntity.getId());
+            image.setProduct(productEntity);
             image.setProductImagePath(commonPath + "/product/" + productCode + "/slide/" + fileName);
             image.setProductImageRoad("/administration/upload/product/" + productCode + "/slide/" + fileName);
             image.setProductImageName(fileName);
@@ -312,7 +312,7 @@ public class ZipService {
         for (File file : Objects.requireNonNull(sort.listFiles())) {
             String fileName = file.getName();
             ProductFile productFile = new ProductFile();
-            productFile.setProductId(productEntity.getId());
+            productFile.setProduct(productEntity);
             productFile.setProductFilePath(commonPath + "/product/" + productCode + "/files/" + fileName);
             productFile.setProductFileRoad("/administration/upload/product/" + productCode + "/files/" + fileName);
             productFile.setProductFileName(fileName);
@@ -332,7 +332,7 @@ public class ZipService {
         product.setProductRepImageRoad("/front/clean/sample/prepare.png");
         
         ProductImage slideImage = new ProductImage();
-        slideImage.setProductId(product.getId());
+        slideImage.setProduct(product);
         slideImage.setProductImagePath("-");
         slideImage.setProductImageRoad("/front/clean/sample/prepare.png");
         slideImage.setProductImageName("-");

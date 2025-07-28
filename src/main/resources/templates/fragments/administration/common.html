@@ -152,10 +152,7 @@
 								<div class="collapse menu-dropdown" id="sidebarAuth">
 									<ul class="nav nav-sm flex-column">
 										<li class="nav-item">
-											<a href="/admin/inquiryManager" class="nav-link" data-key="t-starter"> 일반문의관리 </a>
-										</li>
-										<li class="nav-item">
-											<a href="/admin/orderManager" class="nav-link" data-key="t-starter"> 비규격주문관리 </a>
+											<a href="/admin/inquiryManager" class="nav-link" data-key="t-starter"> 문의관리 </a>
 										</li>
 										<li class="nav-item">
 											<a href="/admin/agencyManager" class="nav-link" data-key="t-starter"> 대리점관리 </a>
@@ -170,20 +167,6 @@
 								</a>
 								<div class="collapse menu-dropdown" id="sidebarDashboards">
 									<ul class="nav nav-sm flex-column">
-										<li class="nav-item">
-	                                        <a href="#noticeBar" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSignIn" data-key="t-signin"> 공지사항관리
-	                                        </a>
-	                                        <div class="collapse menu-dropdown" id="noticeBar">
-	                                            <ul class="nav nav-sm flex-column">
-	                                                <li class="nav-item">
-	                                                    <a href="/admin/noticeCategoryManager" class="nav-link" data-key="t-basic"> 공지사항분류관리 </a>
-	                                                </li>
-	                                                <li class="nav-item">
-	                                                    <a href="/admin/noticeManager" class="nav-link" data-key="t-cover"> 공지사항관리 </a>
-	                                                </li>
-	                                            </ul>
-	                                        </div>
-	                                    </li>
 	                                    <!--<li class="nav-item">
 	                                        <a href="#faqBar" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSignIn" data-key="t-signin"> FAQ관리
 	                                        </a>
@@ -199,25 +182,16 @@
 	                                        </div>
 	                                    </li>-->
 	                                    <li class="nav-item">
+                                            <a href="/admin/noticeManager" class="nav-link" data-key="t-cover"> 공지사항관리 </a>
+                                        </li>
+	                                    <li class="nav-item">
 											<a href="/admin/instagramManager" class="nav-link" data-key="t-ecommerce"> 인스타그램 관리 </a>
 										</li>
 										<li class="nav-item">
-											<a href="/admin/galleryManager" class="nav-link" data-key="t-ecommerce"> 갤러리 관리 </a>
+											<a href="/admin/galleryManager" class="nav-link" data-key="t-ecommerce"> 시공 갤러리 관리 </a>
 										</li>
 										<li class="nav-item">
-											<a href="/admin/exampleManager" class="nav-link" data-key="t-ecommerce"> 시공사례 관리 </a>
-										</li>
-										<li class="nav-item">
-											<a href="/admin/emailSendManager" class="nav-link" data-key="t-ecommerce"> Email발신관리 </a>
-										</li>
-										<li class="nav-item">
-											<a href="/admin/smsSendManager" class="nav-link" data-key="t-ecommerce"> 문자발신관리 </a>
-										</li>
-										<li class="nav-item">
-											<a href="/admin/emailReceiveManager" class="nav-link" data-key="t-ecommerce"> Email수신관리 </a>
-										</li>
-										<li class="nav-item">
-											<a href="/admin/smsReceiveManager" class="nav-link" data-key="t-crm"> 문자수신관리 </a>
+											<a href="/admin/exampleManager" class="nav-link" data-key="t-ecommerce"> 히든 갤러리 관리 </a>
 										</li>
 									</ul>
 								</div>
@@ -225,7 +199,7 @@
 	
 	
 							
-							<li class="nav-item">
+							<!--<li class="nav-item">
 								<a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
 									aria-expanded="false" aria-controls="sidebarForms">
 									<i class="lar la-newspaper"></i> <span data-key="t-forms">사이트분석</span>
@@ -240,7 +214,7 @@
 										</li>
 									</ul>
 								</div>
-							</li>	
+							</li>	-->
 							<li class="nav-item">
 								<a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse"
 									role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
@@ -261,10 +235,6 @@
 														<a href="/admin/productColorManager" class="nav-link"
 															data-key="t-sweet-alerts"> 제품색상관리 </a>
 													</li>
-	                                                <li class="nav-item">
-														<a href="/admin/productCategoryManager" class="nav-link"
-															data-key="t-sweet-alerts"> 제품분류관리 </a>
-													</li>
 													<li class="nav-item">
 														<a href="/admin/productTagManager" class="nav-link"
 															data-key="t-nestable-list"> 제품태그관리 </a>
@@ -276,10 +246,6 @@
 													<li class="nav-item">
 														<a href="/admin/productManager" class="nav-link"
 															data-key="t-nestable-list"> 제품관리상세 </a>
-													</li>
-													<li class="nav-item">
-														<a href="/admin/productOverallManager" class="nav-link"
-															data-key="t-animation"> 제품관리개요 </a>
 													</li>
 													<li class="nav-item">
 														<a href="/admin/productIndexManager" class="nav-link"
@@ -330,7 +296,6 @@
 			</footer>
 		</div>
 	</div>
-
 
 	<th:block th:fragment="adminButton">
 		<button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">

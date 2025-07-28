@@ -28,4 +28,17 @@ public class ProductSize {
 	@ManyToMany(mappedBy = "productSizes", fetch = FetchType.EAGER)
     private List<Product> products;
 	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductSize)) return false;
+        ProductSize that = (ProductSize) o;
+        return id != null && id.equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+	
 }

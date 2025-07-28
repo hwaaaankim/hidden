@@ -113,17 +113,11 @@
 																					[[${n.bigSort.name}]]/[[${n.middleSort.name}]]
 																				</div>
 																				<a 
-																				th:if="${n.productSign == false}" 
 																				th:href="@{|/productDetail/${n.id}|}" 
 																				class="comment-reply-link">
 																					상세페이지
 																				</a>
-																				<a 
-																				th:if="${n.productSign == true}" 
-																				th:href="@{|/productDetail/${n.id}|}" 
-																				class="comment-reply-link">
-																					상세페이지
-																				</a>
+																				
 																			</div>
 																		</div>
 																	</div>
@@ -151,13 +145,7 @@
 																					[[${c.bigSort.name}]]/[[${c.middleSort.name}]]
 																				</div>
 																				<a 
-																				th:if="${c.productSign == false}" 
-																				th:href="@{|/productDetail/${c.id}|}" 
-																				class="comment-reply-link">
-																					상세페이지
-																				</a>
-																				<a 
-																				th:if="${c.productSign == true}" 
+																				th 
 																				th:href="@{|/productDetail/${c.id}|}" 
 																				class="comment-reply-link">
 																					상세페이지

@@ -17,6 +17,8 @@ import com.dev.HiddenBATH.model.product.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
+	boolean existsByProductCode(String productCode);
+	
 	Page<Product> findAllByOrderByIdDesc(Pageable pageble);
 	
 	Page<Product> findAllByBigSort(Pageable pageable, BigSort bigSort);
@@ -169,6 +171,15 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     // productCode에 특정 문자열이 포함된 제품을 조회하는 메서드
     List<Product> findByProductCodeContaining(String productCode);
 	
+    @Query("SELECT p FROM Product p " +
+ 		   "WHERE (:bigId IS NULL OR p.bigSort.id = :bigId) " +
+ 		   "AND (:middleId IS NULL OR p.middleSort.id = :middleId) " +
+ 		   "AND (:keyword IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+ 	Page<Product> searchByFilters(@Param("bigId") Long bigId,
+ 	                              @Param("middleId") Long middleId,
+ 	                              @Param("keyword") String keyword,
+ 	                              Pageable pageable);
+
 }
 
 

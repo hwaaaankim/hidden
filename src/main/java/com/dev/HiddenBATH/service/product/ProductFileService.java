@@ -2,7 +2,6 @@ package com.dev.HiddenBATH.service.product;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -43,102 +42,91 @@ public class ProductFileService {
 		return true;
 	}
 	
-	public String fileUpload(
-			Product product,
-			List<MultipartFile> productFiles
-			) throws IllegalStateException, IOException {
-		
-		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String current_date = simpleDateFormat.format(new Date());
+	public String fileUpload(Product product, List<MultipartFile> productFiles)
+	        throws IllegalStateException, IOException {
 
-        // 실제 파일 저장 위치
-  		String path = commonPath 
-  				+ "/product/"
-  				+ product.getBigSort().getId() 
-  				+ "/"
-  				+ product.getMiddleSort().getId()
-  				+ "/"
-  				+ product.getProductCode()
-  				+ "/"
-  				+ current_date; 
-  		// 파일 resource 로드 url
-  		String road = "/upload/product/"
-  				+ product.getBigSort().getId() 
-  				+ "/"
-  				+ product.getMiddleSort().getId()
-  				+ "/"
-  				+ product.getProductCode()
-  				+ "/"
-  				+ current_date; 
-        
-        int leftLimit = 48; // numeral '0'
-		int rightLimit = 122; // letter 'z'
-		int targetStringLength = 10;
-		Random random = new Random();
-		
-        for(MultipartFile file : productFiles) {
-        	if(!file.isEmpty()) {
-        		String generatedString = random.ints(leftLimit,rightLimit + 1)
-      				  .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-      				  .limit(targetStringLength)
-      				  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-      				  .toString();
-        		ProductFile f = new ProductFile();
-        		f.setProductId(product.getId());
-            	String contentType = file.getContentType();
-                String originalFileExtension = "";
-                // 확장자 명이 없으면 이 파일은 잘 못 된 것이다
-                if (ObjectUtils.isEmpty(contentType)){
-                    return "NONE";
-                }else {
-        			if (contentType.contains("image/jpeg")) {
-        				originalFileExtension = ".jpg";
-        			} else if (contentType.contains("image/png")) {
-        				originalFileExtension = ".png";
-        			} else if (contentType.contains("image/gif")) {
-        				originalFileExtension = ".gif";
-        			} else if (contentType.contains("application/pdf")) {
-        				originalFileExtension = ".pdf";
-        			} else if (contentType.contains("application/x-zip-compressed")) {
-        				originalFileExtension = ".zip";
-        			} else if (contentType
-        					.contains("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
-        				originalFileExtension = ".xlsx";
-        			} else if (contentType
-        					.contains("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
-        				originalFileExtension = ".docx";
-        			} else if (contentType.contains("text/plain")) {
-        				originalFileExtension = ".txt";
-        			} else if (contentType.contains("image/x-icon")) {
-        				originalFileExtension = ".ico";
-        			} else if (contentType.contains("application/haansofthwp")) {
-        				originalFileExtension = ".hwp";
-        			}
-                }
-                String productFileName = generatedString + originalFileExtension;
-				String productFilePath = path + "/files/" + productFileName;
-				String productFileRoad = road + "/files/" + productFileName;
-				String productFileSavePath = productFilePath;
-				File productFileSaveFile = new File(productFileSavePath);	
-				if (!productFileSaveFile.exists()) {
-					productFileSaveFile.mkdirs();
-				}
-                file.transferTo(productFileSaveFile);
-                f.setProductFileOriginalName(file.getOriginalFilename());
-                f.setProductFileExtension(originalFileExtension);
-                f.setProductFilePath(productFilePath);
-                f.setProductFileRoad(productFileRoad);
-                f.setProductFileName(productFileName);
-                f.setProductFileDate(new Date());
-                f.setSign(true);
-                productFileRepository.save(f);
-            }
-        }
-        
-        return "success";
+	    String path = commonPath
+	            + "/product/"
+	            + product.getProductCode()
+	            + "/files/"; // 마지막 / 꼭 포함
+
+	    String road = "/administration/upload/product/"
+	            + product.getProductCode()
+	            + "/files/"; // 마지막 / 꼭 포함
+
+	    // 폴더 생성
+	    File dir = new File(path);
+	    if (!dir.exists()) dir.mkdirs();
+
+	    int leftLimit = 48;
+	    int rightLimit = 122;
+	    int targetStringLength = 10;
+	    Random random = new Random();
+
+	    for (MultipartFile file : productFiles) {
+	        if (file != null && !file.isEmpty()) {
+	            String generatedString = random.ints(leftLimit, rightLimit + 1)
+	                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	                    .limit(targetStringLength)
+	                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	                    .toString();
+	            ProductFile f = new ProductFile();
+	            f.setProduct(product);
+	            String contentType = file.getContentType();
+	            String originalFileExtension = "";
+
+	            if (ObjectUtils.isEmpty(contentType)) {
+	                throw new IllegalArgumentException("파일의 contentType이 비어 있습니다.");
+	            } else {
+	                // 허용 파일 확장자
+	                if (contentType.contains("image/jpeg")) {
+	                    originalFileExtension = ".jpg";
+	                } else if (contentType.contains("image/png")) {
+	                    originalFileExtension = ".png";
+	                } else if (contentType.contains("image/gif")) {
+	                    originalFileExtension = ".gif";
+	                } else if (contentType.contains("application/pdf")) {
+	                    originalFileExtension = ".pdf";
+	                } else if (contentType.contains("application/x-zip-compressed")) {
+	                    originalFileExtension = ".zip";
+	                } else if (contentType.contains("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+	                    originalFileExtension = ".xlsx";
+	                } else if (contentType.contains("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+	                    originalFileExtension = ".docx";
+	                } else if (contentType.contains("text/plain")) {
+	                    originalFileExtension = ".txt";
+	                } else if (contentType.contains("image/x-icon")) {
+	                    originalFileExtension = ".ico";
+	                } else if (contentType.contains("application/haansofthwp")) {
+	                    originalFileExtension = ".hwp";
+	                } else {
+	                    throw new IllegalArgumentException("허용되지 않는 파일 타입입니다: " + contentType);
+	                }
+	            }
+	            String productFileName = generatedString + originalFileExtension;
+	            String productFilePath = path + productFileName;
+	            String productFileRoad = road + productFileName;
+
+	            // 파일 저장
+	            File productFileSaveFile = new File(productFilePath);
+	            File parentDir = productFileSaveFile.getParentFile();
+	            if (!parentDir.exists()) parentDir.mkdirs();
+	            file.transferTo(productFileSaveFile);
+
+	            f.setProductFileOriginalName(file.getOriginalFilename());
+	            f.setProductFileExtension(originalFileExtension);
+	            f.setProductFilePath(productFilePath);
+	            f.setProductFileRoad(productFileRoad);
+	            f.setProductFileName(productFileName);
+	            f.setProductFileDate(new Date());
+	            f.setSign(true);
+
+	            productFileRepository.save(f);
+	        }
+	    }
+	    return "success";
 	}
-	
+
 }
 
 

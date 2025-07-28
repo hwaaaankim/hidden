@@ -124,21 +124,21 @@ public class Product {
 	private Long bigId;
 		
 	@OneToMany(
-			fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL,
-			orphanRemoval = true,
-			mappedBy = "productId"
-			)
+	    fetch = FetchType.EAGER,
+	    cascade = CascadeType.ALL,
+	    orphanRemoval = true,
+	    mappedBy = "product"
+	)
 	private List<ProductImage> images;
-	
+
 	@OneToMany(
-			fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL,
-			orphanRemoval = true,
-			mappedBy = "productId"
-			)
+	    fetch = FetchType.EAGER,
+	    cascade = CascadeType.ALL,
+	    orphanRemoval = true,
+	    mappedBy = "product"
+	)
 	private List<ProductFile> files;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(
 			name="PRODUCT_MIDDLE_REFER_ID", referencedColumnName="MIDDLE_SORT_ID"
