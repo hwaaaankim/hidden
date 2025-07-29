@@ -180,6 +180,12 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
  	                              @Param("keyword") String keyword,
  	                              Pageable pageable);
 
+    @Query("SELECT p FROM Product p " +
+	       "WHERE (:bigId IS NULL OR p.bigSort.id = :bigId) " +
+	       "AND (:middleId IS NULL OR p.middleSort.id = :middleId) " +
+	       "ORDER BY p.productIndex ASC")
+	List<Product> findAllBySortsNoPaging(@Param("bigId") Long bigId, @Param("middleId") Long middleId);
+
 }
 
 

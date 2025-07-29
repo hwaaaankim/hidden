@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -656,11 +658,38 @@ public class ProductAdminController {
 	}
 	
 	@GetMapping("/productIndexManager")
-	public String productIndexManager() {
-		
-		return "administration/product/productIndexManager";
+	public String productIndexManager(
+	        @RequestParam(value = "bigId", required = false) Long bigId,
+	        @RequestParam(value = "middleId", required = false) Long middleId,
+	        Model model
+	) {
+	    // 대분류 전체 조회
+	    List<BigSort> bigSortList = productBigSortRepository.findAll();
+	    model.addAttribute("bigSortList", bigSortList);
+
+	    // 분류조건별 index 오름차순 전체 리스트
+	    List<Product> productList = productRepository.findAllBySortsNoPaging(bigId, middleId);
+	    model.addAttribute("productList", productList);
+	    model.addAttribute("bigId", bigId);
+	    model.addAttribute("middleId", middleId);
+
+	    return "administration/product/productIndexManager";
 	}
-	
+
+	@PostMapping("/productIndexChange")
+	@ResponseBody
+	public String productIndexChange(@RequestBody Map<String, List<Long>> param) {
+	    List<Long> oldIdList = param.get("oldIdList");
+	    List<Long> newIdList = param.get("newIdList");
+	    try {
+	        productService.exchangeProductIndexes(oldIdList, newIdList);
+	        return "ok";
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	        return "error: " + e.getMessage();
+	    }
+	}
+
 	@GetMapping("/productOverallManager")
 	public String productOverallManager() {
 		

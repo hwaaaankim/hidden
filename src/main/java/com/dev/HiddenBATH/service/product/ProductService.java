@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -43,8 +45,6 @@ import com.dev.HiddenBATH.model.product.ProductSize;
 import com.dev.HiddenBATH.model.product.ProductTag;
 import com.dev.HiddenBATH.repository.product.ProductBigSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductColorRepository;
-import com.dev.HiddenBATH.repository.product.ProductFileRepository;
-import com.dev.HiddenBATH.repository.product.ProductImageRepository;
 import com.dev.HiddenBATH.repository.product.ProductMiddleSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductOptionRepository;
 import com.dev.HiddenBATH.repository.product.ProductRepository;
@@ -58,8 +58,6 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 
 	private final ProductRepository productRepository;
-	private final ProductImageRepository productImageRepository;
-	private final ProductFileRepository productFileRepository;
 	private final ProductMiddleSortRepository productMiddleSortRepository;
 	private final ProductBigSortRepository productBigSortRepository;
 	private final ProductTagRepository productTagRepository;
@@ -73,6 +71,31 @@ public class ProductService {
 	@Value("${spring.upload.path}")
 	private String commonPath;
 
+	@Transactional
+	public void exchangeProductIndexes(List<Long> oldIdList, List<Long> newIdList) {
+	    if (oldIdList == null || newIdList == null || oldIdList.size() != newIdList.size())
+	        throw new IllegalArgumentException("리스트 사이즈 불일치");
+
+	    // 기존 index값을 oldIdList 순서대로 추출
+	    List<Product> oldProducts = productRepository.findAllById(oldIdList);
+	    Map<Long, Integer> oldIndexMap = new HashMap<>();
+	    for (Product p : oldProducts) {
+	        oldIndexMap.put(p.getId(), p.getProductIndex());
+	    }
+
+	    // newIdList 순서대로 oldIdList에서 꺼낸 index값을 할당 (진짜 swap)
+	    List<Product> productsToSave = productRepository.findAllById(newIdList);
+	    for (int i = 0; i < newIdList.size(); i++) {
+	        Long id = newIdList.get(i);
+	        Product p = productsToSave.stream()
+	            .filter(prod -> prod.getId().equals(id))
+	            .findFirst()
+	            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 제품: " + id));
+	        p.setProductIndex(oldIndexMap.get(oldIdList.get(i))); // swap
+	    }
+	    productRepository.saveAll(productsToSave);
+	}
+	
 	@Transactional
 	public void updateProduct(
 	        Long productId,

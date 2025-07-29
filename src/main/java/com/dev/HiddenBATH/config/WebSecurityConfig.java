@@ -71,7 +71,7 @@ public class WebSecurityConfig {
 					.usernameParameter("username")
 					.passwordParameter("password")
 					.loginProcessingUrl("/signinProcess")
-					.defaultSuccessUrl("/", false))
+					.defaultSuccessUrl("/admin/productManager", true))
 			.rememberMe((remember) -> 
 				remember
 					.rememberMeParameter("remember")
@@ -83,7 +83,7 @@ public class WebSecurityConfig {
 					.logoutUrl("/logout")
 					.deleteCookies("JSESSIONID")
 					.invalidateHttpSession(true)
-					.logoutSuccessUrl("/index"));
+					.logoutSuccessUrl("/"));
 			return http.build();
 	}
 }
