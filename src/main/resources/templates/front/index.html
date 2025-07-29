@@ -627,14 +627,14 @@
 	<script src="/front/clean/assets/js/infinite.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 	<div id="myModal" class="temp-modal">
-      <div class="temp-modal-content">
-        <span class="temp-close" id="closeBtn">&times;</span>
+		<div class="temp-modal-content">
+			<span class="temp-close" id="closeBtn">&times;</span>
 
-        <div class="swiper popup-swiper">
+			<!--<div class="swiper popup-swiper">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
 					<div class="swiper_img_wrapper">
-					   <img src="https://hidden3661.cafe24.com/2025_catalog.png" alt="Popup Image">
+					   <img src="https://hidden3661.cafe24.com/2025_holiday.png" alt="Popup Image">
 					</div>
 				</div>
 				
@@ -644,51 +644,48 @@
 					</div>
 				</div>
 			</div>
+		</div>-->
+			<img src="https://hidden3661.cafe24.com/2025_holiday.png" alt="Popup Image" />
+			<div class="temp-footer">
+				<input type="checkbox" id="doNotShowAgain" />
+				<label for="doNotShowAgain">다시 보지 않기</label>
+			</div>
 		</div>
-        <!--<img
-          src="https://hidden3661.cafe24.com/2025_catalog.png"
-          alt="Popup Image"
-        />-->
-        <div class="temp-footer">
-          <input type="checkbox" id="doNotShowAgain" />
-          <label for="doNotShowAgain">다시 보지 않기</label>
-        </div>
-      </div>
-    </div>
-    
+	</div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        if (!localStorage.getItem("doNotShowPopup")) {
-          document.getElementById("myModal").style.display = "block";
-        }
 
-        document.getElementById("closeBtn").onclick = function () {
-          closeModal();
-        };
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			if (!localStorage.getItem("doNotShowPopup")) {
+				document.getElementById("myModal").style.display = "block";
+			}
 
-        document.getElementById("myModal").onclick = function (event) {
-          if (event.target === this) {
-            closeModal();
-          }
-        };
+			document.getElementById("closeBtn").onclick = function () {
+				closeModal();
+			};
 
-        document.getElementById("doNotShowAgain").onclick = function () {
-          if (this.checked) {
-            localStorage.setItem("doNotShowPopup", true);
-          } else {
-            localStorage.removeItem("doNotShowPopup");
-          }
-        };
-      });
+			document.getElementById("myModal").onclick = function (event) {
+				if (event.target === this) {
+					closeModal();
+				}
+			};
 
-      function closeModal() {
-        const modal = document.getElementById("myModal");
-        modal.style.display = "none";
-      }
-    </script>
-	
-    <script>
+			document.getElementById("doNotShowAgain").onclick = function () {
+				if (this.checked) {
+					localStorage.setItem("doNotShowPopup", true);
+				} else {
+					localStorage.removeItem("doNotShowPopup");
+				}
+			};
+		});
+
+		function closeModal() {
+			const modal = document.getElementById("myModal");
+			modal.style.display = "none";
+		}
+	</script>
+
+	<!--<script>
       let popupSwiper = new Swiper(".popup-swiper", {
         loop: true, // 슬라이드를 루프합니다.
         autoplay: {
@@ -697,7 +694,7 @@
           disableOnInteraction: false, // false-스와이프 후 자동 재생
         },
       });
-    </script>
+    </script>-->
 </body>
 
 </html>
