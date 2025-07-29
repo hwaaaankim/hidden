@@ -129,6 +129,8 @@ slideImageInput.addEventListener('change', function () {
         addDeleteSlideImageId($(this).data('id'));
     });
     $('.slide-img-origin').remove();
+    $('.new-slide-img').remove(); // ★★★ 이 부분 추가 (이전 새파일 미리보기 전부 삭제)
+
     // 새 업로드 파일 미리보기 표시
     Array.from(this.files).forEach(function (file, idx) {
         const url = URL.createObjectURL(file);
@@ -156,6 +158,7 @@ slideImageInput.addEventListener('change', function () {
         slideImagePreview.appendChild(wrapper);
     });
 });
+
 
 // 6. 제품코드 중복체크
 let isProductCodeValid = false;
