@@ -190,12 +190,10 @@ public class ProductService {
 	    // else : 유지
 
 	    // 7. 도면이미지 처리 (기존 파일/DB 삭제 → 새로등록/유지)
-	    if (product.getFiles() != null) product.getFiles().clear(); // 기존 도면 전체 삭제 (orphanRemoval로 DB 삭제됨)
-	    if (Boolean.TRUE.equals(deleteDrawingImage)) {
-	        if (drawingImage != null && !drawingImage.isEmpty()) {
-	            saveDrawingImage(product, drawingImage, filesDir, filesRoad);
-	        }
-	    } else if (drawingImage != null && !drawingImage.isEmpty()) {
+	    if (Boolean.TRUE.equals(deleteDrawingImage) || (drawingImage != null && !drawingImage.isEmpty())) {
+	        if (product.getFiles() != null) product.getFiles().clear();
+	    }
+	    if (drawingImage != null && !drawingImage.isEmpty()) {
 	        saveDrawingImage(product, drawingImage, filesDir, filesRoad);
 	    }
 	    // else: 유지 (신규없으면 files 비어있는 채로 저장됨)
