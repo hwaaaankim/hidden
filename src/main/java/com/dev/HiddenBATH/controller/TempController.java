@@ -139,30 +139,6 @@ public class TempController {
         model.addAttribute("relatedProducts", relatedProducts);
 		return "temp/productDetailAdvanced";
 	}
-	
-	@GetMapping("/findAgency")
-	public String findAgency() {
-		
-		return "temp/findAgency";
-	}
-	
-	@GetMapping("/findAgencyTwo")
-	public String findAgencyTwo() {
-		
-		return "temp/findAgencyTwo";
-	}
-	
-	@GetMapping("/findAgencyList")
-	public String findAgencyList() {
-		
-		return "temp/findAgencyList";
-	}
-	
-	@GetMapping("/findAgencyDetail")
-	public String findAgencyDetail() {
-		
-		return "temp/findAgencyDetail";
-	}
 }
 
 

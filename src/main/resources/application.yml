@@ -1,7 +1,7 @@
 # 동작 환경 설정
 spring:
   profiles:
-    active: prod
+    active: test
 server:
   port: 8080
   servlet:
@@ -12,7 +12,9 @@ server:
         name: SID
         http-only: true
         secure: true
-
+kakao:
+  javascript:
+    key: 1ce0abfad90d9a6d9d56d9cd4892ea1d
 # 개발 환경
 --- 
 spring:

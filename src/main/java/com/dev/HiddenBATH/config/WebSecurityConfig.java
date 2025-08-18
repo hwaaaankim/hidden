@@ -28,6 +28,7 @@ public class WebSecurityConfig {
 			"/**", 
 			"/administration/**",
 			"/api/v1/**", 
+			"/api/**"
 			
 	};
 	
@@ -71,7 +72,7 @@ public class WebSecurityConfig {
 					.usernameParameter("username")
 					.passwordParameter("password")
 					.loginProcessingUrl("/signinProcess")
-					.defaultSuccessUrl("/admin/productManager", true))
+					.defaultSuccessUrl("/admin/productManager", false))
 			.rememberMe((remember) -> 
 				remember
 					.rememberMeParameter("remember")

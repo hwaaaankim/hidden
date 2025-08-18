@@ -1521,27 +1521,32 @@ img.bordered {
 	max-width: 1360px;
 
 }
-@media(max-width:760px){
+
+@media(max-width:760px) {
 	.main-wrap-container {
 		position: absolute;
-		height: calc(100vh - 76px) !important; 
+		height: calc(100vh - 76px) !important;
 		width: 100%;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		max-width: 1360px;
-	
+
 	}
-	.block-sliders .item-content{
-		height: calc(100vh - 129px) !important; 
+
+	.block-sliders .item-content {
+		height: calc(100vh - 129px) !important;
 	}
-	.item-content .content-image picture img{
-	    object-fit: cover; /* 이미지 중앙에 맞추고 넘치는 부분 잘라냄 */
-  		object-position: center bottom;
-  		height: calc(100vh - 129px) !important; 
-  		min-height:calc(100vh - 129px) !important; 
+
+	.item-content .content-image picture img {
+		object-fit: cover;
+		/* 이미지 중앙에 맞추고 넘치는 부분 잘라냄 */
+		object-position: center bottom;
+		height: calc(100vh - 129px) !important;
+		min-height: calc(100vh - 129px) !important;
 	}
 }
+
 div.left-content {
 	position: absolute;
 	left: 0;
@@ -1589,7 +1594,8 @@ div.right-content {
 
 @media(max-width:760px) {
 
-	div.left-content, div.right-content{
+	div.left-content,
+	div.right-content {
 		position: absolute;
 		left: 50%;
 		top: 80%;
@@ -1599,11 +1605,11 @@ div.right-content {
 		width: 100%;
 		justify-content: center;
 	}
-	
-	.main-text-wrap.content{
-		padding-left:20px;
+
+	.main-text-wrap.content {
+		padding-left: 20px;
 	}
-	
+
 	.main-wrap-container p.first-content {
 		font-size: 14px;
 		font-weight: 600;
@@ -1616,7 +1622,7 @@ div.right-content {
 
 	.main-wrap-container p.rep-content {
 		font-size: 40px;
-		margin-bottom:0px;
+		margin-bottom: 0px;
 		font-weight: 300;
 		letter-spacing: 2px;
 		line-height: 1.2;
@@ -1852,13 +1858,12 @@ p.process-title-line {
 .checkout-review-order {
 	position: relative;
 	/* hidden-content가 이 안에서 절대 위치 */
-	margin-bottom: 20px;
 	padding: 20px;
 }
 
 .checkout-review-order-table {
 	border: none;
-	padding: 20px;
+	padding: 0px 20px 0px 20px;
 	margin-bottom: 10px;
 	cursor: pointer;
 }
@@ -1895,12 +1900,12 @@ p.process-title-line {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 450px;
-	height: 90vh;
+	height:auto;
 	background-color: #fff;
 	padding: 20px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	z-index: 99999999999;
-	border:1px solid black;
+	border: 1px solid black;
 	opacity: 0;
 	transition: opacity 0.3s ease, visibility 0.3s ease;
 }
@@ -1912,8 +1917,8 @@ p.process-title-line {
 	right: 5px;
 	cursor: pointer;
 	font-size: 20px;
-	font-weight:900;
-	
+	font-weight: 900;
+
 }
 
 /* Fade in 효과 */
@@ -1922,28 +1927,75 @@ p.process-title-line {
 	visibility: visible;
 	opacity: 1;
 }
-span.distance-text{
-	font-size:15px;
-	color:blue;
+
+span.distance-text {
+	font-size: 15px;
+	color: blue;
 	vertical-align: super;
 }
-.search-close-btn{
+
+.search-close-btn {
 	cursor: pointer;
-	position:absolute; 
-	top:20px; 
-	right:20px;
-	background-color:transparent;
-	font-weight:700;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	background-color: transparent;
+	font-weight: 700;
 }
-@media(min-width:760px){
+
+@media(min-width:760px) {
 	.content-image::after {
-	  content: "";
-	  position: absolute;
-	  left: 0; top: 0;
-	  width: 100%; height: 100%;
-	  background: rgba(0,0,0,0.5); /* ← 원하는 투명도 */
-	  z-index: 0;
-	  pointer-events: none; /* 오버레이가 클릭 방해하지 않도록 */
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		/* ← 원하는 투명도 */
+		z-index: 0;
+		pointer-events: none;
+		/* 오버레이가 클릭 방해하지 않도록 */
 	}
 }
 
+/* 모달 라인/정렬을 TEL 섹션과 통일 */
+.agency-search-modal .modal-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	border-top: 1px solid #eee;
+	/* 윗줄 길이 동일 */
+	padding: 18px 0;
+	/* 상하 간격 통일 */
+	margin: 0;
+	/* 들여쓰기/바깥여백 제거 */
+}
+
+.agency-search-modal .modal-row h2 {
+	width: 110px;
+	/* 라벨 고정폭(디자인에 맞게 조정 가능) */
+	min-width: 110px;
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.agency-search-modal .modal-row .subtotal-price {
+	flex: 1;
+	/* 값 영역은 유동폭 */
+	text-align: right;
+	/* 이미지 참고: 값 우측정렬 */
+}
+
+.agency-search-modal .modal-row .subtotal-price span {
+	display: inline-block;
+	line-height: 1.6;
+	white-space: pre-wrap;
+	/* 주소 줄바꿈 유지 */
+}
+
+/* 타이틀 아래 첫 ADDRESS 위에도 동일한 선/간격을 주려면 아래 추가 */
+#modal-title-box .modal-row:first-child {
+	border-top: 1px solid #eee;
+}
