@@ -2,6 +2,45 @@
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
+async function checkGeoPermissionAndGuide() {
+	if (!('permissions' in navigator) || !navigator.permissions?.query) return;
+
+	try {
+		const status = await navigator.permissions.query({ name: 'geolocation' });
+		// 상태: 'granted' | 'prompt' | 'denied'
+		if (status.state === 'denied') {
+			$('#geo-permission-banner')?.classList.remove('d-none');
+			// 필요 시 '근처 대리점' 버튼 비활성화
+			$('#nearbyBtn')?.setAttribute('disabled', 'disabled');
+		}
+		status.onchange = () => {
+			// 사용자가 브라우저 설정에서 권한 바꾸면 여기로 감지 가능
+			if (status.state !== 'denied') {
+				$('#geo-permission-banner')?.classList.add('d-none');
+				$('#nearbyBtn')?.removeAttribute('disabled');
+			}
+		};
+	} catch { }
+}
+
+// 도움말/재시도 바인딩
+$('#geo-help')?.addEventListener('click', () => {
+	alert('브라우저 주소창의 사이트 정보(자물쇠) > 사이트 설정 > 위치 권한을 허용으로 변경하세요.');
+});
+$('#geo-retry')?.addEventListener('click', async () => {
+	const pos = await getUserLocation();
+	if (pos) {
+		state.userPos = pos;
+		state.page = 0;
+		await loadAgencies();
+		$('#geo-permission-banner')?.classList.add('d-none');
+		$('#nearbyBtn')?.removeAttribute('disabled');
+	} else {
+		alert('여전히 위치 권한을 얻지 못했습니다. 브라우저 권한 설정을 확인해 주세요.');
+	}
+});
+
+
 const state = {
 	page: 0,
 	size: 12,
@@ -98,17 +137,20 @@ function getRecent() {
 function setRecent(list) {
 	localStorage.setItem(RECENT_KEY, JSON.stringify(list));
 }
+
 function pushRecent(agency) {
-	const list = getRecent().filter(a => a.id !== agency.id);
-	list.unshift({
-		id: agency.id,
-		name: agency.name,
-		roadAddress: agency.roadAddress,
-		tel: agency.tel || '',
-		latitude: agency.latitude,   // ← 위경도 보관
-		longitude: agency.longitude
-	});
-	setRecent(list.slice(0, 6));
+  const list = getRecent().filter(a => a.id !== agency.id);
+  list.unshift({
+    id: agency.id,
+    name: agency.name,
+    roadAddress: agency.roadAddress || '',
+    addressDetail: agency.addressDetail || '',   // ✅ 추가
+    postcode: agency.postcode || '',             // ✅ 추가
+    tel: agency.tel || '',
+    latitude: agency.latitude ?? null,
+    longitude: agency.longitude ?? null
+  });
+  setRecent(list.slice(0, 6));
 }
 
 function renderRecent() {
@@ -465,6 +507,7 @@ function bindEvents() {
 (async function init() {
 	bindEvents();
 	// 위치 먼저 확보 → 최초 목록부터 “가까운 순”
+	await checkGeoPermissionAndGuide(); // ← 추가
 	state.userPos = await getUserLocation();
 	state.kakaoReady = await loadKakaoSdk();
 	renderRecent();

@@ -26,9 +26,6 @@ import com.dev.HiddenBATH.repository.product.ProductTagRepository;
 import com.dev.HiddenBATH.service.GalleryService;
 import com.dev.HiddenBATH.service.product.ProductService;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-
 @Controller
 @RequestMapping("/temp")
 public class TempController {
@@ -58,17 +55,6 @@ public class TempController {
 	@Autowired
 	ConstructionRepository constructionRepository;
 	
-	@GetMapping("/index")
-	public String home(
-			HttpServletRequest request,
-			HttpSession session,
-			Model model
-			) {
-		model.addAttribute("construction", constructionRepository.findAll());
-		model.addAttribute("one", galleryService.getGalleriesInTwoHalves().get(0));
-		model.addAttribute("two", galleryService.getGalleriesInTwoHalves().get(1));
-		return "temp/index";
-	}
 	
 	@RequestMapping(value = "/productList/{id}",
 			method = {RequestMethod.GET, RequestMethod.POST})

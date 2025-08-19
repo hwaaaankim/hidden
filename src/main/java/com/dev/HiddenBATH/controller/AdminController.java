@@ -1,13 +1,19 @@
 package com.dev.HiddenBATH.controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +29,15 @@ import com.dev.HiddenBATH.config.KakaoConfig;
 import com.dev.HiddenBATH.dto.AgencyCreateRequest;
 import com.dev.HiddenBATH.dto.AgencyResponse;
 import com.dev.HiddenBATH.dto.AgencyUpdateRequest;
+import com.dev.HiddenBATH.model.Construction;
+import com.dev.HiddenBATH.model.Gallery;
+import com.dev.HiddenBATH.model.Popup;
+import com.dev.HiddenBATH.repository.ConstructionRepository;
+import com.dev.HiddenBATH.repository.GalleryRepository;
 import com.dev.HiddenBATH.service.AgencyService;
 import com.dev.HiddenBATH.service.ConstructionService;
 import com.dev.HiddenBATH.service.GalleryService;
+import com.dev.HiddenBATH.service.PopupService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.Valid;
@@ -46,8 +58,12 @@ public class AdminController {
     private final GalleryService galleryService;
     private final AgencyService agencyService;
     private final ConstructionService constructionService;
+    private final PopupService popupService;
     private final KakaoConfig kakaoConfig;
     private final ObjectMapper objectMapper;
+    private final GalleryRepository galleryRepository;
+    private final ConstructionRepository constructionRepository;
+
     
     /* =========================
      *       화면(뷰) 라우팅
@@ -111,61 +127,126 @@ public class AdminController {
     }
 
     @GetMapping("/galleryManager")
-    public String galleryManager() {
+    public String galleryManager(Model model) {
+        List<Gallery> galleries = galleryRepository.findAllByOrderByIdDesc();
+        model.addAttribute("galleries", galleries);
         return "administration/site/galleryManager";
-    }
-
-    @GetMapping("/galleryInsertForm")
-    public String galleryInsertForm() {
-        return "administration/site/galleryInsertForm";
     }
 
     @PostMapping("/galleryInsert")
     @ResponseBody
-    public String galleryInsert(
-            MultipartFile thumb,
-            MultipartFile gallery
-    ) throws Exception {
+    public String galleryInsert(MultipartFile thumb, MultipartFile gallery) throws IOException {
         galleryService.insertGallery(thumb, gallery);
-        StringBuffer sb = new StringBuffer();
         String msg = "갤러리 이미지가 등록 되었습니다.";
-
-        sb.append("alert('" + msg + "');");
-        sb.append("location.href='/admin/galleryInsertForm'");
-        sb.append("</script>");
-        sb.insert(0, "<script>");
-
-        return sb.toString();
+        return scriptAlertRedirect(msg, "/admin/galleryManager");
     }
 
-    @GetMapping("/exampleManager")
-    public String exampleManager() {
-        return "administration/site/exampleManager";
-    }
-
-    @GetMapping("/exampleInsertForm")
-    public String exampleInsertForm() {
-        return "administration/site/exampleInsertForm";
-    }
-
-    @PostMapping("/exampleInsert")
+    @PostMapping("/galleryUpdate/{id}")
     @ResponseBody
-    public String exampleInsert(
-            MultipartFile thumb,
-            MultipartFile construction
-    ) throws Exception {
-        constructionService.insertConstruction(thumb, construction);
-        StringBuffer sb = new StringBuffer();
-        String msg = "시공사례 이미지가 등록 되었습니다.";
+    public String galleryUpdate(@PathVariable Long id, MultipartFile thumb, MultipartFile gallery) throws IOException {
+        if ((thumb == null || thumb.isEmpty()) && (gallery == null || gallery.isEmpty())) {
+            return scriptAlertRedirect("변경할 이미지가 없습니다.", "/admin/galleryManager");
+        }
+        galleryService.updateGalleryImages(id, thumb, gallery);
+        return scriptAlertRedirect("이미지가 수정되었습니다.", "/admin/galleryManager");
+    }
 
-        sb.append("alert('" + msg + "');");
-        sb.append("location.href='/admin/exampleInsertForm'");
+    /** 개별 삭제 (DB + 파일) */
+    @PostMapping("/galleryDelete/{id}")
+    @ResponseBody
+    public String galleryDelete(@PathVariable Long id) {
+        galleryService.deleteGallery(id);
+        return scriptAlertRedirect("삭제되었습니다.", "/admin/galleryManager");
+    }
+    
+    private String scriptAlertRedirect(String msg, String url) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<script>");
+        if (StringUtils.hasText(msg)) {
+            sb.append("alert('").append(msg.replace("'", "\\'")).append("');");
+        }
+        sb.append("location.href='").append(url).append("';");
         sb.append("</script>");
-        sb.insert(0, "<script>");
-
         return sb.toString();
     }
 
+    /** 메인(리스트/업로드/수정/삭제 통합) */
+    @GetMapping("/constructionManager")
+    public String constructionManager(Model model) {
+        List<Construction> list = constructionRepository.findAllByOrderByIdDesc();
+        model.addAttribute("constructions", list);
+        return "administration/site/constructionManager";
+    }
+
+    /** 신규 등록 */
+    @PostMapping("/constructionInsert")
+    @ResponseBody
+    public String constructionInsert(MultipartFile thumb, MultipartFile construction) throws IOException {
+        constructionService.insertConstruction(thumb, construction);
+        return scriptAlertRedirect("시공사례 이미지가 등록되었습니다.", "/admin/constructionManager");
+    }
+
+    /** 개별 수정(썸네일/원본) */
+    @PostMapping("/constructionUpdate/{id}")
+    @ResponseBody
+    public String constructionUpdate(@PathVariable Long id, MultipartFile thumb, MultipartFile construction) throws IOException {
+        if ((thumb == null || thumb.isEmpty()) && (construction == null || construction.isEmpty())) {
+            return scriptAlertRedirect("변경할 이미지가 없습니다.", "/admin/constructionManager");
+        }
+        constructionService.updateConstructionImages(id, thumb, construction);
+        return scriptAlertRedirect("이미지가 수정되었습니다.", "/admin/constructionManager");
+    }
+
+    /** 개별 삭제(DB+파일) */
+    @PostMapping("/constructionDelete/{id}")
+    @ResponseBody
+    public String constructionDelete(@PathVariable Long id) {
+        constructionService.deleteConstruction(id);
+        return scriptAlertRedirect("삭제되었습니다.", "/admin/constructionManager");
+    }
+
+    @GetMapping("/popupManager")
+    public String popupManager() {
+        return "administration/site/popupManager";
+    }
+
+    // ===== REST APIs =====
+    @GetMapping("/api/popups")
+    @ResponseBody
+    public List<Popup> list() {
+        return popupService.listAll();
+    }
+
+    @PostMapping("/api/popups")
+    @ResponseBody
+    public ResponseEntity<Popup> create(
+            @RequestParam("image") MultipartFile image,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        Popup p = popupService.create(image, startDate, endDate);
+        return ResponseEntity.ok(p);
+    }
+
+    @PutMapping("/api/popups/{id}")
+    @ResponseBody
+    public ResponseEntity<Popup> update(
+            @PathVariable Long id,
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        Popup p = popupService.update(id, image, startDate, endDate);
+        return ResponseEntity.ok(p);
+    }
+
+    @DeleteMapping("/api/popups/{id}")
+    @ResponseBody
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        popupService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+    
     @GetMapping("/emailSendManager")
     public String emailSendManager() {
         return "administration/site/emailSendManager";

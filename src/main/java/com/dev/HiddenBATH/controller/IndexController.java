@@ -1,5 +1,6 @@
 package com.dev.HiddenBATH.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,198 +32,166 @@ import com.dev.HiddenBATH.repository.product.ProductMiddleSortRepository;
 import com.dev.HiddenBATH.repository.product.ProductRepository;
 import com.dev.HiddenBATH.repository.product.ProductTagRepository;
 import com.dev.HiddenBATH.service.ClientService;
-import com.dev.HiddenBATH.service.ConstructionService;
 import com.dev.HiddenBATH.service.GalleryService;
+import com.dev.HiddenBATH.service.PopupService;
 import com.dev.HiddenBATH.service.product.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
-	
-	@Autowired
-	ProductRepository productRepository;
-	
-	@Autowired
-	ProductBigSortRepository productBigSortRepository;
-	
-	@Autowired
-	ProductMiddleSortRepository productMiddleSortRepository;
-	
-	@Autowired
-	ProductColorRepository productColorRepository;
-	
-	@Autowired
-	ProductTagRepository productTagRepository;
-	
-	@Autowired
-	GalleryRepository galleryRepository;
-	
-	@Autowired
-	GalleryService galleryService;
-	
-	@Autowired
-	ProductService productService;
-	
-	@Autowired
-	ConstructionRepository constructionRepository;
-	
-	@Autowired
-	ConstructionService constructionService;
-	
+
+	private final ProductRepository productRepository;
+	private final ProductBigSortRepository productBigSortRepository;
+	private final ProductMiddleSortRepository productMiddleSortRepository;
+	private final ProductColorRepository productColorRepository;
+	private final ProductTagRepository productTagRepository;
+	private final GalleryRepository galleryRepository;
+	private final ConstructionRepository constructionRepository;
+	private final GalleryService galleryService;
+	private final ProductService productService;
+	private final PopupService popupService;
+
 	@Autowired
 	ClientService clientService;
-	
+
 	@ModelAttribute("menuList")
 	public MenuDTO menuList(MenuDTO menuDto) {
-		
+
 		menuDto.setBigSortList(productBigSortRepository.findAllByOrderByBigSortIndexAsc());
 
 		return menuDto;
 	}
-	
+
 	@GetMapping("/loginForm")
 	public String loginForm() {
-		
+
 		return "administration/login";
 	}
-	
+
 	@PostMapping("/signinProcess")
 	public String loginProcess() {
-		
+
 		return "administration/index";
 	}
-	
-	@GetMapping({"/", "", "/index"})
-	public String home(
-			HttpServletRequest request,
-			HttpSession session,
-			Model model) {
+
+	@GetMapping({ "/", "", "/index" })
+	public String home(HttpServletRequest request, HttpSession session, Model model) {
 		System.out.println(session.getAttribute("user"));
 		model.addAttribute("construction", constructionRepository.findAll());
 		model.addAttribute("one", galleryService.getGalleriesInTwoHalves().get(0));
 		model.addAttribute("two", galleryService.getGalleriesInTwoHalves().get(1));
-		
-		
+
+		// === 오늘 기준 유효 팝업 추가 ===
+		model.addAttribute("popups", popupService.findActivePopups(LocalDate.now()));
+
 		return "front/index";
 	}
-	
+
 	@PostMapping("/close")
 	@ResponseBody
-	public void close(
-			@RequestBody String sessionValue,
-			HttpServletRequest request
-			) {
+	public void close(@RequestBody String sessionValue, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("user");
 	}
-	
+
 	@GetMapping("/about")
 	public String about() {
-		
+
 		return "front/about";
 	}
-	
+
 	@GetMapping("/history")
 	public String history() {
-		
+
 		return "front/history";
 	}
-	
+
 	@GetMapping("/exampleGallery")
-	public String exampleGallery(
-			Model model
-			) {
-		
+	public String exampleGallery(Model model) {
+
 		model.addAttribute("con", constructionRepository.findAll());
 		return "front/construction";
 	}
-	
+
 	@GetMapping("/imageGallery")
-	public String imageGallery(
-			Model model
-			) {
+	public String imageGallery(Model model) {
 		model.addAttribute("gal", galleryRepository.findAll());
 		return "front/imageGallery";
 	}
-	
+
 	@GetMapping("/notice")
 	public String notice() {
-		
+
 		return "front/notice";
 	}
-	
+
 	@GetMapping("/catalog")
 	public String catalog() {
-		
+
 		return "front/catalog";
 	}
-	
+
 	@GetMapping("/2022")
 	public String catalog2022() {
-		
+
 		return "front/catalog/2022";
 	}
-	
+
 	@GetMapping("/2023")
 	public String catalog2023() {
-		
+
 		return "front/catalog/2023";
 	}
-	
+
 	@GetMapping("/2023New")
 	public String catalog2023New() {
-		
+
 		return "front/catalog/2023New";
 	}
-	
+
 	@GetMapping("/2024")
 	public String catalog2024() {
-		
+
 		return "front/catalog/2024";
 	}
-	
+
 	@GetMapping("/2025")
 	public String catalog2025() {
-		
+
 		return "front/catalog/2025";
 	}
-	
+
 	@GetMapping("/noticeDetail")
 	public String noticeDetail() {
-		
+
 		return "front/noticeDetail";
 	}
-	
+
 	@GetMapping("/contact")
 	public String contact() {
-		
+
 		return "front/contact";
 	}
-	
+
 	@PostMapping("/searchMiddleSort")
 	@ResponseBody
-	public List<MiddleSort> searchMiddleSort(
-			Model model, 
-			Long bigId
-			) {
+	public List<MiddleSort> searchMiddleSort(Model model, Long bigId) {
 
 		return productMiddleSortRepository.findAllByBigSort(productBigSortRepository.findById(bigId).get());
 	}
-	
-	@RequestMapping(value = "/productList/{id}",
-			method = {RequestMethod.GET, RequestMethod.POST})
-	public String productList(
-			Model model,
-			@PathVariable Long id,
+
+	@RequestMapping(value = "/productList/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String productList(Model model, @PathVariable Long id,
 			@RequestParam(required = false, defaultValue = "0") Long middleId,
 			@RequestParam(required = false, defaultValue = "0") Long tagId,
 			@RequestParam(required = false, defaultValue = "0") Long colorId,
-			@PageableDefault(size=10) Pageable pageable
-			) {
+			@PageableDefault(size = 10) Pageable pageable) {
 		Page<Product> products = null;
-		if(id == 7l) {
+		if (id == 7l) {
 			products = productRepository.findAllByOrderByProductIndexAsc(pageable);
 			List<MiddleSort> middles = new ArrayList<MiddleSort>();
 			MiddleSort sort = new MiddleSort();
@@ -231,9 +200,10 @@ public class IndexController {
 			middles.add(sort);
 			model.addAttribute("middleSortName", "분류전체");
 			model.addAttribute("middleSorts", middles);
-		}else {
+		} else {
 			products = productService.getProductsByCriteria(tagId, colorId, middleId, id, pageable);
-			model.addAttribute("middleSorts", productMiddleSortRepository.findAllByBigSort(productBigSortRepository.findById(id).get()));
+			model.addAttribute("middleSorts",
+					productMiddleSortRepository.findAllByBigSort(productBigSortRepository.findById(id).get()));
 		}
 		int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
@@ -248,69 +218,60 @@ public class IndexController {
 		model.addAttribute("bigSorts", productBigSortRepository.findAll());
 		model.addAttribute("tags", productTagRepository.findAll());
 		model.addAttribute("colors", productColorRepository.findAll());
-		
+
 		return "front/productList";
 	}
-	
+
 	@GetMapping("/productDetail/{id}")
-	public String productDetail(
-			@PathVariable Long id,
-			Model model
-			) {
-		
+	public String productDetail(@PathVariable Long id, Model model) {
+
 		Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
 		List<Product> relatedProducts = productService.getRandomProductsByTag(product);
 
 		model.addAttribute("product", product);
-        model.addAttribute("relatedProducts", relatedProducts);
+		model.addAttribute("relatedProducts", relatedProducts);
 		return "front/productDetail";
 	}
-	
+
 	@GetMapping("/productDetailAdvanced/{id}")
-	public String productDetailAdvanced(
-			@PathVariable Long id,
-			Model model
-			) {
-		
+	public String productDetailAdvanced(@PathVariable Long id, Model model) {
+
 		Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
 		List<Product> relatedProducts = productService.getRandomProductsByTag(product);
 		int centerRotationNumber = Math.round(product.getProductRotationNumber() / 2.0f);
-        model.addAttribute("centerRotationNumber", centerRotationNumber);
+		model.addAttribute("centerRotationNumber", centerRotationNumber);
 		model.addAttribute("product", product);
-        model.addAttribute("relatedProducts", relatedProducts);
+		model.addAttribute("relatedProducts", relatedProducts);
 		return "front/productDetailAdvanced";
 	}
-	
+
 	@PostMapping("/clientInsert")
 	@ResponseBody
 	public String clientInsert(Client client) {
-		
+
 		clientService.clientInsert(client);
-		
+
 		StringBuffer sb = new StringBuffer();
 		String msg = "문의 주셔서 감사합니다. 빠르게 연락드리도록 하겠습니다.";
-		
+
 		sb.append("alert('" + msg + "');");
 		sb.append("location.href='/index'");
 		sb.append("</script>");
 		sb.insert(0, "<script>");
-		
+
 		return sb.toString();
 	}
-	
+
 	@PostMapping("/searchKeword")
-	public String searchKeword(
-			Model model,
-			String keyword
-			) {
+	public String searchKeword(Model model, String keyword) {
 		model.addAttribute("name", productRepository.findByNameContaining(keyword));
 		model.addAttribute("code", productRepository.findByProductCodeContaining(keyword));
 		return "front/search";
 	}
-	
+
 	@GetMapping("/address")
 	public String address() {
-		
+
 		return "front/address";
 	}
 }

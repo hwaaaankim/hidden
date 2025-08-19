@@ -1899,8 +1899,9 @@ p.process-title-line {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 450px;
-	height:auto;
+	max-width: 450px;
+	width: 100%;
+	height: auto;
 	background-color: #fff;
 	padding: 20px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

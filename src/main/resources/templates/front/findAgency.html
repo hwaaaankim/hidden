@@ -41,7 +41,12 @@
 							<div class="large section-container p-l-r" style="margin-top:100px;">
 								<div class="agency-block-title">
 									<h2 class="agency-title">대리점 주소검색</h2>
-									<p class="agency-subtitle">희망하시는 주소 검색 혹은 가까운 대리점 찾기를 진행할 수 있습니다.</p>
+									<p class="agency-subtitle" style="margin-bottom:0px;">희망하시는 주소 검색 혹은 가까운 대리점 찾기를 진행할 수 있습니다.</p>
+									<div id="geo-permission-banner" class="d-none">
+										# 위치 권한이 차단되어 가까운 대리점 기능을 사용할 수 없습니다.
+										<button id="geo-help">권한 설정 방법</button>
+										<button id="geo-retry">다시 시도</button>
+									</div>
 								</div>
 
 								<div class="shop-checkout">
@@ -49,7 +54,7 @@
 										<div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-5">
 											<form class="row" id="agency-search-form" onsubmit="return false;">
 												<!-- Select 1: 페이지 사이즈 -->
-												<div class="col">
+												<div class="col-lg-2 col-sm-6">
 													<div class="agency-search-select-wrapper">
 														<select id="pageSizeSelect" class="agency-search-form-control">
 															<option value="12">12개씩 보기</option>
@@ -61,7 +66,7 @@
 												</div>
 
 												<!-- Select 2: Province(시/도) -->
-												<div class="col">
+												<div class="col-lg-2 col-sm-6">
 													<div class="agency-search-select-wrapper">
 														<select id="provinceSelect" class="agency-search-form-control">
 															<option value="">지역 선택(시/도)</option>
@@ -74,7 +79,7 @@
 												</div>
 
 												<!-- Select 3: City(시) -->
-												<div class="col">
+												<div class="col-lg-2 col-sm-6">
 													<div class="agency-search-select-wrapper">
 														<select id="citySelect" class="agency-search-form-control"
 															disabled>
@@ -84,7 +89,7 @@
 												</div>
 
 												<!-- Select 4: District(구/군) -->
-												<div class="col">
+												<div class="col-lg-2 col-sm-6">
 													<div class="agency-search-select-wrapper">
 														<select id="districtSelect" class="agency-search-form-control"
 															disabled>
@@ -94,17 +99,13 @@
 												</div>
 
 												<!-- 검색 버튼 -->
-												<div class="col-auto">
+												<div class="col-lg-4 col-sm-12 d-flex">
 													<button type="button" id="searchBtn"
-														class="agency-search-btn-custom agency-search-btn-search">
+														class="agency-search-btn-custom agency-search-btn-search w-100">
 														<i class="fas fa-search"></i> 검색
 													</button>
-												</div>
-
-												<!-- 가까운 대리점 찾기 -->
-												<div class="col-auto">
 													<button type="button" id="nearbyBtn"
-														class="agency-search-btn-custom agency-search-btn-dealer">
+														class="agency-search-btn-custom agency-search-btn-dealer w-100">
 														<i class="fas fa-map-marker-alt"></i> 가까운대리점찾기
 													</button>
 												</div>
@@ -144,7 +145,6 @@
 	<div class="agency-search-modal-background"></div>
 
 	<!-- 모달 창 -->
-	<!-- 모달 배경/창은 기존 그대로 유지, 모달 내부만 교체 -->
 	<div class="agency-search-modal">
 		<i class="fas fa-times agency-search-close-btn" aria-hidden="true"></i>
 		<div class="shop-checkout">
@@ -191,7 +191,7 @@
 							</div>
 
 							<!-- 카카오 지도 -->
-							<div class="payment-methods methods custom-radio"style="margin-bottom:15px;">
+							<div class="payment-methods methods custom-radio" style="margin-bottom:15px;">
 								<div id="kakao-map" style="width:100%;height:300px;border:0;"></div>
 							</div>
 

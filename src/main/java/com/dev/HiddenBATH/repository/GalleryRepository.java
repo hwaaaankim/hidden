@@ -12,4 +12,5 @@ import com.dev.HiddenBATH.model.Gallery;
 public interface GalleryRepository extends JpaRepository<Gallery, Long>{
 
 	List<Gallery> findAllBy(Pageable pageable);
+	List<Gallery> findAllByOrderByIdDesc();
 }
