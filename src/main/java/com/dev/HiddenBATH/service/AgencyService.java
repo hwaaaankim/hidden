@@ -195,20 +195,19 @@ public class AgencyService {
 	}
 
 	/* ======= DTO 변환 ======= */
-
 	private static AgencyResponse toResponse(Agency a) {
 		return AgencyResponse.builder().id(a.getId()).name(a.getName()).logoImagePath(a.getLogoImagePath())
 				.logoImageRoad(a.getLogoImageRoad()).postcode(a.getPostcode()).roadAddress(a.getRoadAddress())
 				.jibunAddress(a.getJibunAddress()).addressDetail(a.getAddressDetail()).sido(a.getSido())
 				.sigungu(a.getSigungu()).bname(a.getBname()).latitude(a.getLatitude()).longitude(a.getLongitude())
-				.tel(a.getTel()).mobile(a.getMobile()).kakaoTalkLink(a.getKakaoTalkLink()).staffName(a.getStaffName())
+				.tel(a.getTel()).mobile(a.getMobile()).fax(a.getFax()) // ★ 추가: 응답에 팩스 포함
+				.kakaoTalkLink(a.getKakaoTalkLink()).staffName(a.getStaffName())
 				.provinceName(a.getProvince() != null ? a.getProvince().getName() : null)
 				.cityName(a.getCity() != null ? a.getCity().getName() : null)
 				.districtName(a.getDistrict() != null ? a.getDistrict().getName() : null).build();
 	}
 
 	/* ======= CRUD ======= */
-
 	@Transactional
 	public AgencyResponse create(AgencyCreateRequest req, org.springframework.web.multipart.MultipartFile icon)
 			throws IOException {
@@ -229,6 +228,7 @@ public class AgencyService {
 
 		a.setTel(req.getTel());
 		a.setMobile(req.getMobile());
+		a.setFax(req.getFax()); // ★ 추가: 생성 시 팩스 저장
 		a.setKakaoTalkLink(req.getKakaoTalkLink());
 		a.setStaffName(req.getStaffName());
 
@@ -291,6 +291,8 @@ public class AgencyService {
 			a.setTel(req.getTel());
 		if (req.getMobile() != null)
 			a.setMobile(req.getMobile());
+		if (req.getFax() != null)
+			a.setFax(req.getFax()); // ★ 추가: 수정 시 팩스 반영
 		if (req.getKakaoTalkLink() != null)
 			a.setKakaoTalkLink(req.getKakaoTalkLink());
 		if (req.getStaffName() != null)

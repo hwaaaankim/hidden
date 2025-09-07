@@ -35,6 +35,10 @@ public class AgencyCreateRequest {
     private BigDecimal latitude;
     private BigDecimal longitude;
 
+    // ★ 추가
+    @Size(max = 30)
+    private String fax;
+    
     // 연락/링크/담당
     @Size(max = 30)
     private String tel;

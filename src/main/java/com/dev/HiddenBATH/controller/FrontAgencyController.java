@@ -40,6 +40,12 @@ public class FrontAgencyController {
 		return "front/findAgency";
 	}
 
+	@GetMapping("/temp/findOnlineAgency")
+    public String findOnlineAgencyPage() {
+
+		return "front/findOnlineAgency";
+    }
+	
 	// --- Regions API ---
 	@GetMapping("/api/regions/provinces")
 	@ResponseBody

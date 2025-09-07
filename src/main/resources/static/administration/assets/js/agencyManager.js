@@ -116,7 +116,6 @@ function cardTemplate(a) {
             <input type="file" class="form-control form-control-sm mt-2 agency-icon-input" data-id="${a.id}" accept="image/*">
           </div>
 
-          <!-- 입력 필드 (내용 영역 확장) -->
           <div class="row g-2 flex-grow-1">
             <div class="col-6">
               <label class="form-label">대리점명</label>
@@ -136,12 +135,16 @@ function cardTemplate(a) {
               <input type="text" class="form-control dirty-watch" value="${safe(a.mobile)}" data-field="mobile" data-id="${a.id}">
             </div>
 
-            <div class="col-12">
+            <!-- ★ 추가: 팩스번호 -->
+            <div class="col-6">
+              <label class="form-label">팩스번호</label>
+              <input type="text" class="form-control dirty-watch" value="${safe(a.fax)}" data-field="fax" data-id="${a.id}">
+            </div>
+            <div class="col-6">
               <label class="form-label">카카오톡 링크</label>
               <input type="text" class="form-control dirty-watch" value="${safe(a.kakaoTalkLink)}" data-field="kakaoTalkLink" data-id="${a.id}">
             </div>
 
-            <!-- 주소 버튼 + 줄바꿈 후 주소 전체 표시 + 위/경도 텍스트 -->
             <div class="col-12">
               <button type="button" class="btn btn-outline-secondary btn-sm btn-postcode" data-id="${a.id}">주소검색</button>
               <div class="mt-2">
@@ -153,7 +156,6 @@ function cardTemplate(a) {
             </div>
           </div>
 
-          <!-- 하단 버튼: 카드 바닥 정렬 -->
           <div class="mt-2">
             <div class="row g-2 w-100">
               <div class="col-6 d-grid">
@@ -165,7 +167,7 @@ function cardTemplate(a) {
             </div>
           </div>
 
-          <!-- 숨김 데이터(저장 시 전송용) -->
+          <!-- 숨김 데이터 -->
           <input type="hidden" data-field="postcode" data-id="${a.id}" value="${safe(a.postcode)}">
           <input type="hidden" data-field="roadAddress" data-id="${a.id}" value="${safe(a.roadAddress)}">
           <input type="hidden" data-field="jibunAddress" data-id="${a.id}" value="${safe(a.jibunAddress)}">
@@ -180,6 +182,7 @@ function cardTemplate(a) {
     </div>
   `;
 }
+
 
 function buildAddressSummary(a) {
 	const segs = [];
@@ -350,6 +353,7 @@ function bindCardEvents() {
 	});
 
 	// 저장
+	// 저장
 	$$('.btn-save').forEach(btn => {
 		btn.addEventListener('click', async () => {
 			const id = btn.getAttribute('data-id');
@@ -361,6 +365,7 @@ function bindCardEvents() {
 				staffName: toVal('staffName'),
 				tel: toVal('tel'),
 				mobile: toVal('mobile'),
+				fax: toVal('fax'),                       // ★ 추가
 				kakaoTalkLink: toVal('kakaoTalkLink'),
 
 				// 주소(숨김)
@@ -373,7 +378,6 @@ function bindCardEvents() {
 				bname: toVal('bname')
 			};
 
-			// 위/경도(숨김)
 			const lat = toVal('latitude');
 			const lng = toVal('longitude');
 			if (lat) formObj.latitude = Number(lat);
@@ -397,12 +401,12 @@ function bindCardEvents() {
 				return;
 			}
 			alert('수정되었습니다.');
-			// 저장 완료 후 다시 비활성화
 			btn.disabled = true;
 			card.dataset.dirty = '0';
 			fetchList();
 		});
 	});
+
 
 	// 삭제
 	$$('.btn-delete').forEach(btn => {

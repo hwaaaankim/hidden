@@ -40,7 +40,6 @@ $('#geo-retry')?.addEventListener('click', async () => {
 	}
 });
 
-
 const state = {
 	page: 0,
 	size: 12,
@@ -54,6 +53,7 @@ const state = {
 	userPos: null,        // {lat,lng}
 	kakaoReady: false
 };
+
 // === 주소 포맷: (roadAddress || jibunAddress) + [공백 + addressDetail] + [ | postcode]
 function formatFullAddress(a) {
 	const road = (a.roadAddress ?? '').trim();
@@ -139,18 +139,19 @@ function setRecent(list) {
 }
 
 function pushRecent(agency) {
-  const list = getRecent().filter(a => a.id !== agency.id);
-  list.unshift({
-    id: agency.id,
-    name: agency.name,
-    roadAddress: agency.roadAddress || '',
-    addressDetail: agency.addressDetail || '',   // ✅ 추가
-    postcode: agency.postcode || '',             // ✅ 추가
-    tel: agency.tel || '',
-    latitude: agency.latitude ?? null,
-    longitude: agency.longitude ?? null
-  });
-  setRecent(list.slice(0, 6));
+	const list = getRecent().filter(a => a.id !== agency.id);
+	list.unshift({
+		id: agency.id,
+		name: agency.name,
+		roadAddress: agency.roadAddress || '',
+		addressDetail: agency.addressDetail || '',
+		postcode: agency.postcode || '',
+		tel: agency.tel || '',
+		fax: agency.fax || '',                 // ★ 팩스 저장
+		latitude: agency.latitude ?? null,
+		longitude: agency.longitude ?? null
+	});
+	setRecent(list.slice(0, 6));
 }
 
 function renderRecent() {
@@ -166,6 +167,11 @@ function renderRecent() {
 		}
 		const addrLine1 = a.roadAddress ?? '-';
 		const addrLine2 = [a.addressDetail, a.postcode].filter(Boolean).join(' | ');
+		const faxLine = a.fax ? `
+			<div class="shipping-totals shipping">
+			  <h2>FAX</h2>
+			  <div class="subtotal-price"><span>${a.fax}</span></div>
+			</div>` : '';
 
 		return `
       <div class="col-xl-4 col-lg-5 col-md-12 col-12">
@@ -186,6 +192,7 @@ function renderRecent() {
               <h2>TEL</h2>
               <div class="subtotal-price"><span>${a.tel || '-'}</span></div>
             </div>
+            ${faxLine}
           </div>
           <div class="checkout-payment">
             <div class="form-row place-order">
@@ -205,7 +212,6 @@ function renderRecent() {
 			openAgencyModal(parseInt(btn.dataset.agencyId, 10)));
 	});
 }
-
 
 // ===== API 래퍼 =====
 async function fetchJSON(url) {
@@ -238,13 +244,17 @@ async function loadAgencies() {
 	renderPagination(data);
 }
 
-
 function renderList(pageData) {
 	const row = $('#agency-list-row');
 	row.innerHTML = pageData.content.map(a => {
 		const distText = (a.distanceKm != null) ? `${a.distanceKm}km` : '– km';
 		const addrLine1 = a.roadAddress ?? '-';
 		const addrLine2 = [a.addressDetail, a.postcode].filter(Boolean).join(' | ');
+		const faxLine = a.fax ? `
+			<div class="shipping-totals shipping">
+			  <h2>FAX</h2>
+			  <div class="subtotal-price"><span>${a.fax}</span></div>
+			</div>` : '';
 
 		return `
       <div class="col-xl-4 col-lg-5 col-md-12 col-12">
@@ -265,6 +275,7 @@ function renderList(pageData) {
               <h2>TEL</h2>
               <div class="subtotal-price"><span>${a.tel || '-'}</span></div>
             </div>
+            ${faxLine}
           </div>
           <div class="checkout-payment">
             <div class="form-row place-order">
@@ -287,7 +298,6 @@ function renderList(pageData) {
 		});
 	});
 }
-
 
 function renderPagination(pageData) {
 	const ul = $('#pagination');
@@ -351,9 +361,11 @@ async function openAgencyModal(id) {
 	const addrEl = $('#modal-agency-address');
 	const telEl = $('#modal-agency-tel');
 	const mobEl = $('#modal-agency-mobile');
+	const faxEl = $('#modal-agency-fax');     // ★ 추가
 	const staffEl = $('#modal-agency-staff');
 	const rowTel = $('#row-tel');
 	const rowMob = $('#row-mobile');
+	const rowFax = $('#row-fax');             // ★ 추가
 	const rowStaff = $('#row-staff');
 	const mapEl = $('#kakao-map');
 	const callBtn = $('#modal-call-btn');
@@ -365,15 +377,46 @@ async function openAgencyModal(id) {
 	const addrLine2 = [a.addressDetail, a.postcode].filter(Boolean).join(' | ');
 	if (addrEl) addrEl.textContent = `${addrLine1}\n${addrLine2 || '-'}`;
 
+	// TEL
 	if (a.tel?.trim()) { telEl.textContent = a.tel; rowTel.classList.remove('d-none'); }
 	else rowTel.classList.add('d-none');
+
+	// MOBILE
 	if (a.mobile?.trim()) { mobEl.textContent = a.mobile; rowMob.classList.remove('d-none'); }
 	else rowMob.classList.add('d-none');
+
+	// FAX (★ 추가)
+	if (faxEl && rowFax) {
+		if (a.fax?.trim()) { faxEl.textContent = a.fax; rowFax.classList.remove('d-none'); }
+		else rowFax.classList.add('d-none');
+	}
+
+	// STAFF
 	if (a.staffName?.trim()) { staffEl.textContent = a.staffName; rowStaff.classList.remove('d-none'); }
 	else rowStaff.classList.add('d-none');
 
-	if (callBtn) callBtn.onclick = () => { if (a.tel) location.href = `tel:${a.tel.replaceAll('-', '')}`; };
-	if (chatBtn) chatBtn.href = a.kakaoTalkLink || '#';
+	// 전화상담 버튼(우선순위: tel → mobile)
+	if (callBtn) {
+		let telLink = '';
+		if (a.tel && a.tel.trim()) {
+			telLink = 'tel:' + a.tel.replace(/[^0-9+]/g, '');
+		} else if (a.mobile && a.mobile.trim()) {
+			telLink = 'tel:' + a.mobile.replace(/[^0-9+]/g, '');
+		}
+		callBtn.disabled = !telLink;
+		callBtn.onclick = () => { if (telLink) location.href = telLink; };
+	}
+
+	// 채팅상담 버튼
+	if (chatBtn) {
+		if (a.kakaoTalkLink && a.kakaoTalkLink.trim()) {
+			chatBtn.href = a.kakaoTalkLink;
+			chatBtn.classList.remove('disabled');
+		} else {
+			chatBtn.href = 'javascript:void(0);';
+			chatBtn.classList.add('disabled');
+		}
+	}
 
 	openModal();
 
@@ -405,7 +448,6 @@ async function openAgencyModal(id) {
 		}, 60);
 	});
 }
-
 
 // ===== 필터 연동 (셀렉트 변경 시 "조회 안 함") =====
 async function onProvinceChange() {

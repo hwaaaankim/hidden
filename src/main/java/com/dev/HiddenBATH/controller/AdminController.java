@@ -336,8 +336,8 @@ public class AdminController {
         log.info("[AgencyCreate] road='{}', jibun='{}', detail='{}'",
                 form.getRoadAddress(), form.getJibunAddress(), form.getAddressDetail());
         log.info("[AgencyCreate] lat={}, lng={}", form.getLatitude(), form.getLongitude());
-        log.info("[AgencyCreate] tel='{}', mobile='{}', kakao='{}', staff='{}'",
-                form.getTel(), form.getMobile(), form.getKakaoTalkLink(), form.getStaffName());
+        log.info("[AgencyCreate] tel='{}', mobile='{}', fax='{}', kakao='{}', staff='{}'",
+                form.getTel(), form.getMobile(), form.getFax(), form.getKakaoTalkLink(), form.getStaffName());
         if (icon != null) {
             log.info("[AgencyCreate] icon: name='{}', size={}, contentType={}",
                     icon.getOriginalFilename(), icon.getSize(), icon.getContentType());
@@ -374,5 +374,12 @@ public class AdminController {
     public ResponseEntity<Void> deleteAgency(@PathVariable Long id) {
         agencyService.delete(id);
         return ResponseEntity.ok().build();
+    }
+    
+    
+    @GetMapping("/onlineAgencyManager")
+    public String onlineAgencyManager() {
+    	
+    	return "administration/client/onlineAgencyManager";
     }
 }

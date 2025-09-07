@@ -33,6 +33,7 @@ public final class AgencyMapper {
                 .latitude(a.getLatitude())
                 .longitude(a.getLongitude())
                 .tel(a.getTel())
+                .fax(a.getFax())    
                 .mobile(a.getMobile())
                 .kakaoTalkLink(a.getKakaoTalkLink())
                 .staffName(a.getStaffName())

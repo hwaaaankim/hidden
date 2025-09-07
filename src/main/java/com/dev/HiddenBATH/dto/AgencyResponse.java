@@ -32,6 +32,9 @@ public class AgencyResponse {
     private final BigDecimal latitude;
     private final BigDecimal longitude;
 
+    // ★ 추가
+    private final String fax;
+    
     // 연락/링크/담당
     private final String tel;
     private final String mobile;
@@ -67,6 +70,7 @@ public class AgencyResponse {
                           BigDecimal longitude,
                           String tel,
                           String mobile,
+                          String fax,
                           String kakaoTalkLink,
                           String staffName,
                           Long provinceId,
@@ -91,6 +95,7 @@ public class AgencyResponse {
         this.longitude = longitude;
         this.tel = tel;
         this.mobile = mobile;
+        this.fax= fax;
         this.kakaoTalkLink = kakaoTalkLink;
         this.staffName = staffName;
         this.provinceId = provinceId;

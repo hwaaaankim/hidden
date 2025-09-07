@@ -19,6 +19,8 @@ public interface AgencyRepository extends JpaRepository<Agency, Long>, JpaSpecif
 
     /**
      * 목록 검색: 연관들 미리 로딩 (Province/City/District)
+     * - contact 검색 시 tel/mobile/fax 모두 하이픈 제거 후 부분일치
+     * - keyword도 하이픈 제거 후 비교
      */
     @Query(
         value = """
@@ -33,8 +35,9 @@ public interface AgencyRepository extends JpaRepository<Agency, Long>, JpaSpecif
                    AND LOWER(a.name) LIKE LOWER(CONCAT('%', :keyword, '%')) )
               OR ( :type = 'contact'
                    AND (
-                        FUNCTION('REPLACE', a.tel, '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', :keyword, '-', ''), '%')
-                     OR FUNCTION('REPLACE', a.mobile, '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', :keyword, '-', ''), '%')
+                        FUNCTION('REPLACE', COALESCE(a.tel, ''),    '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', COALESCE(:keyword, ''), '-', ''), '%')
+                     OR FUNCTION('REPLACE', COALESCE(a.mobile, ''), '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', COALESCE(:keyword, ''), '-', ''), '%')
+                     OR FUNCTION('REPLACE', COALESCE(a.fax, ''),    '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', COALESCE(:keyword, ''), '-', ''), '%')
                    )
                  )
             """,
@@ -47,8 +50,9 @@ public interface AgencyRepository extends JpaRepository<Agency, Long>, JpaSpecif
                    AND LOWER(a.name) LIKE LOWER(CONCAT('%', :keyword, '%')) )
               OR ( :type = 'contact'
                    AND (
-                        FUNCTION('REPLACE', a.tel, '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', :keyword, '-', ''), '%')
-                     OR FUNCTION('REPLACE', a.mobile, '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', :keyword, '-', ''), '%')
+                        FUNCTION('REPLACE', COALESCE(a.tel, ''),    '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', COALESCE(:keyword, ''), '-', ''), '%')
+                     OR FUNCTION('REPLACE', COALESCE(a.mobile, ''), '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', COALESCE(:keyword, ''), '-', ''), '%')
+                     OR FUNCTION('REPLACE', COALESCE(a.fax, ''),    '-', '') LIKE CONCAT('%', FUNCTION('REPLACE', COALESCE(:keyword, ''), '-', ''), '%')
                    )
                  )
             """

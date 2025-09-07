@@ -2000,3 +2000,212 @@ span.distance-text {
 #modal-title-box .modal-row:first-child {
 	border-top: 1px solid #eee;
 }
+
+/* =========================
+   onlineAgency-find (Front)
+   ========================= */
+
+/* 필터바 */
+.onlineAgency-find-filterbar {
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+/* 데스크톱: 셀렉트 2개 동일 너비 */
+.onlineAgency-find-size,
+.onlineAgency-find-type {
+	width: 180px;
+	/* 동일 너비 */
+}
+
+/* 입력/버튼 통일 높이 */
+.onlineAgency-find-filterbar .form-control,
+.onlineAgency-find-filterbar .form-select,
+.onlineAgency-find-filterbar .btn {
+	height: 42px;
+	/* 동일 높이 */
+	min-height: 42px;
+	/* 보강 */
+	line-height: 42px;
+	/* 버튼 텍스트 수직정렬 보조 */
+	padding-top: 0.375rem;
+	/* 부트스트랩 기본 패딩 유지 */
+	padding-bottom: 0.375rem;
+}
+
+/* 모바일(<=767px): 셀렉트 2개 줄바꿈, 인풋 80% 버튼 20% */
+@media (max-width: 767.98px) {
+	.onlineAgency-find-filterbar {
+		flex-wrap: wrap;
+		justify-content: stretch;
+	}
+
+	.onlineAgency-find-filter-row1 {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 8px;
+		width: 100%;
+	}
+
+	.onlineAgency-find-filter-row2 {
+		display: grid;
+		grid-template-columns: 4fr 1fr;
+		/* 인풋 80% / 버튼 20% */
+		gap: 8px;
+		width: 100%;
+	}
+
+	/* 모바일에서는 셀렉트 너비 100% */
+	.onlineAgency-find-size,
+	.onlineAgency-find-type {
+		width: 100%;
+	}
+}
+
+/* 태블릿 이상: 한 줄 우측 정렬 */
+@media (min-width: 768px) {
+
+	.onlineAgency-find-filter-row1,
+	.onlineAgency-find-filter-row2 {
+		display: contents;
+	}
+
+	.onlineAgency-find-filterbar .onlineAgency-find-keyword {
+		width: 320px;
+	}
+}
+
+/* 굵은 디바이더 */
+.onlineAgency-find-divider {
+	height: 6px;
+	background: #e9ecef;
+	border: 0;
+	margin: 14px 0 22px 0;
+}
+
+/* 카드 (모서리 둥글기 제거) */
+.onlineAgency-find-card {
+	border: 1px solid #e5e7eb;
+	border-radius: 0;
+	/* 요구사항: radius 삭제 */
+	box-shadow: 0 2px 2px rgba(0, 0, 0, .03);
+	background: #fff;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	/* col 안에서 가로 전체 차지 */
+	flex: 1 1 auto;
+	/* flex-grow + shrink */
+}
+
+.onlineAgency-find-card .onlineAgency-find-card-body {
+	padding: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+}
+
+/* 레이블 좌측정렬 / 내용 우측정렬 + 옅은 divider + 수직선 */
+.onlineAgency-find-row {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	column-gap: 12px;
+	align-items: center;
+	padding: 8px 0;
+	position: relative;
+}
+
+.onlineAgency-find-row:not(:first-child)::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: rgba(0, 0, 0, .06);
+}
+
+.onlineAgency-find-label {
+	font-weight: 600;
+	color: #111827;
+	text-align: left;
+}
+
+.onlineAgency-find-value {
+	text-align: right;
+	color: #374151;
+	word-break: break-word;
+}
+
+.onlineAgency-find-label::before {
+	content: "";
+	display: inline-block;
+	width: 3px;
+	height: 14px;
+	background: #1f2937;
+	margin-right: 8px;
+	vertical-align: middle;
+}
+
+/* 로고 미리보기 */
+.onlineAgency-find-logo {
+	width: 100%;
+	height: 54px;
+	border: 1px solid #eee;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	margin: 10px auto 10px auto;
+	background: #fafafa;
+}
+
+.onlineAgency-find-logo img {
+	max-width: 160px;
+	max-height: 54px;
+}
+
+/* 링크(사용 안함 – 버튼으로 대체하지만 혹시 남아있는 경우 대비) */
+.onlineAgency-find-link {
+	color: #2563eb;
+	text-decoration: underline;
+	word-break: break-all;
+}
+
+/* 전체폭 버튼 (홈페이지 방문하기) */
+.onlineAgency-find-homebtn {
+	width: 100%;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	height: 42px;
+	/* 입력/셀렉트와 높이 통일 */
+	border-radius: 0;
+	/* 카드와 일체감 */
+	margin-top: 10px;
+}
+
+/* 페이지네이션 */
+.onlineAgency-find-pagination {
+	margin-top: 16px;
+}
+
+/* 셀렉트와 버튼 텍스트를 input 과 동일하게 수직 중앙정렬 */
+.onlineAgency-find-filterbar .form-select,
+.onlineAgency-find-filterbar .btn {
+	display: flex;
+	align-items: center;
+	/* 내부 텍스트 수직 중앙 */
+	justify-content: center;
+	/* 버튼 텍스트도 중앙 */
+	line-height: normal;
+	/* 브라우저 기본 line-height 무효화 */
+	padding-top: 0;
+	/* 상하 패딩 제거 */
+	padding-bottom: 0;
+}

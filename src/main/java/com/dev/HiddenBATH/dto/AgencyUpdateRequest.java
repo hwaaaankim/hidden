@@ -38,6 +38,8 @@ public class AgencyUpdateRequest {
     private String tel;
     @Size(max = 30)
     private String mobile;
+    @Size(max = 30)
+    private String fax;
     @Size(max = 300)
     private String kakaoTalkLink;
     @Size(max = 100)

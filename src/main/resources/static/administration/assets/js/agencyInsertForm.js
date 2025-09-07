@@ -206,6 +206,7 @@ async function submitForm() {
 		longitude: $('#longitude').value ? Number($('#longitude').value) : null,
 		tel: $('#tel').value.trim(),
 		mobile: $('#mobile').value.trim(),
+		fax: $('#fax') ? $('#fax').value.trim() : "",
 		kakaoTalkLink: $('#kakaoTalkLink').value.trim(),
 		staffName: $('#staffName').value.trim()
 	};
