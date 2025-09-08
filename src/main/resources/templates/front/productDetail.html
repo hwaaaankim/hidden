@@ -85,7 +85,7 @@
 													제품코드
 												</span>
 												<div class="description">
-													<p th:if="${product.subject != ''}">== 제품의 묘사 문구가 삽입되는 영역입니다[관리자등록]
+													<p th:if="${product.subject != ''}" th:text="${product.subject}">== 제품의 묘사 문구가 삽입되는 영역입니다[관리자등록]
 														===</p>
 													<p th:if="${product.subject == ''}">-</p>
 												</div>
