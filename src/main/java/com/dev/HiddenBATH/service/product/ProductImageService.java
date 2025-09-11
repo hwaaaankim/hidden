@@ -39,16 +39,9 @@ public class ProductImageService {
 	public String imageUpload(Product product, List<MultipartFile> images)
 	        throws IllegalStateException, IOException {
 
-	    String path = commonPath
-	            + "/product/"
-	            + product.getProductCode()
-	            + "/slide/"; // 마지막 / 꼭 포함
+	    String path = commonPath + "/product/" + product.getProductCode() + "/slide/";
+	    String road = "/administration/upload/product/" + product.getProductCode() + "/slide/";
 
-	    String road = "/administration/upload/product/"
-	            + product.getProductCode()
-	            + "/slide/"; // 마지막 / 꼭 포함
-
-	    // 폴더 생성
 	    File dir = new File(path);
 	    if (!dir.exists()) dir.mkdirs();
 
@@ -64,8 +57,10 @@ public class ProductImageService {
 	                    .limit(targetStringLength)
 	                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 	                    .toString();
+
 	            ProductImage f = new ProductImage();
 	            f.setProduct(product);
+
 	            String contentType = file.getContentType();
 	            String originalFileExtension = "";
 
@@ -76,15 +71,17 @@ public class ProductImageService {
 	                    originalFileExtension = ".jpg";
 	                } else if (contentType.contains("image/png")) {
 	                    originalFileExtension = ".png";
+	                } else if (contentType.contains("image/webp")) { // ✅ webp 추가
+	                    originalFileExtension = ".webp";
 	                } else {
-	                    throw new IllegalArgumentException("허용되지 않는 이미지 타입입니다: " + contentType);
+	                    throw new IllegalArgumentException("허용되지 않는 이미지 타입입니다: " + contentType + " (허용: jpeg, png, webp)");
 	                }
 	            }
+
 	            String productImageName = generatedString + originalFileExtension;
 	            String productImagePath = path + productImageName;
 	            String productImageRoad = road + productImageName;
 
-	            // 파일 저장
 	            File productImageSaveFile = new File(productImagePath);
 	            File parentDir = productImageSaveFile.getParentFile();
 	            if (!parentDir.exists()) parentDir.mkdirs();
@@ -103,7 +100,6 @@ public class ProductImageService {
 	    }
 	    return "success";
 	}
-	
 	public Boolean imageDelete(
 			Long id
 			) {

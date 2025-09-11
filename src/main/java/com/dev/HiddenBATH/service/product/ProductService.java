@@ -57,494 +57,541 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductService {
 
-	private final ProductRepository productRepository;
-	private final ProductMiddleSortRepository productMiddleSortRepository;
-	private final ProductBigSortRepository productBigSortRepository;
-	private final ProductTagRepository productTagRepository;
-	private final ProductOptionRepository productOptionRepository;
-	private final ProductSizeRepository productSizeRepository;
-	private final ProductColorRepository productColorRepository;
+    private final ProductRepository productRepository;
+    private final ProductMiddleSortRepository productMiddleSortRepository;
+    private final ProductBigSortRepository productBigSortRepository;
+    private final ProductTagRepository productTagRepository;
+    private final ProductOptionRepository productOptionRepository;
+    private final ProductSizeRepository productSizeRepository;
+    private final ProductColorRepository productColorRepository;
 
-	@Value("${spring.upload.env}")
-	private String env;
+    @Value("${spring.upload.env}")
+    private String env;
 
-	@Value("${spring.upload.path}")
-	private String commonPath;
+    @Value("${spring.upload.path}")
+    private String commonPath;
 
-	@Transactional
-	public void exchangeProductIndexes(List<Long> oldIdList, List<Long> newIdList) {
-	    if (oldIdList == null || newIdList == null || oldIdList.size() != newIdList.size())
-	        throw new IllegalArgumentException("리스트 사이즈 불일치");
+    @Transactional
+    public void exchangeProductIndexes(List<Long> oldIdList, List<Long> newIdList) {
+        if (oldIdList == null || newIdList == null || oldIdList.size() != newIdList.size())
+            throw new IllegalArgumentException("리스트 사이즈 불일치");
 
-	    // 기존 index값을 oldIdList 순서대로 추출
-	    List<Product> oldProducts = productRepository.findAllById(oldIdList);
-	    Map<Long, Integer> oldIndexMap = new HashMap<>();
-	    for (Product p : oldProducts) {
-	        oldIndexMap.put(p.getId(), p.getProductIndex());
-	    }
+        // 기존 index값을 oldIdList 순서대로 추출
+        List<Product> oldProducts = productRepository.findAllById(oldIdList);
+        Map<Long, Integer> oldIndexMap = new HashMap<>();
+        for (Product p : oldProducts) {
+            oldIndexMap.put(p.getId(), p.getProductIndex());
+        }
 
-	    // newIdList 순서대로 oldIdList에서 꺼낸 index값을 할당 (진짜 swap)
-	    List<Product> productsToSave = productRepository.findAllById(newIdList);
-	    for (int i = 0; i < newIdList.size(); i++) {
-	        Long id = newIdList.get(i);
-	        Product p = productsToSave.stream()
-	            .filter(prod -> prod.getId().equals(id))
-	            .findFirst()
-	            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 제품: " + id));
-	        p.setProductIndex(oldIndexMap.get(oldIdList.get(i))); // swap
-	    }
-	    productRepository.saveAll(productsToSave);
-	}
-	
-	@Transactional
-	public void updateProduct(
-	        Long productId,
-	        String name, String code, String title, String subject, Long bigSortId, Long middleSortId,
-	        Boolean order, Boolean handle,
-	        List<Long> sizeIds, List<Long> colorIds, List<Long> optionIds, List<Long> tagIds,
-	        MultipartFile productImage, List<MultipartFile> slideImages, MultipartFile drawingImage,
-	        Boolean deleteRepImage, Boolean deleteDrawingImage, String deleteSlideImageIds
-	) throws IOException {
-	    // 1. 엔티티 조회
-	    Product product = productRepository.findById(productId)
-	            .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다: " + productId));
+        // newIdList 순서대로 oldIdList에서 꺼낸 index값을 할당 (진짜 swap)
+        List<Product> productsToSave = productRepository.findAllById(newIdList);
+        for (int i = 0; i < newIdList.size(); i++) {
+            Long id = newIdList.get(i);
+            Product p = productsToSave.stream()
+                .filter(prod -> prod.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 제품: " + id));
+            p.setProductIndex(oldIndexMap.get(oldIdList.get(i))); // swap
+        }
+        productRepository.saveAll(productsToSave);
+    }
 
-	    // 2. 기본 정보
-	    product.setName(name);
-	    product.setProductCode(code);
-	    product.setTitle(title != null && !title.trim().isEmpty() ? title : "-");
-	    product.setSubject(subject != null && !subject.trim().isEmpty() ? subject : "-");
-	    product.setOrder(order);
-	    product.setHandle(handle);
+    @Transactional
+    public void updateProduct(
+            Long productId,
+            String name, String code, String title, String subject, Long bigSortId, Long middleSortId,
+            Boolean order, Boolean handle,
+            List<Long> sizeIds, List<Long> colorIds, List<Long> optionIds, List<Long> tagIds,
+            MultipartFile productImage, List<MultipartFile> slideImages, MultipartFile drawingImage,
+            Boolean deleteRepImage, Boolean deleteDrawingImage, String deleteSlideImageIds
+    ) throws IOException {
+        // 1. 엔티티 조회
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다: " + productId));
 
-	    // 3. 분류(대/중분류)
-	    if (bigSortId != null) {
-	        BigSort bigSort = productBigSortRepository.findById(bigSortId)
-	                .orElseThrow(() -> new IllegalArgumentException("대분류 없음: " + bigSortId));
-	        product.setBigSort(bigSort);
-	    }
-	    if (middleSortId != null) {
-	        MiddleSort middleSort = productMiddleSortRepository.findById(middleSortId)
-	                .orElseThrow(() -> new IllegalArgumentException("중분류 없음: " + middleSortId));
-	        product.setMiddleSort(middleSort);
-	    }
+        // 2. 기본 정보
+        product.setName(name);
+        product.setProductCode(code);
+        product.setTitle(title != null && !title.trim().isEmpty() ? title : "-");
+        product.setSubject(subject != null && !subject.trim().isEmpty() ? subject : "-");
+        product.setOrder(order);
+        product.setHandle(handle);
 
-	    // 4. 연관관계(옵션/사이즈/색상/태그) 모두 clear 후 새로 세팅
-	    // 사이즈
-	    if (product.getProductSizes() != null) product.getProductSizes().clear();
-	    if (sizeIds != null && !sizeIds.isEmpty()) {
-	        List<ProductSize> sizes = productSizeRepository.findAllById(sizeIds);
-	        product.getProductSizes().addAll(sizes);
-	    }
-	    // 색상
-	    if (product.getProductColors() != null) product.getProductColors().clear();
-	    if (colorIds != null && !colorIds.isEmpty()) {
-	        List<ProductColor> colors = productColorRepository.findAllById(colorIds);
-	        product.getProductColors().addAll(colors);
-	    }
-	    // 옵션
-	    if (product.getProductOptions() != null) product.getProductOptions().clear();
-	    if (optionIds != null && !optionIds.isEmpty()) {
-	        List<ProductOption> options = productOptionRepository.findAllById(optionIds);
-	        product.getProductOptions().addAll(options);
-	    }
-	    // 태그
-	    if (product.getProductTags() != null) product.getProductTags().clear();
-	    if (tagIds != null && !tagIds.isEmpty()) {
-	        List<ProductTag> tags = productTagRepository.findAllById(tagIds);
-	        product.getProductTags().addAll(tags);
-	    }
+        // 3. 분류(대/중분류)
+        if (bigSortId != null) {
+            BigSort bigSort = productBigSortRepository.findById(bigSortId)
+                    .orElseThrow(() -> new IllegalArgumentException("대분류 없음: " + bigSortId));
+            product.setBigSort(bigSort);
+        }
+        if (middleSortId != null) {
+            MiddleSort middleSort = productMiddleSortRepository.findById(middleSortId)
+                    .orElseThrow(() -> new IllegalArgumentException("중분류 없음: " + middleSortId));
+            product.setMiddleSort(middleSort);
+        }
 
-	    // 5. 파일 저장 경로
-	    String baseDir = commonPath + "/product/" + code;
-	    String repDir = baseDir + "/rep/";
-	    String slideDir = baseDir + "/slide/";
-	    String filesDir = baseDir + "/files/";
-	    String repRoad = "/administration/upload/product/" + code + "/rep/";
-	    String slideRoad = "/administration/upload/product/" + code + "/slide/";
-	    String filesRoad = "/administration/upload/product/" + code + "/files/";
+        // 4. 연관관계(옵션/사이즈/색상/태그) 모두 clear 후 새로 세팅
+        // 사이즈
+        if (product.getProductSizes() != null) product.getProductSizes().clear();
+        if (sizeIds != null && !sizeIds.isEmpty()) {
+            List<ProductSize> sizes = productSizeRepository.findAllById(sizeIds);
+            product.getProductSizes().addAll(sizes);
+        }
+        // 색상
+        if (product.getProductColors() != null) product.getProductColors().clear();
+        if (colorIds != null && !colorIds.isEmpty()) {
+            List<ProductColor> colors = productColorRepository.findAllById(colorIds);
+            product.getProductColors().addAll(colors);
+        }
+        // 옵션
+        if (product.getProductOptions() != null) product.getProductOptions().clear();
+        if (optionIds != null && !optionIds.isEmpty()) {
+            List<ProductOption> options = productOptionRepository.findAllById(optionIds);
+            product.getProductOptions().addAll(options);
+        }
+        // 태그
+        if (product.getProductTags() != null) product.getProductTags().clear();
+        if (tagIds != null && !tagIds.isEmpty()) {
+            List<ProductTag> tags = productTagRepository.findAllById(tagIds);
+            product.getProductTags().addAll(tags);
+        }
 
-	    // 6. 대표이미지 처리
-	    if (Boolean.TRUE.equals(deleteRepImage)) {
-	        String oldPath = product.getProductRepImagePath();
-	        if (oldPath != null) {
-	            File oldFile = new File(oldPath);
-	            if (oldFile.exists()) oldFile.delete();
-	        }
-	        product.setProductRepImagePath(null);
-	        product.setProductRepImageRoad(null);
-	        product.setProductRepImageName(null);
-	        product.setProductRepImageExtension(null);
-	        product.setProductRepImageOriginalName(null);
-	        if (productImage != null && !productImage.isEmpty()) {
-	            saveProductRepImage(product, productImage, repDir, repRoad);
-	        }
-	    } else if (productImage != null && !productImage.isEmpty()) {
-	        String oldPath = product.getProductRepImagePath();
-	        if (oldPath != null) {
-	            File oldFile = new File(oldPath);
-	            if (oldFile.exists()) oldFile.delete();
-	        }
-	        saveProductRepImage(product, productImage, repDir, repRoad);
-	    }
-	    // else : 유지
+        // 5. 파일 저장 경로
+        String baseDir = commonPath + "/product/" + code;
+        String repDir = baseDir + "/rep/";
+        String slideDir = baseDir + "/slide/";
+        String filesDir = baseDir + "/files/";
+        String repRoad = "/administration/upload/product/" + code + "/rep/";
+        String slideRoad = "/administration/upload/product/" + code + "/slide/";
+        String filesRoad = "/administration/upload/product/" + code + "/files/";
 
-	    // 7. 도면이미지 처리 (기존 파일/DB 삭제 → 새로등록/유지)
-	    if (Boolean.TRUE.equals(deleteDrawingImage) || (drawingImage != null && !drawingImage.isEmpty())) {
-	        if (product.getFiles() != null) product.getFiles().clear();
-	    }
-	    if (drawingImage != null && !drawingImage.isEmpty()) {
-	        saveDrawingImage(product, drawingImage, filesDir, filesRoad);
-	    }
-	    // else: 유지 (신규없으면 files 비어있는 채로 저장됨)
+        // 6. 대표이미지 처리
+        if (Boolean.TRUE.equals(deleteRepImage)) {
+            String oldPath = product.getProductRepImagePath();
+            if (oldPath != null) {
+                File oldFile = new File(oldPath);
+                if (oldFile.exists()) oldFile.delete();
+            }
+            product.setProductRepImagePath(null);
+            product.setProductRepImageRoad(null);
+            product.setProductRepImageName(null);
+            product.setProductRepImageExtension(null);
+            product.setProductRepImageOriginalName(null);
+            if (productImage != null && !productImage.isEmpty()) {
+                saveProductRepImage(product, productImage, repDir, repRoad);
+            }
+        } else if (productImage != null && !productImage.isEmpty()) {
+            String oldPath = product.getProductRepImagePath();
+            if (oldPath != null) {
+                File oldFile = new File(oldPath);
+                if (oldFile.exists()) oldFile.delete();
+            }
+            saveProductRepImage(product, productImage, repDir, repRoad);
+        }
+        // else : 유지
 
-	    // 8. 슬라이드 이미지 처리 (삭제/신규등록)
-	    // 1) 일부/전체 삭제
-	    if (deleteSlideImageIds != null && !deleteSlideImageIds.trim().isEmpty()) {
-	        String[] delIds = deleteSlideImageIds.split(",");
-	        Iterator<ProductImage> iter = product.getImages() != null ? product.getImages().iterator() : null;
-	        if (iter != null) {
-	            while (iter.hasNext()) {
-	                ProductImage img = iter.next();
-	                if (img.getId() != null && Arrays.asList(delIds).contains(String.valueOf(img.getId()))) {
-	                    String imgPath = img.getProductImagePath();
-	                    if (imgPath != null) {
-	                        File f = new File(imgPath);
-	                        if (f.exists()) f.delete();
-	                    }
-	                    iter.remove(); // 컬렉션에서 삭제 (orphanRemoval)
-	                }
-	            }
-	        }
-	    }
-	    // 2) 신규 전체등록(교체)
-	    if (slideImages != null && slideImages.stream().anyMatch(f -> !f.isEmpty())) {
-	        if (product.getImages() != null) {
-	            for (ProductImage img : product.getImages()) {
-	                String imgPath = img.getProductImagePath();
-	                if (imgPath != null) {
-	                    File f = new File(imgPath);
-	                    if (f.exists()) f.delete();
-	                }
-	            }
-	            product.getImages().clear(); // 전체 삭제 (orphanRemoval)
-	        }
-	        for (MultipartFile f : slideImages) {
-	            if (!f.isEmpty()) {
-	                saveSlideImage(product, f, slideDir, slideRoad);
-	            }
-	        }
-	    }
+        // 7. 도면이미지 처리 (기존 파일/DB 삭제 → 새로등록/유지)
+        if (Boolean.TRUE.equals(deleteDrawingImage) || (drawingImage != null && !drawingImage.isEmpty())) {
+            if (product.getFiles() != null) product.getFiles().clear();
+        }
+        if (drawingImage != null && !drawingImage.isEmpty()) {
+            saveDrawingImage(product, drawingImage, filesDir, filesRoad);
+        }
+        // else: 유지
 
-	    // 9. 저장 (연관관계 포함)
-	    productRepository.save(product);
-	}
+        // 8. 슬라이드 이미지 처리 (삭제/신규등록)
+        // 1) 일부/전체 삭제
+        if (deleteSlideImageIds != null && !deleteSlideImageIds.trim().isEmpty()) {
+            String[] delIds = deleteSlideImageIds.split(",");
+            Iterator<ProductImage> iter = product.getImages() != null ? product.getImages().iterator() : null;
+            if (iter != null) {
+                while (iter.hasNext()) {
+                    ProductImage img = iter.next();
+                    if (img.getId() != null && Arrays.asList(delIds).contains(String.valueOf(img.getId()))) {
+                        String imgPath = img.getProductImagePath();
+                        if (imgPath != null) {
+                            File f = new File(imgPath);
+                            if (f.exists()) f.delete();
+                        }
+                        iter.remove(); // 컬렉션에서 삭제 (orphanRemoval)
+                    }
+                }
+            }
+        }
+        // 2) 신규 전체등록(교체)
+        if (slideImages != null && slideImages.stream().anyMatch(f -> !f.isEmpty())) {
+            if (product.getImages() != null) {
+                for (ProductImage img : product.getImages()) {
+                    String imgPath = img.getProductImagePath();
+                    if (imgPath != null) {
+                        File f = new File(imgPath);
+                        if (f.exists()) f.delete();
+                    }
+                }
+                product.getImages().clear(); // 전체 삭제 (orphanRemoval)
+            }
+            for (MultipartFile f : slideImages) {
+                if (!f.isEmpty()) {
+                    saveSlideImage(product, f, slideDir, slideRoad);
+                }
+            }
+        }
 
-	// ====== 헬퍼 메서드 ======
-	private void saveProductRepImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
-	    File d = new File(dir);
-	    if (!d.exists()) d.mkdirs();
-	    String fileName = createRandomFileName(mf.getOriginalFilename());
-	    File dest = new File(dir, fileName);
-	    mf.transferTo(dest);
+        // 9. 저장 (연관관계 포함)
+        productRepository.save(product);
+    }
 
-	    String extension = getFileExtension(fileName);
-	    product.setProductRepImageName(fileName);
-	    product.setProductRepImageExtension(extension);
-	    product.setProductRepImageOriginalName(mf.getOriginalFilename());
-	    product.setProductRepImagePath(dest.getAbsolutePath());
-	    product.setProductRepImageRoad(road + fileName);
-	}
+    // ====== 헬퍼 메서드 ======
 
-	private void saveDrawingImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
-	    File d = new File(dir);
-	    if (!d.exists()) d.mkdirs();
-	    String fileName = createRandomFileName(mf.getOriginalFilename());
-	    File dest = new File(dir, fileName);
-	    mf.transferTo(dest);
+    /** 이미지(대표/슬라이드) 허용 확장자: jpg/png/webp */
+    private String getAllowedImageExtOrThrow(MultipartFile mf) {
+        String ct = mf.getContentType();
+        if (ObjectUtils.isEmpty(ct)) {
+            throw new IllegalArgumentException("이미지 Content-Type이 비어 있습니다.");
+        }
+        if (ct.contains("image/jpeg")) return ".jpg";
+        if (ct.contains("image/png"))  return ".png";
+        if (ct.contains("image/webp")) return ".webp";
+        throw new IllegalArgumentException("허용되지 않는 이미지 타입입니다: " + ct + " (허용: jpeg, png, webp)");
+    }
 
-	    ProductFile pf = new ProductFile();
-	    pf.setProduct(product); // 반드시 세팅
-	    pf.setProductFileName(fileName);
-	    pf.setProductFileOriginalName(mf.getOriginalFilename());
-	    pf.setProductFileExtension(getFileExtension(fileName));
-	    pf.setProductFilePath(dest.getAbsolutePath());
-	    pf.setProductFileRoad(road + fileName);
-	    pf.setProductFileDate(new Date());
-	    pf.setSign(true);
+    /** 도면/첨부 허용 확장자: jpg/png/gif/webp/pdf/zip/xlsx/docx/txt/ico/hwp */
+    private String getAllowedAttachmentExtOrThrow(MultipartFile mf) {
+        String ct = mf.getContentType();
+        if (ObjectUtils.isEmpty(ct)) {
+            throw new IllegalArgumentException("첨부 Content-Type이 비어 있습니다.");
+        }
+        if (ct.contains("image/jpeg")) return ".jpg";
+        if (ct.contains("image/png"))  return ".png";
+        if (ct.contains("image/gif"))  return ".gif";
+        if (ct.contains("image/webp")) return ".webp";
+        if (ct.contains("application/pdf")) return ".pdf";
+        if (ct.contains("application/x-zip-compressed") || ct.contains("application/zip")) return ".zip";
+        if (ct.contains("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) return ".xlsx";
+        if (ct.contains("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) return ".docx";
+        if (ct.contains("text/plain")) return ".txt";
+        if (ct.contains("image/x-icon")) return ".ico";
+        if (ct.contains("application/haansofthwp")) return ".hwp";
+        throw new IllegalArgumentException("허용되지 않는 파일 타입입니다: " + ct
+                + " (허용: jpg, png, gif, webp, pdf, zip, xlsx, docx, txt, ico, hwp)");
+    }
 
-	    product.getFiles().add(pf); // 컬렉션에 추가 (orphanRemoval)
-	}
+    private String randomName(int len) {
+        int left = 48, right = 122;
+        Random r = new Random();
+        return r.ints(left, right + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(len)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+    }
 
-	private void saveSlideImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
-	    File d = new File(dir);
-	    if (!d.exists()) d.mkdirs();
-	    String fileName = createRandomFileName(mf.getOriginalFilename());
-	    File dest = new File(dir, fileName);
-	    mf.transferTo(dest);
+    private void saveProductRepImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
+        File d = new File(dir);
+        if (!d.exists()) d.mkdirs();
 
-	    ProductImage pi = new ProductImage();
-	    pi.setProduct(product); // 반드시 세팅
-	    pi.setProductImageName(fileName);
-	    pi.setProductImageOriginalName(mf.getOriginalFilename());
-	    pi.setProductImageExtension(getFileExtension(fileName));
-	    pi.setProductImagePath(dest.getAbsolutePath());
-	    pi.setProductImageRoad(road + fileName);
-	    pi.setProductImageDate(new Date());
-	    pi.setSign(true);
+        // ✅ MIME 검사 + 확장자 결정 (jpg/png/webp)
+        String ext = getAllowedImageExtOrThrow(mf);
 
-	    product.getImages().add(pi); // 컬렉션에 추가 (orphanRemoval)
-	}
+        String fileName = randomName(10) + ext;
+        File dest = new File(dir, fileName);
+        mf.transferTo(dest);
 
-	private String createRandomFileName(String originName) {
-	    String ext = "";
-	    int idx = originName.lastIndexOf('.');
-	    if (idx >= 0) ext = originName.substring(idx);
-	    return UUID.randomUUID().toString().replace("-", "") + ext;
-	}
+        product.setProductRepImageName(fileName);
+        product.setProductRepImageExtension(ext);
+        product.setProductRepImageOriginalName(mf.getOriginalFilename());
+        product.setProductRepImagePath(dest.getAbsolutePath());
+        product.setProductRepImageRoad(road + fileName);
+    }
 
-	private String getFileExtension(String fileName) {
-	    int idx = fileName.lastIndexOf('.');
-	    return idx >= 0 ? fileName.substring(idx) : "";
-	}
+    private void saveDrawingImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
+        File d = new File(dir);
+        if (!d.exists()) d.mkdirs();
 
-	@Transactional(readOnly = true)
-	public Product findProductWithDetails(Long id) {
-		return productRepository.findById(id).get();
-	}
+        // ✅ MIME 검사 + 확장자 결정 (jpg/png/gif/webp + 문서류)
+        String ext = getAllowedAttachmentExtOrThrow(mf);
 
-	public boolean isProductCodeDuplicate(String productCode) {
-		return productRepository.existsByProductCode(productCode);
-	}
+        String fileName = randomName(10) + ext;
+        File dest = new File(dir, fileName);
+        mf.transferTo(dest);
 
-	public boolean isProductCodeDuplicate(String productCode, Long productId) {
-		// 수정: 코드가 있고, 그 코드의 상품이 나 자신이면 중복 아님
-		Optional<Product> product = productRepository.findByProductCode(productCode);
-		if (product.isPresent()) {
-			if (product.get().getId().equals(productId)) {
-				return false; // 본인 상품이면 중복 아님
-			}
-			return true; // 타 상품에 사용 중
-		}
-		return false; // 사용 중 아님
-	}
+        ProductFile pf = new ProductFile();
+        pf.setProduct(product); // 반드시 세팅
+        pf.setProductFileName(fileName);
+        pf.setProductFileOriginalName(mf.getOriginalFilename());
+        pf.setProductFileExtension(ext);
+        pf.setProductFilePath(dest.getAbsolutePath());
+        pf.setProductFileRoad(road + fileName);
+        pf.setProductFileDate(new Date());
+        pf.setSign(true);
 
-	public byte[] processExcelFile(MultipartFile file) throws IOException {
-		// 엑셀 파일을 읽어들입니다.
-		XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
-		XSSFSheet sheet = workbook.getSheetAt(2); // 세 번째 시트 (index 2)
+        product.getFiles().add(pf); // 컬렉션에 추가 (orphanRemoval)
+    }
 
-		// 셀 스타일 설정
-		CellStyle boldRedStyle = workbook.createCellStyle();
-		Font boldRedFont = workbook.createFont();
-		boldRedFont.setBold(true);
-		boldRedFont.setColor(IndexedColors.RED.getIndex());
-		boldRedStyle.setFont(boldRedFont);
+    private void saveSlideImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
+        File d = new File(dir);
+        if (!d.exists()) d.mkdirs();
 
-		// 세 번째 시트의 두 번째 열을 순회하며 제품 코드를 조회합니다.
-		for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) { // 두 번째 행부터 시작 (index 1)
-			Row row = sheet.getRow(rowIndex);
-			if (row != null) {
-				Cell cell = row.getCell(1); // 두 번째 열 (index 1)
-				if (cell != null) {
-					String productCode = cell.getStringCellValue();
-					Optional<Product> productOpt = productRepository.findByProductCode(productCode);
+        // ✅ MIME 검사 + 확장자 결정 (jpg/png/webp)
+        String ext = getAllowedImageExtOrThrow(mf);
 
-					if (productOpt.isPresent()) {
-						Product product = productOpt.get();
-						String productRepImageRoad = product.getProductRepImageRoad();
-						if (productRepImageRoad != null
-								&& (productRepImageRoad.contains("/front/clean/sample/prepare.png")
-										|| productRepImageRoad.contains("prepare.png"))) {
-							cell.setCellStyle(boldRedStyle);
-						}
-					}
-				}
-			}
-		}
+        String fileName = randomName(10) + ext;
+        File dest = new File(dir, fileName);
+        mf.transferTo(dest);
 
-		// 엑셀 파일을 바이트 배열로 변환하여 반환합니다.
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		workbook.write(outputStream);
-		workbook.close();
-		return outputStream.toByteArray();
-	}
+        ProductImage pi = new ProductImage();
+        pi.setProduct(product); // 반드시 세팅
+        pi.setProductImageName(fileName);
+        pi.setProductImageOriginalName(mf.getOriginalFilename());
+        pi.setProductImageExtension(ext);
+        pi.setProductImagePath(dest.getAbsolutePath());
+        pi.setProductImageRoad(road + fileName);
+        pi.setProductImageDate(new Date());
+        pi.setSign(true);
 
-	public Page<Product> getProductsByCriteria(Long tagId, Long colorId, Long middleSortId, Long bigSortId,
-			Pageable pageable) {
+        product.getImages().add(pi); // 컬렉션에 추가 (orphanRemoval)
+    }
 
-		Optional<MiddleSort> middleSortOpt = productMiddleSortRepository.findById(middleSortId);
+    @Transactional(readOnly = true)
+    public Product findProductWithDetails(Long id) {
+        return productRepository.findById(id).get();
+    }
 
-		boolean isMiddleSortAll = middleSortId == 0L
-				|| (middleSortOpt.isPresent() && "분류전체".equals(middleSortOpt.get().getName()));
-		boolean isTagIdNullOrZero = tagId == null || tagId == 0L;
-		boolean isColorIdNullOrZero = colorId == null || colorId == 0L;
+    public boolean isProductCodeDuplicate(String productCode) {
+        return productRepository.existsByProductCode(productCode);
+    }
 
-		if (isMiddleSortAll) {
-			if (!isTagIdNullOrZero && !isColorIdNullOrZero) {
-				return productRepository.findByTagColorAndBigSort(tagId, colorId, bigSortId, pageable);
-			} else if (!isTagIdNullOrZero) {
-				return productRepository.findByTagAndBigSort(tagId, bigSortId, pageable);
-			} else if (!isColorIdNullOrZero) {
-				return productRepository.findByColorAndBigSort(colorId, bigSortId, pageable);
-			} else {
-				return productRepository.findByBigSort(bigSortId, pageable);
-			}
-		} else {
-			if (!isTagIdNullOrZero && !isColorIdNullOrZero) {
-				return productRepository.findByTagColorAndSorts(tagId, colorId, middleSortId, bigSortId, pageable);
-			} else if (!isTagIdNullOrZero) {
-				return productRepository.findByTagAndSorts(tagId, middleSortId, bigSortId, pageable);
-			} else if (!isColorIdNullOrZero) {
-				return productRepository.findByColorAndSorts(colorId, middleSortId, bigSortId, pageable);
-			} else {
-				return productRepository.findBySorts(middleSortId, bigSortId, pageable);
-			}
-		}
-	}
+    public boolean isProductCodeDuplicate(String productCode, Long productId) {
+        // 수정: 코드가 있고, 그 코드의 상품이 나 자신이면 중복 아님
+        Optional<Product> product = productRepository.findByProductCode(productCode);
+        if (product.isPresent()) {
+            if (product.get().getId().equals(productId)) {
+                return false; // 본인 상품이면 중복 아님
+            }
+            return true; // 타 상품에 사용 중
+        }
+        return false; // 사용 중 아님
+    }
 
-	public List<Product> getRandomProductsByTag(Product product) {
-		List<Long> tagIds = product.getProductTags().stream().map(ProductTag::getId).collect(Collectors.toList());
-		return productRepository.findRandomProductsByTag(tagIds, product.getId()).stream().limit(10)
-				.collect(Collectors.toList());
-	}
+    public byte[] processExcelFile(MultipartFile file) throws IOException {
+        // 엑셀 파일을 읽어들입니다.
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        XSSFSheet sheet = workbook.getSheetAt(2); // 세 번째 시트 (index 2)
 
-	public Product productInsert(ProductDTO dto) throws IllegalStateException, IOException {
+        // 셀 스타일 설정
+        CellStyle boldRedStyle = workbook.createCellStyle();
+        Font boldRedFont = workbook.createFont();
+        boldRedFont.setBold(true);
+        boldRedFont.setColor(IndexedColors.RED.getIndex());
+        boldRedStyle.setFont(boldRedFont);
 
-		int leftLimit = 48; // numeral '0'
-		int rightLimit = 122; // letter 'z'
-		int targetStringLength = 10;
-		Random random = new Random();
-		String generatedString = random.ints(leftLimit, rightLimit + 1)
-				.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
-				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+        // 세 번째 시트의 두 번째 열을 순회하며 제품 코드를 조회합니다.
+        for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) { // 두 번째 행부터 시작 (index 1)
+            Row row = sheet.getRow(rowIndex);
+            if (row != null) {
+                Cell cell = row.getCell(1); // 두 번째 열 (index 1)
+                if (cell != null) {
+                    String productCode = cell.getStringCellValue();
+                    Optional<Product> productOpt = productRepository.findByProductCode(productCode);
 
-		// 실제 파일 저장 위치 (절대 경로)
-		String path = commonPath + "/product/" + dto.getProductCode() + "/rep/";
+                    if (productOpt.isPresent()) {
+                        Product product = productOpt.get();
+                        String productRepImageRoad = product.getProductRepImageRoad();
+                        if (productRepImageRoad != null
+                                && (productRepImageRoad.contains("/front/clean/sample/prepare.png")
+                                        || productRepImageRoad.contains("prepare.png"))) {
+                            cell.setCellStyle(boldRedStyle);
+                        }
+                    }
+                }
+            }
+        }
 
-		// 파일 resource 로드 url
-		String road = "/administration/upload/product/" + dto.getProductCode() + "/rep/";
+        // 엑셀 파일을 바이트 배열로 변환하여 반환합니다.
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        return outputStream.toByteArray();
+    }
 
-		int index = 1;
-		if (productRepository.findFirstIndex().isPresent()) {
-			index = productRepository.findFirstIndex().get() + 1;
-		}
-		Product product = new Product();
-		product.setName(dto.getProductName());
-		product.setProductCode(dto.getProductCode());
-		product.setTitle(StringUtils.hasText(dto.getProductTitle()) ? dto.getProductTitle() : "-");
-		product.setSubject(StringUtils.hasText(dto.getSubject()) ? dto.getSubject() : "-");
-		product.setHandle(dto.getHandle());
-		product.setOrder(dto.getOrder());
-		product.setProductSign(true);
-		product.setUnit("EA");
-		product.setBigSort(productBigSortRepository.findById(dto.getBigSort()).get());
-		product.setMiddleSort(productMiddleSortRepository.findById(dto.getMiddleSort()).get());
-		product.setProductIndex(index);
+    public Page<Product> getProductsByCriteria(Long tagId, Long colorId, Long middleSortId, Long bigSortId,
+            Pageable pageable) {
 
-		List<ProductColor> colors = new ArrayList<>();
-		if (dto.getColors() != null) {
-			for (Long id : dto.getColors()) {
-				colors.add(productColorRepository.findById(id).get());
-			}
-			product.setProductColors(colors);
-		}
+        Optional<MiddleSort> middleSortOpt = productMiddleSortRepository.findById(middleSortId);
 
-		List<ProductOption> options = new ArrayList<>();
-		if (dto.getOptions() != null) {
-			for (Long id : dto.getOptions()) {
-				options.add(productOptionRepository.findById(id).get());
-			}
-			product.setProductOptions(options);
-		}
+        boolean isMiddleSortAll = middleSortId == 0L
+                || (middleSortOpt.isPresent() && "분류전체".equals(middleSortOpt.get().getName()));
+        boolean isTagIdNullOrZero = tagId == null || tagId == 0L;
+        boolean isColorIdNullOrZero = colorId == null || colorId == 0L;
 
-		List<ProductTag> tags = new ArrayList<>();
-		if (dto.getTags() != null) {
-			for (Long id : dto.getTags()) {
-				tags.add(productTagRepository.findById(id).get());
-			}
-			product.setProductTags(tags);
-		}
+        if (isMiddleSortAll) {
+            if (!isTagIdNullOrZero && !isColorIdNullOrZero) {
+                return productRepository.findByTagColorAndBigSort(tagId, colorId, bigSortId, pageable);
+            } else if (!isTagIdNullOrZero) {
+                return productRepository.findByTagAndBigSort(tagId, bigSortId, pageable);
+            } else if (!isColorIdNullOrZero) {
+                return productRepository.findByColorAndBigSort(colorId, bigSortId, pageable);
+            } else {
+                return productRepository.findByBigSort(bigSortId, pageable);
+            }
+        } else {
+            if (!isTagIdNullOrZero && !isColorIdNullOrZero) {
+                return productRepository.findByTagColorAndSorts(tagId, colorId, middleSortId, bigSortId, pageable);
+            } else if (!isTagIdNullOrZero) {
+                return productRepository.findByTagAndSorts(tagId, middleSortId, bigSortId, pageable);
+            } else if (!isColorIdNullOrZero) {
+                return productRepository.findByColorAndSorts(colorId, middleSortId, bigSortId, pageable);
+            } else {
+                return productRepository.findBySorts(middleSortId, bigSortId, pageable);
+            }
+        }
+    }
 
-		List<ProductSize> sizes = new ArrayList<>();
-		if (dto.getSizes() != null) {
-			for (Long id : dto.getSizes()) {
-				sizes.add(productSizeRepository.findById(id).get());
-			}
-			product.setProductSizes(sizes);
-		}
+    public List<Product> getRandomProductsByTag(Product product) {
+        List<Long> tagIds = product.getProductTags().stream().map(ProductTag::getId).collect(Collectors.toList());
+        return productRepository.findRandomProductsByTag(tagIds, product.getId()).stream().limit(10)
+                .collect(Collectors.toList());
+    }
 
-		if (dto.getProductImage() == null || dto.getProductImage().isEmpty()) {
-			throw new IllegalArgumentException("대표이미지는 반드시 첨부해야 합니다.");
-		}
+    public Product productInsert(ProductDTO dto) throws IllegalStateException, IOException {
 
-		String contentType = dto.getProductImage().getContentType();
-		String originalFileExtension = "";
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
 
-		if (ObjectUtils.isEmpty(contentType)) {
-			throw new IllegalArgumentException("대표이미지 파일의 Content-Type이 비어 있습니다.");
-		} else {
-			if (contentType.contains("image/jpeg")) {
-				originalFileExtension = ".jpg";
-			} else if (contentType.contains("image/png")) {
-				originalFileExtension = ".png";
-			}
-		}
-		String productImageName = generatedString + originalFileExtension;
-		String productImagePath = path + productImageName; // rep/랜덤명.png
-		String productImageRoad = road + productImageName; // rep/랜덤명.png
+        // 실제 파일 저장 위치 (절대 경로)
+        String path = commonPath + "/product/" + dto.getProductCode() + "/rep/";
+        // 파일 resource 로드 url
+        String road = "/administration/upload/product/" + dto.getProductCode() + "/rep/";
 
-		// Create directory if it does not exist
-		File directory = new File(path);
-		if (!directory.exists()) {
-			boolean dirsCreated = directory.mkdirs();
-			System.out.println("Directories created: " + dirsCreated);
-		}
+        int index = 1;
+        if (productRepository.findFirstIndex().isPresent()) {
+            index = productRepository.findFirstIndex().get() + 1;
+        }
 
-		// Check if directory exists and is writable
-		if (directory.exists() && directory.isDirectory() && directory.canWrite()) {
-			File productImageSaveFile = new File(productImagePath);
-			dto.getProductImage().transferTo(productImageSaveFile);
+        Product product = new Product();
+        product.setName(dto.getProductName());
+        product.setProductCode(dto.getProductCode());
+        product.setTitle(StringUtils.hasText(dto.getProductTitle()) ? dto.getProductTitle() : "-");
+        product.setSubject(StringUtils.hasText(dto.getSubject()) ? dto.getSubject() : "-");
+        product.setHandle(dto.getHandle());
+        product.setOrder(dto.getOrder());
+        product.setProductSign(true);
+        product.setUnit("EA");
+        product.setBigSort(productBigSortRepository.findById(dto.getBigSort()).get());
+        product.setMiddleSort(productMiddleSortRepository.findById(dto.getMiddleSort()).get());
+        product.setProductIndex(index);
 
-			product.setProductRepImageOriginalName(dto.getProductImage().getOriginalFilename());
-			product.setProductRepImageName(productImageName);
-			product.setProductRepImageExtension(originalFileExtension);
-			product.setProductRepImageRoad(productImageRoad);
-			product.setProductRepImagePath(productImagePath);
+        List<ProductColor> colors = new ArrayList<>();
+        if (dto.getColors() != null) {
+            for (Long id : dto.getColors()) {
+                colors.add(productColorRepository.findById(id).get());
+            }
+            product.setProductColors(colors);
+        }
 
-			Product savedProduct = productRepository.save(product);
+        List<ProductOption> options = new ArrayList<>();
+        if (dto.getOptions() != null) {
+            for (Long id : dto.getOptions()) {
+                options.add(productOptionRepository.findById(id).get());
+            }
+            product.setProductOptions(options);
+        }
 
-			return savedProduct;
-		} else {
-			throw new IOException(
-					"Cannot create directories or no write permission for the path: " + directory.getAbsolutePath());
-		}
-	}
+        List<ProductTag> tags = new ArrayList<>();
+        if (dto.getTags() != null) {
+            for (Long id : dto.getTags()) {
+                tags.add(productTagRepository.findById(id).get());
+            }
+            product.setProductTags(tags);
+        }
 
-	public Page<Product> findAllByBigMiddleTagColor(Pageable pageable, Long id) {
-		Page<Product> products = productRepository.findAllByBigSortOrderByProductIndexAsc(pageable,
-				productBigSortRepository.findById(id).get());
+        List<ProductSize> sizes = new ArrayList<>();
+        if (dto.getSizes() != null) {
+            for (Long id : dto.getSizes()) {
+                sizes.add(productSizeRepository.findById(id).get());
+            }
+            product.setProductSizes(sizes);
+        }
 
-		return products;
-	}
+        if (dto.getProductImage() == null || dto.getProductImage().isEmpty()) {
+            throw new IllegalArgumentException("대표이미지는 반드시 첨부해야 합니다.");
+        }
 
-	public Page<Product> getFilteredProductList(Long bigId, Long middleId, String keyword, int page, int size) {
-		PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-		return productRepository.searchByFilters(bigId, middleId, keyword, pageable);
-	}
+        String contentType = dto.getProductImage().getContentType();
+        String originalFileExtension = "";
 
-	public List<BigSort> getAllBigSorts() {
-		return productBigSortRepository.findAll();
-	}
+        if (ObjectUtils.isEmpty(contentType)) {
+            throw new IllegalArgumentException("대표이미지 파일의 Content-Type이 비어 있습니다.");
+        } else {
+            if (contentType.contains("image/jpeg")) {
+                originalFileExtension = ".jpg";
+            } else if (contentType.contains("image/png")) {
+                originalFileExtension = ".png";
+            } else if (contentType.contains("image/webp")) { // ✅ webp 추가
+                originalFileExtension = ".webp";
+            } else {
+                throw new IllegalArgumentException("허용되지 않는 대표이미지 타입입니다: " + contentType + " (허용: jpeg, png, webp)");
+            }
+        }
 
-	public List<MiddleSort> getMiddleSortsByBigSort(Long bigId) {
-		BigSort bigSort = productBigSortRepository.findById(bigId)
-				.orElseThrow(() -> new IllegalArgumentException("해당 대분류 없음: " + bigId));
-		return productMiddleSortRepository.findAllByBigSort(bigSort);
-	}
+        String productImageName = generatedString + originalFileExtension; // rep/랜덤명.webp|.png|.jpg
+        String productImagePath = path + productImageName;
+        String productImageRoad = road + productImageName;
 
-	public void deleteProduct(Long productId) {
-		productRepository.deleteById(productId);
-	}
+        File directory = new File(path);
+        if (!directory.exists()) {
+            boolean dirsCreated = directory.mkdirs();
+            System.out.println("Directories created: " + dirsCreated);
+        }
+
+        if (directory.exists() && directory.isDirectory() && directory.canWrite()) {
+            File productImageSaveFile = new File(productImagePath);
+            dto.getProductImage().transferTo(productImageSaveFile);
+
+            product.setProductRepImageOriginalName(dto.getProductImage().getOriginalFilename());
+            product.setProductRepImageName(productImageName);
+            product.setProductRepImageExtension(originalFileExtension);
+            product.setProductRepImageRoad(productImageRoad);
+            product.setProductRepImagePath(productImagePath);
+
+            Product savedProduct = productRepository.save(product);
+            return savedProduct;
+        } else {
+            throw new IOException(
+                    "Cannot create directories or no write permission for the path: " + directory.getAbsolutePath());
+        }
+    }
+
+    public Page<Product> findAllByBigMiddleTagColor(Pageable pageable, Long id) {
+        Page<Product> products = productRepository.findAllByBigSortOrderByProductIndexAsc(pageable,
+                productBigSortRepository.findById(id).get());
+
+        return products;
+    }
+
+    public Page<Product> getFilteredProductList(Long bigId, Long middleId, String keyword, int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+        return productRepository.searchByFilters(bigId, middleId, keyword, pageable);
+    }
+
+    public List<BigSort> getAllBigSorts() {
+        return productBigSortRepository.findAll();
+    }
+
+    public List<MiddleSort> getMiddleSortsByBigSort(Long bigId) {
+        BigSort bigSort = productBigSortRepository.findById(bigId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 대분류 없음: " + bigId));
+        return productMiddleSortRepository.findAllByBigSort(bigSort);
+    }
+
+    public void deleteProduct(Long productId) {
+        productRepository.deleteById(productId);
+    }
 
 }

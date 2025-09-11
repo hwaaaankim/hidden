@@ -66,8 +66,9 @@
 											<h5 class="fs-15 mb-1">제품 대표이미지</h5>
 											<p class="text-muted">제품의 대표이미지를 선택 해 주세요.</p>
 											<div>
+												<!-- 대표이미지 -->
 												<input class="form-control" id="product-image-input" name="productImage"
-													type="file" accept="image/png, image/gif, image/jpeg">
+													type="file" accept="image/png, image/gif, image/jpeg, image/webp">
 												<div id="product-image-preview" class="mt-2 d-flex flex-wrap gap-2">
 													<th:block th:if="${product.productRepImageRoad != null}">
 														<div class="position-relative rep-img-origin"
@@ -87,8 +88,10 @@
 											<h5 class="fs-15 mb-1">제품 슬라이드 이미지</h5>
 											<p class="text-muted">제품의 슬라이드 이미지를 선택 해 주세요.</p>
 											<div>
+												<!-- 슬라이드이미지 -->
 												<input class="form-control" type="file" multiple name="slideImages"
-													id="slide-image-input" accept="image/png, image/gif, image/jpeg">
+													id="slide-image-input"
+													accept="image/png, image/gif, image/jpeg, image/webp">
 												<div id="slide-image-preview" class="mt-2 d-flex flex-wrap gap-2">
 													<th:block th:each="img : ${product.images}">
 														<div class="position-relative slide-img-origin"
@@ -108,8 +111,10 @@
 											<h5 class="fs-15 mb-1">도면 이미지</h5>
 											<p class="text-muted">도면 이미지를 등록 해 주세요.</p>
 											<div>
+												<!-- 도면이미지 -->
 												<input class="form-control" type="file" name="files"
-													id="drawing-image-input" accept="image/png, image/gif, image/jpeg">
+													id="drawing-image-input"
+													accept="image/png, image/gif, image/jpeg, image/webp">
 												<div id="drawing-image-preview" class="mt-2 d-flex flex-wrap gap-2">
 													<th:block th:each="img : ${product.files}">
 														<div class="position-relative drawing-img-origin"
