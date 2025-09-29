@@ -496,69 +496,6 @@ public class ProductAdminController {
             @RequestParam(value = "deleteSlideImageIds", required = false) String deleteSlideImageIds,
             Model model
     ) {
-        // 1. 파라미터 프린트 (유지/삭제/변경 완벽히 확인)
-        System.out.println("=== 제품 수정 요청 디버깅 ===");
-        System.out.println("productId=" + productId);
-        System.out.println("name=" + name);
-        System.out.println("code=" + code);
-        System.out.println("title=" + title);
-        System.out.println("subject=" + subject);
-        System.out.println("bigSortId=" + bigSortId);
-        System.out.println("middleSortId=" + middleSortId);
-        System.out.println("order=" + order);
-        System.out.println("handle=" + handle);
-        System.out.println("sizeIds=" + sizeIds);
-        System.out.println("colorIds=" + colorIds);
-        System.out.println("optionIds=" + optionIds);
-        System.out.println("tagIds=" + tagIds);
-
-        // 대표이미지 체크
-        System.out.println("deleteRepImage=" + deleteRepImage);
-        System.out.println("productImage=" + (productImage != null && !productImage.isEmpty()));
-        // 도면이미지 체크
-        System.out.println("deleteDrawingImage=" + deleteDrawingImage);
-        System.out.println("drawingImage=" + (drawingImage != null && !drawingImage.isEmpty()));
-        // 슬라이드 이미지 체크
-        System.out.println("deleteSlideImageIds=" + deleteSlideImageIds);
-        System.out.println("slideImages=" + (slideImages != null && slideImages.stream().anyMatch(f -> !f.isEmpty())));
-
-        // 대표이미지 분기 로직 예시
-        if (Boolean.TRUE.equals(deleteRepImage)) {
-            if (productImage != null && !productImage.isEmpty()) {
-                System.out.println(">> 대표이미지 '변경' 요청");
-            } else {
-                System.out.println(">> 대표이미지 '삭제' 요청 (에러 - 대표이미지는 필수)");
-            }
-        } else if (productImage != null && !productImage.isEmpty()) {
-            System.out.println(">> 대표이미지 '변경' 요청 (기존 삭제 + 새로 등록)");
-        } else {
-            System.out.println(">> 대표이미지 '유지'");
-        }
-
-        // 도면이미지 분기 로직 예시
-        if (Boolean.TRUE.equals(deleteDrawingImage)) {
-            if (drawingImage != null && !drawingImage.isEmpty()) {
-                System.out.println(">> 도면이미지 '변경' 요청");
-            } else {
-                System.out.println(">> 도면이미지 '삭제' 요청");
-            }
-        } else if (drawingImage != null && !drawingImage.isEmpty()) {
-            System.out.println(">> 도면이미지 '변경' 요청 (기존 삭제 + 새로 등록)");
-        } else {
-            System.out.println(">> 도면이미지 '유지'");
-        }
-
-        // 슬라이드 이미지 분기 로직 예시
-        if (deleteSlideImageIds != null && !deleteSlideImageIds.trim().isEmpty()) {
-            System.out.println(">> 슬라이드이미지 '일부 또는 전체 삭제' 요청. 삭제 ID: " + deleteSlideImageIds);
-        }
-        if (slideImages != null && slideImages.stream().anyMatch(f -> !f.isEmpty())) {
-            System.out.println(">> 슬라이드이미지 '변경(신규등록)' 요청. (기존이미지 전체 삭제 후 새로운 이미지로 대체)");
-        }
-        if ((deleteSlideImageIds == null || deleteSlideImageIds.trim().isEmpty()) &&
-                (slideImages == null || slideImages.stream().allMatch(f -> f.isEmpty()))) {
-            System.out.println(">> 슬라이드이미지 '유지'");
-        }
 
         try {
             // 완성형 서비스 호출

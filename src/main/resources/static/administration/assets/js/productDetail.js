@@ -66,43 +66,95 @@ productImageInput.addEventListener('change', function () {
     }
 });
 
-// 4. 도면이미지
-const drawingImageInput = document.getElementById('drawing-image-input');
+// 4. 도면 파일 (이미지 or PDF, 단일) — 상세/등록 공통
+const drawingImageInput = document.getElementById('drawing-image-input');   // 기존 id 유지
 const drawingImagePreview = document.getElementById('drawing-image-preview');
 const deleteDrawingImageInput = document.getElementById('deleteDrawingImage');
 
-$('#drawing-image-preview').on('click', '.del-drawing-img-btn', function () {
-    $('.drawing-img-origin').remove();
-    $('#deleteDrawingImage').val('true');
-    drawingImageInput.value = '';
+// (상세페이지에서 기존 파일 삭제 버튼) 위임 이벤트
+$('#drawing-image-preview').on('click', '.del-drawing-file-btn', function () {
+  // 기존 렌더(이미지든 PDF든) 공통 래퍼 클래스
+  $('.drawing-file-origin').remove();
+  $('#deleteDrawingImage').val('true');
+  if (drawingImageInput) drawingImageInput.value = '';
 });
 
-drawingImageInput.addEventListener('change', function () {
-    $('.drawing-img-origin').remove();
+// (신규 선택 시 미리보기)
+if (drawingImageInput && drawingImagePreview) {
+  drawingImageInput.addEventListener('change', function () {
+    // 기존 표시 제거
+    $('.drawing-file-origin').remove();
     $('#deleteDrawingImage').val('false');
-    if (this.files && this.files[0]) {
-        const file = this.files[0];
-        const url = URL.createObjectURL(file);
-        const wrapper = document.createElement('div');
-        wrapper.className = 'position-relative drawing-img-origin';
-        const img = document.createElement('img');
-        img.src = url;
-        img.style.width = '150px';
-        img.style.height = 'auto';
-        img.classList.add('rounded', 'border');
-        const delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.innerHTML = '&times;';
-        delBtn.className = 'btn btn-sm btn-danger position-absolute top-0 end-0 del-drawing-img-btn';
-        delBtn.onclick = function () {
-            drawingImageInput.value = '';
-            wrapper.remove();
-            $('#deleteDrawingImage').val('true');
-        };
-        wrapper.appendChild(img); wrapper.appendChild(delBtn);
-        drawingImagePreview.appendChild(wrapper);
+
+    if (!(this.files && this.files[0])) return;
+
+    const file = this.files[0];
+    const name = file.name || '';
+    const isPdf = /\.pdf$/i.test(name) || (file.type && file.type.toLowerCase().includes('pdf'));
+    const url = URL.createObjectURL(file);
+
+    // 공통 래퍼 (삭제 위임과 동일 클래스)
+    const wrapper = document.createElement('div');
+    wrapper.className = 'position-relative drawing-file-origin';
+
+    if (isPdf) {
+      // PDF: 리스트형
+      wrapper.classList.add('border', 'rounded', 'p-2', 'd-flex', 'align-items-center', 'justify-content-between');
+
+      const left = document.createElement('div');
+      left.className = 'd-flex align-items-center gap-2';
+
+      const badge = document.createElement('span');
+      badge.className = 'badge bg-danger-subtle text-danger-emphasis';
+      badge.textContent = 'PDF';
+
+      const filename = document.createElement('span');
+      filename.textContent = name;
+
+      left.appendChild(badge);
+      left.appendChild(filename);
+
+      const right = document.createElement('div');
+      right.className = 'd-flex align-items-center gap-2';
+
+      const openBtn = document.createElement('a');
+      openBtn.href = url;
+      openBtn.target = '_blank';
+      openBtn.rel = 'noopener';
+      openBtn.className = 'btn btn-sm btn-secondary';
+      openBtn.textContent = '열기';
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'btn btn-sm btn-danger del-drawing-file-btn';
+      delBtn.textContent = '삭제';
+
+      right.appendChild(openBtn);
+      right.appendChild(delBtn);
+
+      wrapper.appendChild(left);
+      wrapper.appendChild(right);
+      drawingImagePreview.appendChild(wrapper);
+    } else {
+      // 이미지: 썸네일
+      const img = document.createElement('img');
+      img.src = url;
+      img.style.width = '150px';
+      img.style.height = 'auto';
+      img.classList.add('rounded', 'border');
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.innerHTML = '&times;';
+      delBtn.className = 'btn btn-sm btn-danger position-absolute top-0 end-0 del-drawing-file-btn';
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(delBtn);
+      drawingImagePreview.appendChild(wrapper);
     }
-});
+  });
+}
+
 
 // 5. 슬라이드 이미지 (삭제, 신규업로드 완전반영)
 function addDeleteSlideImageId(imageId) {

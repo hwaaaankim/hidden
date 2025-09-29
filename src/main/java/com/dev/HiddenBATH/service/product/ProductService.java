@@ -73,239 +73,296 @@ public class ProductService {
 
 	@Transactional
 	public void exchangeProductIndexes(List<Long> oldIdList, List<Long> newIdList) {
-	    if (oldIdList == null || newIdList == null || oldIdList.size() != newIdList.size())
-	        throw new IllegalArgumentException("리스트 사이즈 불일치");
+		if (oldIdList == null || newIdList == null || oldIdList.size() != newIdList.size())
+			throw new IllegalArgumentException("리스트 사이즈 불일치");
 
-	    // 기존 index값을 oldIdList 순서대로 추출
-	    List<Product> oldProducts = productRepository.findAllById(oldIdList);
-	    Map<Long, Integer> oldIndexMap = new HashMap<>();
-	    for (Product p : oldProducts) {
-	        oldIndexMap.put(p.getId(), p.getProductIndex());
-	    }
+		// 기존 index값을 oldIdList 순서대로 추출
+		List<Product> oldProducts = productRepository.findAllById(oldIdList);
+		Map<Long, Integer> oldIndexMap = new HashMap<>();
+		for (Product p : oldProducts) {
+			oldIndexMap.put(p.getId(), p.getProductIndex());
+		}
 
-	    // newIdList 순서대로 oldIdList에서 꺼낸 index값을 할당 (진짜 swap)
-	    List<Product> productsToSave = productRepository.findAllById(newIdList);
-	    for (int i = 0; i < newIdList.size(); i++) {
-	        Long id = newIdList.get(i);
-	        Product p = productsToSave.stream()
-	            .filter(prod -> prod.getId().equals(id))
-	            .findFirst()
-	            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 제품: " + id));
-	        p.setProductIndex(oldIndexMap.get(oldIdList.get(i))); // swap
-	    }
-	    productRepository.saveAll(productsToSave);
+		// newIdList 순서대로 oldIdList에서 꺼낸 index값을 할당 (진짜 swap)
+		List<Product> productsToSave = productRepository.findAllById(newIdList);
+		for (int i = 0; i < newIdList.size(); i++) {
+			Long id = newIdList.get(i);
+			Product p = productsToSave.stream().filter(prod -> prod.getId().equals(id)).findFirst()
+					.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 제품: " + id));
+			p.setProductIndex(oldIndexMap.get(oldIdList.get(i))); // swap
+		}
+		productRepository.saveAll(productsToSave);
 	}
-	
+
 	@Transactional
-	public void updateProduct(
-	        Long productId,
-	        String name, String code, String title, String subject, Long bigSortId, Long middleSortId,
-	        Boolean order, Boolean handle,
-	        List<Long> sizeIds, List<Long> colorIds, List<Long> optionIds, List<Long> tagIds,
-	        MultipartFile productImage, List<MultipartFile> slideImages, MultipartFile drawingImage,
-	        Boolean deleteRepImage, Boolean deleteDrawingImage, String deleteSlideImageIds
-	) throws IOException {
-	    // 1. 엔티티 조회
-	    Product product = productRepository.findById(productId)
-	            .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다: " + productId));
+	public void updateProduct(Long productId, String name, String code, String title, String subject, Long bigSortId,
+			Long middleSortId, Boolean order, Boolean handle, List<Long> sizeIds, List<Long> colorIds,
+			List<Long> optionIds, List<Long> tagIds, MultipartFile productImage, List<MultipartFile> slideImages,
+			MultipartFile drawingImage, Boolean deleteRepImage, Boolean deleteDrawingImage, String deleteSlideImageIds)
+			throws IOException {
+		// 1. 엔티티 조회
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다: " + productId));
 
-	    // 2. 기본 정보
-	    product.setName(name);
-	    product.setProductCode(code);
-	    product.setTitle(title != null && !title.trim().isEmpty() ? title : "-");
-	    product.setSubject(subject != null && !subject.trim().isEmpty() ? subject : "-");
-	    product.setOrder(order);
-	    product.setHandle(handle);
+		// 2. 기본 정보
+		product.setName(name);
+		product.setProductCode(code);
+		product.setTitle(title != null && !title.trim().isEmpty() ? title : "-");
+		product.setSubject(subject != null && !subject.trim().isEmpty() ? subject : "-");
+		product.setOrder(order);
+		product.setHandle(handle);
 
-	    // 3. 분류(대/중분류)
-	    if (bigSortId != null) {
-	        BigSort bigSort = productBigSortRepository.findById(bigSortId)
-	                .orElseThrow(() -> new IllegalArgumentException("대분류 없음: " + bigSortId));
-	        product.setBigSort(bigSort);
-	    }
-	    if (middleSortId != null) {
-	        MiddleSort middleSort = productMiddleSortRepository.findById(middleSortId)
-	                .orElseThrow(() -> new IllegalArgumentException("중분류 없음: " + middleSortId));
-	        product.setMiddleSort(middleSort);
-	    }
+		// 3. 분류(대/중분류)
+		if (bigSortId != null) {
+			BigSort bigSort = productBigSortRepository.findById(bigSortId)
+					.orElseThrow(() -> new IllegalArgumentException("대분류 없음: " + bigSortId));
+			product.setBigSort(bigSort);
+		}
+		if (middleSortId != null) {
+			MiddleSort middleSort = productMiddleSortRepository.findById(middleSortId)
+					.orElseThrow(() -> new IllegalArgumentException("중분류 없음: " + middleSortId));
+			product.setMiddleSort(middleSort);
+		}
 
-	    // 4. 연관관계(옵션/사이즈/색상/태그) 모두 clear 후 새로 세팅
-	    // 사이즈
-	    if (product.getProductSizes() != null) product.getProductSizes().clear();
-	    if (sizeIds != null && !sizeIds.isEmpty()) {
-	        List<ProductSize> sizes = productSizeRepository.findAllById(sizeIds);
-	        product.getProductSizes().addAll(sizes);
-	    }
-	    // 색상
-	    if (product.getProductColors() != null) product.getProductColors().clear();
-	    if (colorIds != null && !colorIds.isEmpty()) {
-	        List<ProductColor> colors = productColorRepository.findAllById(colorIds);
-	        product.getProductColors().addAll(colors);
-	    }
-	    // 옵션
-	    if (product.getProductOptions() != null) product.getProductOptions().clear();
-	    if (optionIds != null && !optionIds.isEmpty()) {
-	        List<ProductOption> options = productOptionRepository.findAllById(optionIds);
-	        product.getProductOptions().addAll(options);
-	    }
-	    // 태그
-	    if (product.getProductTags() != null) product.getProductTags().clear();
-	    if (tagIds != null && !tagIds.isEmpty()) {
-	        List<ProductTag> tags = productTagRepository.findAllById(tagIds);
-	        product.getProductTags().addAll(tags);
-	    }
+		// 4. 연관관계(옵션/사이즈/색상/태그) 모두 clear 후 새로 세팅
+		// 사이즈
+		if (product.getProductSizes() != null)
+			product.getProductSizes().clear();
+		if (sizeIds != null && !sizeIds.isEmpty()) {
+			List<ProductSize> sizes = productSizeRepository.findAllById(sizeIds);
+			product.getProductSizes().addAll(sizes);
+		}
+		// 색상
+		if (product.getProductColors() != null)
+			product.getProductColors().clear();
+		if (colorIds != null && !colorIds.isEmpty()) {
+			List<ProductColor> colors = productColorRepository.findAllById(colorIds);
+			product.getProductColors().addAll(colors);
+		}
+		// 옵션
+		if (product.getProductOptions() != null)
+			product.getProductOptions().clear();
+		if (optionIds != null && !optionIds.isEmpty()) {
+			List<ProductOption> options = productOptionRepository.findAllById(optionIds);
+			product.getProductOptions().addAll(options);
+		}
+		// 태그
+		if (product.getProductTags() != null)
+			product.getProductTags().clear();
+		if (tagIds != null && !tagIds.isEmpty()) {
+			List<ProductTag> tags = productTagRepository.findAllById(tagIds);
+			product.getProductTags().addAll(tags);
+		}
 
-	    // 5. 파일 저장 경로
-	    String baseDir = commonPath + "/product/" + code;
-	    String repDir = baseDir + "/rep/";
-	    String slideDir = baseDir + "/slide/";
-	    String filesDir = baseDir + "/files/";
-	    String repRoad = "/administration/upload/product/" + code + "/rep/";
-	    String slideRoad = "/administration/upload/product/" + code + "/slide/";
-	    String filesRoad = "/administration/upload/product/" + code + "/files/";
+		// 5. 파일 저장 경로
+		String baseDir = commonPath + "/product/" + code;
+		String repDir = baseDir + "/rep/";
+		String slideDir = baseDir + "/slide/";
+		String filesDir = baseDir + "/files/";
+		String repRoad = "/administration/upload/product/" + code + "/rep/";
+		String slideRoad = "/administration/upload/product/" + code + "/slide/";
+		String filesRoad = "/administration/upload/product/" + code + "/files/";
 
-	    // 6. 대표이미지 처리
-	    if (Boolean.TRUE.equals(deleteRepImage)) {
-	        String oldPath = product.getProductRepImagePath();
-	        if (oldPath != null) {
-	            File oldFile = new File(oldPath);
-	            if (oldFile.exists()) oldFile.delete();
-	        }
-	        product.setProductRepImagePath(null);
-	        product.setProductRepImageRoad(null);
-	        product.setProductRepImageName(null);
-	        product.setProductRepImageExtension(null);
-	        product.setProductRepImageOriginalName(null);
-	        if (productImage != null && !productImage.isEmpty()) {
-	            saveProductRepImage(product, productImage, repDir, repRoad);
-	        }
-	    } else if (productImage != null && !productImage.isEmpty()) {
-	        String oldPath = product.getProductRepImagePath();
-	        if (oldPath != null) {
-	            File oldFile = new File(oldPath);
-	            if (oldFile.exists()) oldFile.delete();
-	        }
-	        saveProductRepImage(product, productImage, repDir, repRoad);
-	    }
-	    // else : 유지
+		// 6. 대표이미지 처리
+		if (Boolean.TRUE.equals(deleteRepImage)) {
+			String oldPath = product.getProductRepImagePath();
+			if (oldPath != null) {
+				File oldFile = new File(oldPath);
+				if (oldFile.exists())
+					oldFile.delete();
+			}
+			product.setProductRepImagePath(null);
+			product.setProductRepImageRoad(null);
+			product.setProductRepImageName(null);
+			product.setProductRepImageExtension(null);
+			product.setProductRepImageOriginalName(null);
+			if (productImage != null && !productImage.isEmpty()) {
+				saveProductRepImage(product, productImage, repDir, repRoad);
+			}
+		} else if (productImage != null && !productImage.isEmpty()) {
+			String oldPath = product.getProductRepImagePath();
+			if (oldPath != null) {
+				File oldFile = new File(oldPath);
+				if (oldFile.exists())
+					oldFile.delete();
+			}
+			saveProductRepImage(product, productImage, repDir, repRoad);
+		}
+		// else : 유지
 
-	    // 7. 도면이미지 처리 (기존 파일/DB 삭제 → 새로등록/유지)
-	    if (Boolean.TRUE.equals(deleteDrawingImage) || (drawingImage != null && !drawingImage.isEmpty())) {
-	        if (product.getFiles() != null) product.getFiles().clear();
-	    }
-	    if (drawingImage != null && !drawingImage.isEmpty()) {
-	        saveDrawingImage(product, drawingImage, filesDir, filesRoad);
-	    }
-	    // else: 유지 (신규없으면 files 비어있는 채로 저장됨)
+		// 7. 도면파일 처리 (기존 파일 실제삭제 → 컬렉션 clear → 신규 저장/유지)
+		if (Boolean.TRUE.equals(deleteDrawingImage) || (drawingImage != null && !drawingImage.isEmpty())) {
+			if (product.getFiles() != null && !product.getFiles().isEmpty()) {
+				product.getFiles().forEach(pf -> {
+					if (pf.getProductFilePath() != null) {
+						File ff = new File(pf.getProductFilePath());
+						if (ff.exists())
+							ff.delete();
+					}
+				});
+				product.getFiles().clear(); // orphanRemoval=true 가정
+			}
+		}
+		if (drawingImage != null && !drawingImage.isEmpty()) {
+			saveDrawingFile(product, drawingImage, filesDir, filesRoad); // 🔁 메서드명 & 구현 아래 참고
+		}
+		// else: 유지 (신규없으면 files 비어있는 채로 저장됨)
 
-	    // 8. 슬라이드 이미지 처리 (삭제/신규등록)
-	    // 1) 일부/전체 삭제
-	    if (deleteSlideImageIds != null && !deleteSlideImageIds.trim().isEmpty()) {
-	        String[] delIds = deleteSlideImageIds.split(",");
-	        Iterator<ProductImage> iter = product.getImages() != null ? product.getImages().iterator() : null;
-	        if (iter != null) {
-	            while (iter.hasNext()) {
-	                ProductImage img = iter.next();
-	                if (img.getId() != null && Arrays.asList(delIds).contains(String.valueOf(img.getId()))) {
-	                    String imgPath = img.getProductImagePath();
-	                    if (imgPath != null) {
-	                        File f = new File(imgPath);
-	                        if (f.exists()) f.delete();
-	                    }
-	                    iter.remove(); // 컬렉션에서 삭제 (orphanRemoval)
-	                }
-	            }
-	        }
-	    }
-	    // 2) 신규 전체등록(교체)
-	    if (slideImages != null && slideImages.stream().anyMatch(f -> !f.isEmpty())) {
-	        if (product.getImages() != null) {
-	            for (ProductImage img : product.getImages()) {
-	                String imgPath = img.getProductImagePath();
-	                if (imgPath != null) {
-	                    File f = new File(imgPath);
-	                    if (f.exists()) f.delete();
-	                }
-	            }
-	            product.getImages().clear(); // 전체 삭제 (orphanRemoval)
-	        }
-	        for (MultipartFile f : slideImages) {
-	            if (!f.isEmpty()) {
-	                saveSlideImage(product, f, slideDir, slideRoad);
-	            }
-	        }
-	    }
+		// 8. 슬라이드 이미지 처리 (삭제/신규등록)
+		// 1) 일부/전체 삭제
+		if (deleteSlideImageIds != null && !deleteSlideImageIds.trim().isEmpty()) {
+			String[] delIds = deleteSlideImageIds.split(",");
+			Iterator<ProductImage> iter = product.getImages() != null ? product.getImages().iterator() : null;
+			if (iter != null) {
+				while (iter.hasNext()) {
+					ProductImage img = iter.next();
+					if (img.getId() != null && Arrays.asList(delIds).contains(String.valueOf(img.getId()))) {
+						String imgPath = img.getProductImagePath();
+						if (imgPath != null) {
+							File f = new File(imgPath);
+							if (f.exists())
+								f.delete();
+						}
+						iter.remove(); // 컬렉션에서 삭제 (orphanRemoval)
+					}
+				}
+			}
+		}
+		// 2) 신규 전체등록(교체)
+		if (slideImages != null && slideImages.stream().anyMatch(f -> !f.isEmpty())) {
+			if (product.getImages() != null) {
+				for (ProductImage img : product.getImages()) {
+					String imgPath = img.getProductImagePath();
+					if (imgPath != null) {
+						File f = new File(imgPath);
+						if (f.exists())
+							f.delete();
+					}
+				}
+				product.getImages().clear(); // 전체 삭제 (orphanRemoval)
+			}
+			for (MultipartFile f : slideImages) {
+				if (!f.isEmpty()) {
+					saveSlideImage(product, f, slideDir, slideRoad);
+				}
+			}
+		}
 
-	    // 9. 저장 (연관관계 포함)
-	    productRepository.save(product);
+		// 9. 저장 (연관관계 포함)
+		productRepository.save(product);
 	}
 
 	// ====== 헬퍼 메서드 ======
 	private void saveProductRepImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
-	    File d = new File(dir);
-	    if (!d.exists()) d.mkdirs();
-	    String fileName = createRandomFileName(mf.getOriginalFilename());
-	    File dest = new File(dir, fileName);
-	    mf.transferTo(dest);
+		File d = new File(dir);
+		if (!d.exists())
+			d.mkdirs();
+		String fileName = createRandomFileName(mf.getOriginalFilename());
+		File dest = new File(dir, fileName);
+		mf.transferTo(dest);
 
-	    String extension = getFileExtension(fileName);
-	    product.setProductRepImageName(fileName);
-	    product.setProductRepImageExtension(extension);
-	    product.setProductRepImageOriginalName(mf.getOriginalFilename());
-	    product.setProductRepImagePath(dest.getAbsolutePath());
-	    product.setProductRepImageRoad(road + fileName);
+		String extension = getFileExtension(fileName);
+		product.setProductRepImageName(fileName);
+		product.setProductRepImageExtension(extension);
+		product.setProductRepImageOriginalName(mf.getOriginalFilename());
+		product.setProductRepImagePath(dest.getAbsolutePath());
+		product.setProductRepImageRoad(road + fileName);
 	}
 
-	private void saveDrawingImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
-	    File d = new File(dir);
-	    if (!d.exists()) d.mkdirs();
-	    String fileName = createRandomFileName(mf.getOriginalFilename());
-	    File dest = new File(dir, fileName);
-	    mf.transferTo(dest);
+	private void saveDrawingFile(Product product, MultipartFile file, String filesDir, String filesRoad)
+			throws IOException {
 
-	    ProductFile pf = new ProductFile();
-	    pf.setProduct(product); // 반드시 세팅
-	    pf.setProductFileName(fileName);
-	    pf.setProductFileOriginalName(mf.getOriginalFilename());
-	    pf.setProductFileExtension(getFileExtension(fileName));
-	    pf.setProductFilePath(dest.getAbsolutePath());
-	    pf.setProductFileRoad(road + fileName);
-	    pf.setProductFileDate(new Date());
-	    pf.setSign(true);
+		if (file == null || file.isEmpty())
+			return;
 
-	    product.getFiles().add(pf); // 컬렉션에 추가 (orphanRemoval)
+// 디렉터리 보장
+		File dir = new File(filesDir);
+		if (!dir.exists())
+			dir.mkdirs();
+
+// 파일명 생성
+		final int leftLimit = 48, rightLimit = 122, len = 10;
+		Random random = new Random();
+		String randomName = random.ints(leftLimit, rightLimit + 1)
+				.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(len)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+
+		String contentType = (file.getContentType() == null) ? "" : file.getContentType().toLowerCase();
+		if (ObjectUtils.isEmpty(contentType)) {
+			throw new IllegalArgumentException("파일의 contentType이 비어 있습니다.");
+		}
+
+		String ext;
+		if (contentType.contains("image/jpeg") || contentType.contains("image/jpg"))
+			ext = ".jpg";
+		else if (contentType.contains("image/png"))
+			ext = ".png";
+		else if (contentType.contains("image/gif"))
+			ext = ".gif";
+		else if (contentType.contains("application/pdf") || contentType.contains("pdf"))
+			ext = ".pdf";
+		else
+			throw new IllegalArgumentException("허용되지 않는 파일 타입입니다: " + contentType);
+
+		String saveName = randomName + ext;
+		String savePath = filesDir + saveName;
+		String road = filesRoad + saveName;
+
+// 저장
+		File target = new File(savePath);
+		File parent = target.getParentFile();
+		if (!parent.exists())
+			parent.mkdirs();
+		file.transferTo(target);
+
+// 엔티티 저장
+		ProductFile pf = new ProductFile();
+		pf.setProduct(product);
+		pf.setProductFileOriginalName(file.getOriginalFilename());
+		pf.setProductFileExtension(ext); // ".pdf" 등
+		pf.setProductFilePath(savePath); // 실제 경로
+		pf.setProductFileRoad(road); // 접근 URL
+		pf.setProductFileName(saveName);
+		pf.setProductFileDate(new Date());
+		pf.setSign(true);
+
+// 양방향이면 product.getFiles().add(pf) 필요
+		product.getFiles().add(pf);
+// productFileRepository.save(pf); // Cascade 설정에 따라 생략/유지
 	}
 
 	private void saveSlideImage(Product product, MultipartFile mf, String dir, String road) throws IOException {
-	    File d = new File(dir);
-	    if (!d.exists()) d.mkdirs();
-	    String fileName = createRandomFileName(mf.getOriginalFilename());
-	    File dest = new File(dir, fileName);
-	    mf.transferTo(dest);
+		File d = new File(dir);
+		if (!d.exists())
+			d.mkdirs();
+		String fileName = createRandomFileName(mf.getOriginalFilename());
+		File dest = new File(dir, fileName);
+		mf.transferTo(dest);
 
-	    ProductImage pi = new ProductImage();
-	    pi.setProduct(product); // 반드시 세팅
-	    pi.setProductImageName(fileName);
-	    pi.setProductImageOriginalName(mf.getOriginalFilename());
-	    pi.setProductImageExtension(getFileExtension(fileName));
-	    pi.setProductImagePath(dest.getAbsolutePath());
-	    pi.setProductImageRoad(road + fileName);
-	    pi.setProductImageDate(new Date());
-	    pi.setSign(true);
+		ProductImage pi = new ProductImage();
+		pi.setProduct(product); // 반드시 세팅
+		pi.setProductImageName(fileName);
+		pi.setProductImageOriginalName(mf.getOriginalFilename());
+		pi.setProductImageExtension(getFileExtension(fileName));
+		pi.setProductImagePath(dest.getAbsolutePath());
+		pi.setProductImageRoad(road + fileName);
+		pi.setProductImageDate(new Date());
+		pi.setSign(true);
 
-	    product.getImages().add(pi); // 컬렉션에 추가 (orphanRemoval)
+		product.getImages().add(pi); // 컬렉션에 추가 (orphanRemoval)
 	}
 
 	private String createRandomFileName(String originName) {
-	    String ext = "";
-	    int idx = originName.lastIndexOf('.');
-	    if (idx >= 0) ext = originName.substring(idx);
-	    return UUID.randomUUID().toString().replace("-", "") + ext;
+		String ext = "";
+		int idx = originName.lastIndexOf('.');
+		if (idx >= 0)
+			ext = originName.substring(idx);
+		return UUID.randomUUID().toString().replace("-", "") + ext;
 	}
 
 	private String getFileExtension(String fileName) {
-	    int idx = fileName.lastIndexOf('.');
-	    return idx >= 0 ? fileName.substring(idx) : "";
+		int idx = fileName.lastIndexOf('.');
+		return idx >= 0 ? fileName.substring(idx) : "";
 	}
 
 	@Transactional(readOnly = true)

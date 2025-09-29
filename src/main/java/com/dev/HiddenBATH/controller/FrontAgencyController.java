@@ -31,7 +31,7 @@ public class FrontAgencyController {
 	@Value("${kakao.javascript.key:}")
 	private String kakaoKey;
 
-	@GetMapping("/temp/findAgency")
+	@GetMapping("/findAgency")
 	public String findAgency(Model model) {
 		List<Province> provinces = regionService.getProvinces();
 		model.addAttribute("kakaoKey", kakaoKey);
@@ -40,7 +40,7 @@ public class FrontAgencyController {
 		return "front/findAgency";
 	}
 
-	@GetMapping("/temp/findOnlineAgency")
+	@GetMapping("/findOnlineAgency")
     public String findOnlineAgencyPage() {
 
 		return "front/findOnlineAgency";

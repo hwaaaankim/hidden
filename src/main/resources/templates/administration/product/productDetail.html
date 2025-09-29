@@ -105,25 +105,49 @@
 										</div>
 										<!-- 도면이미지 -->
 										<div class="mb-4">
-											<h5 class="fs-15 mb-1">도면 이미지</h5>
-											<p class="text-muted">도면 이미지를 등록 해 주세요.</p>
+											<h5 class="fs-15 mb-1">도면 파일</h5>
+											<p class="text-muted">도면 이미지를 등록하거나 PDF를 업로드할 수 있습니다.</p>
 											<div>
 												<input class="form-control" type="file" name="files"
-													id="drawing-image-input" accept="image/png, image/gif, image/jpeg">
-												<div id="drawing-image-preview" class="mt-2 d-flex flex-wrap gap-2">
-													<th:block th:each="img : ${product.files}">
-														<div class="position-relative drawing-img-origin"
-															th:data-id="${img.id}">
-															<img th:src="@{${img.productFileRoad}}"
+													id="drawing-image-input"
+													accept="image/png, image/gif, image/jpeg, application/pdf">
+												<div id="drawing-image-preview" class="mt-2 d-flex flex-column gap-2">
+													<!-- 기존에 저장된 파일 표시 (이미지 or PDF) -->
+													<th:block th:each="f : ${product.files}">
+														<!-- PDF인 경우 -->
+														<div class="position-relative drawing-file-origin border rounded p-2 d-flex align-items-center justify-content-between"
+															th:if="${#strings.containsIgnoreCase(f.productFileExtension, 'pdf')}"
+															th:data-id="${f.id}">
+															<div class="d-flex align-items-center gap-2">
+																<span
+																	class="badge bg-danger-subtle text-danger-emphasis">PDF</span>
+																<span
+																	th:text="${f.productFileOriginalName}">파일명.pdf</span>
+															</div>
+															<div class="d-flex align-items-center gap-2">
+																<a th:href="@{${f.productFileRoad}}" target="_blank"
+																	rel="noopener"
+																	class="btn btn-sm btn-secondary">열기</a>
+																<button type="button"
+																	class="btn btn-sm btn-danger del-drawing-file-btn">&times;</button>
+															</div>
+														</div>
+
+														<!-- 이미지인 경우 -->
+														<div class="position-relative drawing-file-origin"
+															th:if="${!#strings.containsIgnoreCase(f.productFileExtension, 'pdf')}"
+															th:data-id="${f.id}">
+															<img th:src="@{${f.productFileRoad}}"
 																style="width:150px;height:auto;"
 																class="rounded border" />
 															<button type="button"
-																class="btn btn-sm btn-danger position-absolute top-0 end-0 del-drawing-img-btn">&times;</button>
+																class="btn btn-sm btn-danger position-absolute top-0 end-0 del-drawing-file-btn">&times;</button>
 														</div>
 													</th:block>
 												</div>
 											</div>
 										</div>
+
 									</div>
 								</div>
 								<!-- 멀티셀렉트(사이즈, 색상, 옵션, 태그) -->
