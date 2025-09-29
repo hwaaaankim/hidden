@@ -67,7 +67,7 @@
 											<p class="text-muted">제품의 대표이미지를 선택 해 주세요.</p>
 											<div>
 												<input class="form-control" id="product-image-input" name="productImage"
-													type="file" accept="image/png, image/gif, image/jpeg">
+													type="file" accept="image/png, image/gif, image/jpeg, image/webp">
 												<div id="product-image-preview" class="mt-2 d-flex flex-wrap gap-2">
 													<th:block th:if="${product.productRepImageRoad != null}">
 														<div class="position-relative rep-img-origin"
@@ -88,7 +88,7 @@
 											<p class="text-muted">제품의 슬라이드 이미지를 선택 해 주세요.</p>
 											<div>
 												<input class="form-control" type="file" multiple name="slideImages"
-													id="slide-image-input" accept="image/png, image/gif, image/jpeg">
+													id="slide-image-input" accept="image/png, image/gif, image/jpeg, image/webp">
 												<div id="slide-image-preview" class="mt-2 d-flex flex-wrap gap-2">
 													<th:block th:each="img : ${product.images}">
 														<div class="position-relative slide-img-origin"
@@ -110,7 +110,7 @@
 											<div>
 												<input class="form-control" type="file" name="files"
 													id="drawing-image-input"
-													accept="image/png, image/gif, image/jpeg, application/pdf">
+													accept="image/png, image/gif, image/jpeg, application/pdf, image/webp">
 												<div id="drawing-image-preview" class="mt-2 d-flex flex-column gap-2">
 													<!-- 기존에 저장된 파일 표시 (이미지 or PDF) -->
 													<th:block th:each="f : ${product.files}">

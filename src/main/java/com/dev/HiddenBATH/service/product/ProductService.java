@@ -301,6 +301,8 @@ public class ProductService {
 			ext = ".gif";
 		else if (contentType.contains("application/pdf") || contentType.contains("pdf"))
 			ext = ".pdf";
+		else if (contentType.contains("image/webp") || contentType.contains("webp"))
+			ext = ".webp";
 		else
 			throw new IllegalArgumentException("허용되지 않는 파일 타입입니다: " + contentType);
 
@@ -545,7 +547,9 @@ public class ProductService {
 				originalFileExtension = ".jpg";
 			} else if (contentType.contains("image/png")) {
 				originalFileExtension = ".png";
-			}
+			} else if (contentType.contains("image/webp")) { // ✅ webp 추가
+                originalFileExtension = ".webp";
+            } 
 		}
 		String productImageName = generatedString + originalFileExtension;
 		String productImagePath = path + productImageName; // rep/랜덤명.png

@@ -76,6 +76,8 @@ public class ProductImageService {
 	                    originalFileExtension = ".jpg";
 	                } else if (contentType.contains("image/png")) {
 	                    originalFileExtension = ".png";
+	                }  else if (contentType.contains("image/webp")) { // ✅ webp 추가
+	                    originalFileExtension = ".webp";
 	                } else {
 	                    throw new IllegalArgumentException("허용되지 않는 이미지 타입입니다: " + contentType);
 	                }

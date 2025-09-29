@@ -99,6 +99,8 @@ public class ProductFileService {
 	                    originalFileExtension = ".ico";
 	                } else if (contentType.contains("application/haansofthwp")) {
 	                    originalFileExtension = ".hwp";
+	                } else if (contentType.contains("image/webp")) { // ✅ webp 추가
+	                    originalFileExtension = ".webp";
 	                } else {
 	                    throw new IllegalArgumentException("허용되지 않는 파일 타입입니다: " + contentType);
 	                }
