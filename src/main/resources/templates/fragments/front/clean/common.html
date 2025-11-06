@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html 
-lang="ko" 
-xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="cleanHead">
 	<meta charset="UTF-8">
@@ -28,7 +25,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<link rel="stylesheet" href="/front/clean/assets/css/responsive.css" type="text/css">
 	<link rel="stylesheet" href="/front/clean/assets/css/detail.css">
 	<link rel="stylesheet" href="/front/clean/assets/css/3d.css">
-	
+
 	<link
 		href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@100;200;300;400;500;600;700&display=swap"
 		rel="stylesheet">
@@ -135,7 +132,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 												</div>
 											</li>
 											<li class="level-0 menu-item menu-item-has-children ">
-												<a href="/productList/7"><span class="menu-item-text">PRODUCTs</span></a>
+												<a href="/productList/7"><span
+														class="menu-item-text">PRODUCTs</span></a>
 												<div class="sub-menu">
 													<div class="row">
 														<div class="col-md-12">
@@ -207,7 +205,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 																					</a>
 																				</h2>
 																				<div class="post-time">
-																					<span class="post-date">실제 시공 사례를 만나 보세요.</span>
+																					<span class="post-date">실제 시공 사례를 만나
+																						보세요.</span>
 																				</div>
 																			</div>
 																		</li>
@@ -222,7 +221,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 																					</a>
 																				</h2>
 																				<div class="post-time">
-																					<span class="post-date">히든바스의 제품 갤러리.</span>
+																					<span class="post-date">히든바스의 제품
+																						갤러리.</span>
 																				</div>
 																			</div>
 																		</li>
@@ -245,44 +245,43 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 																		<a href="/notice"><span
 																				class="menu-item-text">공지사항</span></a>
 																	</li>
-																
-																	<li>
+
+																	<!--<li>
 																		<a href="/contact"><span
 																				class="menu-item-text">고객문의</span></a>
-																		
-																	</li>
+
+																	</li>-->
 																	<li>
 																		<a href="/catalog"><span
 																				class="menu-item-text">카달로그</span></a>
 																	</li>
-																	<!--<li>
+																	<li>
 																		<a href="/findAgency"><span
 																				class="menu-item-text">대리점찾기</span></a>
-																		
+
 																	</li>
 																	<li>
 																		<a href="/findOnlineAgency"><span
 																				class="menu-item-text">온라인대리점찾기</span></a>
-																		
+
 																	</li>
-																	-->
 																</ul>
 															</div>
 														</div>
 													</div>
 												</div>
 											</li>
-											<li class="level-0 menu-item menu-item-has-children" sec:authorize="isAuthenticated()">
+											<!--<li class="level-0 menu-item menu-item-has-children" sec:authorize="isAuthenticated()">
 												<a href="#"><span class="menu-item-text">테스트페이지</span></a>
 												<div class="sub-menu">
 													<div class="row">
 														<div class="col-md-12">
 															<div class="menu-section">
 																<ul class="menu-list">
-																	<!--<li>
+																	<li>
 																		<a href="/temp/index"><span
 																				class="menu-item-text">메인화면</span></a>
-																	</li>-->
+																	</li>
 																
 																	<li>
 																		<a href="/temp/findAgency"><span
@@ -294,28 +293,29 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 																				class="menu-item-text">온라인대리점찾기</span></a>
 																		
 																	</li>
-																	<!--<li>
+																	<li>
 																		<a href="/temp/productList/7"><span
 																				class="menu-item-text">제품리스트페이지</span></a>
-																	</li>-->
+																	</li>
 																</ul>
 															</div>
 														</div>
 													</div>
 												</div>
-											</li>
+											</li>-->
 										</ul>
 									</nav>
 								</div>
 							</div>
 
 							<div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 header-right">
-									<div class="main-button-wrap row">
-										<a style="border-right:none;"  class="button-slider button-white col-md-4" href="/catalog">카달로그</a>
-										<!--<a style="border-right:none;"  class="button-slider button-white col-md-4" href="/order">비규격주문</a>-->
-										<a class="button-slider button-white col-md-4 search-toggle">사이트검색</a>
-									</div>
-									<!-- Login 
+								<div class="main-button-wrap row">
+									<a style="border-right:none;" class="button-slider button-white col-md-4"
+										href="/catalog">카달로그</a>
+									<!--<a style="border-right:none;"  class="button-slider button-white col-md-4" href="/order">비규격주문</a>-->
+									<a class="button-slider button-white col-md-4 search-toggle">사이트검색</a>
+								</div>
+								<!-- Login 
 									<div class="login-header">
 										<a class="black" href="/catalog">카달로그</a>
 									</div>
@@ -325,7 +325,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 									<div class="login-header">
 										<a class="black" href="/search">검색</a>
 									</div>-->
-									<!--<div class="search-box">
+								<!--<div class="search-box">
 										<div class="search-toggle"><i class="icon-search"></i></div>
 									</div>-->
 							</div>
@@ -467,21 +467,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			<div class="close-search"></div>
 			<div class="wrapper-search">
 				<button class="search-close-btn">X</button>
-				<form 
-				method="post" 
-				class="search-from" 
-				action="/searchKeword">
+				<form method="post" class="search-from" action="/searchKeword">
 					<div class="search-box">
 						<button id="searchsubmit" class="btn" type="submit">
 							<i class="icon-search"></i>
 						</button>
-						<input 
-						type="text" 
-						value="" 
-						name="keyword" 
-						required
-						class="input-search"
-						placeholder="검색어를 입력 해 주세요.">
+						<input type="text" value="" name="keyword" required class="input-search"
+							placeholder="검색어를 입력 해 주세요.">
 						<div class="search-top">
 							<div class="close-search">CLOSE</div>
 						</div>
@@ -715,69 +707,117 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 		<script src="/front/clean/assets/js/app.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"></script>
 		<script>
-			$(document).ready(function () {
-				$('.floatingButton').on('click',
-					function (e) {
+			(function ($) {
+				$(function () {
+					const $buttons = $('.floatingButton');
+					const $menus = $('.floatingMenu');
+
+					// 공통: 열기
+					function openMenu($btn) {
+						const target = $btn.data('menu');
+						const $menu = $(target);
+
+						// 이미 열려있으면 닫기
+						if ($btn.hasClass('open')) {
+							closeAll();
+							return;
+						}
+
+						// 다른 것들 모두 닫기(상호 배타)
+						closeAll();
+
+						// 현재 버튼/메뉴 열기
+						$btn.addClass('open').attr('aria-expanded', 'true');
+						$menu.attr('aria-hidden', 'false').stop(true, true).slideDown(200);
+					}
+
+					// 공통: 모두 닫기
+					function closeAll() {
+						$buttons.removeClass('open').attr('aria-expanded', 'false');
+						$menus.attr('aria-hidden', 'true').stop(true, true).slideUp(200);
+					}
+
+					// 버튼 클릭 토글 (상호 배타 규칙 적용)
+					$(document).on('click', '.floatingButton', function (e) {
 						e.preventDefault();
-						$(this).toggleClass('open');
-						if ($(this).children('.fa').hasClass('fa-plus')) {
-							$(this).children('.fa').removeClass('fa-plus');
-							$(this).children('.fa').addClass('fa-close');
-						}
-						else if ($(this).children('.fa').hasClass('fa-close')) {
-							$(this).children('.fa').removeClass('fa-close');
-							$(this).children('.fa').addClass('fa-plus');
-						}
-						$('.floatingMenu').stop().slideToggle();
-					}
-				);
-				$(this).on('click', function (e) {
+						openMenu($(this));
+					});
 
-					var container = $(".floatingButton");
-					// if the target of the click isn't the container nor a descendant of the container
-					if (!container.is(e.target) && $('.floatingButtonWrap').has(e.target).length === 0) {
-						if (container.hasClass('open')) {
-							container.removeClass('open');
-						}
-						if (container.children('.fa').hasClass('fa-close')) {
-							container.children('.fa').removeClass('fa-close');
-							container.children('.fa').addClass('fa-plus');
-						}
-						$('.floatingMenu').hide();
-					}
+					// 메뉴 항목 클릭 시 자동 닫기 (원하시면 주석 처리 가능)
+					$(document).on('click', '.floatingMenu a[role="menuitem"]', function () {
+						closeAll();
+					});
 
-					// if the target of the click isn't the container and a descendant of the menu
-					if (!container.is(e.target) && ($('.floatingMenu').has(e.target).length > 0)) {
-						$('.floatingButton').removeClass('open');
-						$('.floatingMenu').stop().slideToggle();
-					}
+					// 바깥 영역 클릭 → 모두 닫기
+					$(document).on('click', function (e) {
+						const $target = $(e.target);
+						const insideFloating =
+							$target.closest('.floatingButtonWrap').length > 0 ||
+							$target.closest('.floatingMenu').length > 0 ||
+							$target.closest('.floatingButton').length > 0;
+
+						if (!insideFloating) {
+							closeAll();
+						}
+					});
+
+					// ESC 닫기
+					$(document).on('keydown', function (e) {
+						if (e.key === 'Escape') {
+							closeAll();
+						}
+					});
 				});
-			});
-			document.querySelector('.search-close-btn').addEventListener('click', function() {
-			    const searchOverlay = document.querySelector('.search-overlay');
-			    searchOverlay.classList.remove('search-visible');
-			  });
+			})(jQuery);
 			
+			document.querySelector('.search-close-btn').addEventListener('click', function () {
+				const searchOverlay = document.querySelector('.search-overlay');
+				searchOverlay.classList.remove('search-visible');
+			});
+
 		</script>
 	</th:block>
 
 	<th:block th:fragment="floatingButton">
-		<div class="floatingButtonWrap">
-			<div class="floatingButtonInner">
-				<a href="#" class="floatingButton">
-					<i class="fa-solid fa-gear"></i>
-				</a>
-				<ul class="floatingMenu">
-					<li>
-						<a href="#">카달로그</a>
-					</li>
-					<li>
-						<a href="#">비규격주문</a>
-					</li>
-				</ul>
+		<div class="floatingArea">
+
+			<!-- (1) 기어 버튼: 기존 버튼 (bottom: 80px) -->
+			<div class="floatingButtonWrap floatingButtonWrap--gear" aria-live="polite">
+				<div class="floatingButtonInner">
+					<a href="#" class="floatingButton button-show" data-menu="#menu-gear" aria-expanded="false"
+						aria-controls="menu-gear" aria-label="설정 열기/닫기">
+						<i class="fa-solid fa-gear" aria-hidden="true"></i>
+					</a>
+					<ul class="floatingMenu" id="menu-gear" role="menu" aria-hidden="true">
+						<li role="none">
+							<a role="menuitem" href="/catalog">카달로그</a>
+						</li>
+						<li role="none">
+							<a role="menuitem" href="/notice">공지사항</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- (2) 대리점 버튼: 새로 추가 (bottom: 130px) -->
+			<div class="floatingButtonWrap floatingButtonWrap--agent" aria-live="polite">
+				<div class="floatingButtonInner">
+					<a href="#" class="floatingButton button-show" data-menu="#menu-agent" aria-expanded="false"
+						aria-controls="menu-agent" aria-label="대리점 메뉴 열기/닫기">
+						<!-- 대리점 아이콘: 매장/대리점 느낌의 'store' 아이콘 사용 -->
+						<i class="fa-solid fa-store" aria-hidden="true"></i>
+					</a>
+					<ul class="floatingMenu" id="menu-agent" role="menu" aria-hidden="true">
+						<li role="none">
+							<a role="menuitem" href="/findOnlineAgency">온라인대리점</a>
+						</li>
+						<li role="none">
+							<a role="menuitem" href="/findAgency">일반대리점</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-
 	</th:block>
 
 	<th:block th:fragment="sessionCheck(sessionValue)">
