@@ -1,5 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 html {
 	font-family: "Pretendard Variable", Pretendard, -apple-system,
 		BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
@@ -265,8 +266,8 @@ input:-webkit-autofill {
 	display: inline-block;
 	color: white !important;
 	transition: all 0.3s ease-in-out;
-	min-width:100px;
-	cursor:pointer !important;
+	min-width: 100px;
+	cursor: pointer !important;
 }
 
 a.button-white p {
@@ -305,7 +306,7 @@ a.button-white p {
 	line-height: 40px;
 	letter-spacing: 2px;
 	border: 1px solid #000;
-	min-width:100px;
+	min-width: 100px;
 	text-align: center;
 	padding: 0px 20px;
 	color: #000;
@@ -423,7 +424,7 @@ a.button-white p {
 
 .section.background-1 {
 	/*background-color: #E0E8F1;*/
-	background-color:transparent;
+	background-color: transparent;
 }
 
 .section.background-2 {
@@ -1454,8 +1455,8 @@ ul.slick-dots li.slick-active button {
 	padding: 0;
 	float: none;
 	width: 40px;
-	padding-left:5px;
-	padding-right:5px;
+	padding-left: 5px;
+	padding-right: 5px;
 	height: 40px;
 	line-height: normal;
 	text-indent: 1px;
@@ -1475,11 +1476,13 @@ ul.slick-dots li.slick-active button {
 	background: #000;
 	border-color: #000;
 }
-.pagination ul li a.page-link.current{
-	font-weight:600 !important;
-	color:black;
+
+.pagination ul li a.page-link.current {
+	font-weight: 600 !important;
+	color: black;
 	text-decoration: underline !important;
 }
+
 .pagination ul li a.prev,
 .pagination ul li a.next {
 	font-size: 0;
@@ -1735,23 +1738,27 @@ ul.slick-dots li.slick-active button {
 	position: relative;
 	z-index: 999999;
 	background: transparent;
-	transition:all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }
-@media(min-width:993px){
+
+@media(min-width:993px) {
 	.site-header {
 		position: fixed !important;
 	}
-	.site-header.header-v1 .header-desktop{
-		transition:all 0.3s ease-in-out;
+
+	.site-header.header-v1 .header-desktop {
+		transition: all 0.3s ease-in-out;
 	}
-	header.site-header.header-v1.active{
-		background:black !important;
+
+	header.site-header.header-v1.active {
+		background: black !important;
 	}
-	header.site-header.header-v1.active .header-desktop{
-		padding:15px 0px;
+
+	header.site-header.header-v1.active .header-desktop {
+		padding: 15px 0px;
 	}
 }
-	
+
 .site-header.absolute {
 	position: absolute;
 	width: 100%;
@@ -1818,10 +1825,11 @@ ul.slick-dots li.slick-active button {
 	align-items: center;
 	justify-content: flex-end;
 }
-@media(max-width:760px){
-	.header-desktop{
-		position:fixed;
-		width:100vw;
+
+@media(max-width:760px) {
+	.header-desktop {
+		position: fixed;
+		width: 100vw;
 	}
 }
 
@@ -3754,6 +3762,7 @@ ul.slick-dots li.slick-active button {
 	position: relative;
 	align-items: center;
 }
+
 /* temp css */
 .site-main .page-title .content-title-heading .text-title-heading {
 	text-transform: capitalize;
@@ -9826,7 +9835,7 @@ ul.slick-dots li.slick-active button {
 	font-weight: 500;
 	letter-spacing: 1.5px;
 	text-transform: uppercase;
-	display: inline-block; 
+	display: inline-block;
 }
 
 .shop-details .variations .label:after {
@@ -9868,19 +9877,21 @@ ul.slick-dots li.slick-active button {
 	display: flex;
 	justify-content: center;
 	border-radius: 5px;
-	color:black;
-	font-weight:600;
+	color: black;
+	font-weight: 600;
 }
 
 .shop-details .variations .attributes ul.text li span::after {
-	content:"";
-	height:15px;
-	border-right:1px solid #d5d5d5;
-	margin-left:10px;
+	content: "";
+	height: 15px;
+	border-right: 1px solid #d5d5d5;
+	margin-left: 10px;
 }
+
 .shop-details .variations .attributes ul.text li:last-child span::after {
-    border-right: none;
+	border-right: none;
 }
+
 /*.shop-details .variations .attributes ul.text li span:hover {
 	border: none;
 	color: #000;
@@ -10840,7 +10851,7 @@ ul.slick-dots li.slick-active button {
 }
 
 .shop-checkout .checkout .form-row {
-	margin-bottom: 30px;
+	margin-bottom: 0px;
 	margin-left: 0;
 	margin-right: 0;
 }
@@ -10852,6 +10863,17 @@ ul.slick-dots li.slick-active button {
 	margin-bottom: 0;
 	display: block;
 	font-size: 24px;
+}
+
+@media(max-width:760px) {
+	.shop-checkout .checkout .form-row label {
+		color: #000;
+		font-weight: 500;
+		float: left;
+		margin-bottom: 0;
+		display: block;
+		font-size: 18px;
+	}
 }
 
 .shop-checkout .checkout .form-row .required {
@@ -10916,7 +10938,7 @@ ul.slick-dots li.slick-active button {
 
 .shop-checkout .checkout-review-order h2 {
 	margin: 0;
-	font-weight:600;
+	font-weight: 600;
 	font-size: 15px;
 }
 
@@ -10924,7 +10946,7 @@ ul.slick-dots li.slick-active button {
 	font-size: 22px;
 	color: #000;
 	margin-bottom: 22px;
-	font-weight:600;
+	font-weight: 600;
 }
 
 .shop-checkout .checkout-review-order .cart-item {
@@ -10951,7 +10973,7 @@ ul.slick-dots li.slick-active button {
 	text-transform: uppercase;
 	word-break: break-word;
 	font-size: 15px;
-	margin-bottom:0px;
+	margin-bottom: 0px;
 }
 
 .shop-checkout .checkout-review-order .cart-item .info-product .agency-name .product-quantity {
@@ -11071,7 +11093,7 @@ ul.slick-dots li.slick-active button {
 
 .posts-list.grid .post-entry .post-categories {
 	margin-top: 10px;
-	line-height:1.2;
+	line-height: 1.2;
 }
 
 .posts-list.grid .post-entry .post-categories a {
@@ -11086,7 +11108,7 @@ ul.slick-dots li.slick-active button {
 	line-height: 1.1;
 	font-weight: 600;
 	width: 100%;
-	margin-bottom:3px;
+	margin-bottom: 3px;
 }
 
 .posts-list.grid .post-entry .post-meta {
@@ -11412,7 +11434,7 @@ ul.slick-dots li.slick-active button {
 .post-details .comments-area .comments-list {
 	list-style: none;
 	padding: 0;
-	margin-top: 30px;
+	margin-top: 5px;
 }
 
 .post-details .comments-area .comments-list .comment-item {
@@ -12447,7 +12469,7 @@ div.product-color button {
 	font-weight: 400;
 	line-height: 1.4;
 	margin-top: 0px;
-	margin-bottom:15px;
+	margin-bottom: 15px;
 }
 
 
@@ -12517,18 +12539,18 @@ div.product-color button {
 	font-family: "Playfair Display", serif;
 	font-optical-sizing: auto;
 	font-style: normal;
-	margin-bottom:50px;
+	margin-bottom: 50px;
 }
 
-.timeline-end p::after{
-  content: "";
-  width: 100px;
-  position: absolute;
-  top:-20px;
-  left: 50%;
-  transform:translateX(-50%);
-  border-top: 1px solid gray; 
-}  
+.timeline-end p::after {
+	content: "";
+	width: 100px;
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	border-top: 1px solid gray;
+}
 
 .timeline .timeline-year {
 	margin: 30px 0;
@@ -12555,9 +12577,12 @@ div.product-color button {
 .timeline .row.timeline-right .timeline-date {
 	text-align: right;
 }
-.timeline-right, .timeline-left{
-	position:relative;
+
+.timeline-right,
+.timeline-left {
+	position: relative;
 }
+
 .timeline .row.timeline-right,
 .timeline .row.timeline-left .timeline-date {
 	text-align: left;
@@ -12593,8 +12618,8 @@ div.product-color button {
 .timeline .timeline-launch {
 	position: relative;
 	display: inline-block;
-	margin:10px 15px 0px 15px;
-	padding:10px 20px 0px 20px;
+	margin: 10px 15px 0px 15px;
+	padding: 10px 20px 0px 20px;
 	border: none;
 	background: #ffffff;
 }
@@ -12706,18 +12731,22 @@ div.product-color button {
 	font-weight: 400;
 	letter-spacing: -1px;
 	margin-bottom: 0;
-	line-height:1.5;
+	line-height: 1.5;
 }
-.history-image-wrap{
-	margin-bottom:12px;
+
+.history-image-wrap {
+	margin-bottom: 12px;
 }
-.history-image-wrap img{
-	box-shadow:0px 3px 5px rgba(0,0,0,0.3);
+
+.history-image-wrap img {
+	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
 }
-.r-t-180{
-	position:relative !important;
-	top:-180px;
+
+.r-t-180 {
+	position: relative !important;
+	top: -180px;
 }
+
 @media (max-width: 768px) {
 	.timeline .timeline-continue::after {
 		left: 40px;
@@ -12913,189 +12942,234 @@ div.content.catalog-wrap h5.subtitle-banner {
 .product-list-meta div.list-option a {
 	font-weight: 600;
 }
+
 .product-list-meta div.list-option a.size {
-	margin-right:5px;
+	margin-right: 5px;
 }
-.product-list-meta div.list-option a.size::after{
-	content:"";
-	border-right:1px solid gray;
+
+.product-list-meta div.list-option a.size::after {
+	content: "";
+	border-right: 1px solid gray;
 }
-.product-list-meta div.list-option a.size:last-child::after{
-	content:"";
-	border-right:none;
+
+.product-list-meta div.list-option a.size:last-child::after {
+	content: "";
+	border-right: none;
 }
+
 .product-list-meta div.list-option a.color {
-	margin-right:5px;
+	margin-right: 5px;
 }
+
 .product-list-meta div.list-option a.color::after {
-	content:"";
-	border-right:1px solid gray;
-	margin-left:5px;
+	content: "";
+	border-right: 1px solid gray;
+	margin-left: 5px;
 }
+
 .product-list-meta div.list-option a.color:last-child::after {
-	content:"";
-	border-right:none;
+	content: "";
+	border-right: none;
 }
 
 
 /* 고정 포지션 컨테이너 */
-  .floatingArea {
-    position: fixed;
-    right: 30px;
-    bottom: 0;
-  }
-
-  /* 각 버튼 래퍼 */
-  .floatingButtonWrap {
-    position: absolute;
-    right: 0;
-    pointer-events: none; /* 내부 요소만 클릭 허용 */
-  }
-  /* 위치 지정: 기어(아래), 대리점(위) */
-  .floatingButtonWrap--gear { bottom: 80px; }
-  .floatingButtonWrap--agent { bottom: 130px; }
-
-  /* 내부 포지션 기준 */
-  .floatingButtonInner {
-    position: relative;
-    pointer-events: auto; /* 버튼/메뉴 클릭 가능 */
-  }
-
-  /* 공통 버튼 스타일 */
-  .floatingButton {
-    display: block;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    background: transparent;
-    color: black;
-    line-height: 40px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    border: 2px solid black;
-    opacity: 0;
-    filter: alpha(opacity=0);
-    -webkit-transform: translateY(20px);
-    transform: translateY(20px);
-    -webkit-transition: all .3s ease;
-    transition: all .3s ease;
-    outline: none;
-  }
-
-  /* 초기 표시 */
-  .floatingButton.button-show {
-    transform: translateY(0);
-    visibility: visible;
-    opacity: 1;
-  }
-
-  /* 상태/호버 */
-  .floatingButton.open,
-  .floatingButton:hover,
-  .floatingButton:focus,
-  .floatingButton:active {
-    opacity: 1;
-    color: black;
-  }
-
-  /* 아이콘 회전 애니메이션 (열림 표시) */
-  .floatingButton i {
-    transform: rotate(0deg);
-    transition: transform 0.4s;
-    font-size: 16px !important;
-  }
-  .floatingButton.open i {
-    transform: rotate(270deg);
-  }
-
-  /* 공통 메뉴 (오른쪽 정렬) */
-  .floatingMenu {
-    position: absolute;
-    bottom: 10px; /* 버튼 위에 뜨도록 */
-    right: 50px;
-    width: 200px;
-    display: none;
-  }
-  .floatingMenu[aria-hidden="false"] {
-    display: block;
-  }
-
-  .floatingMenu li {
-    width: 100%;
-    list-style: none;
-    text-align: right;
-    margin-bottom: 0px;
-  }
-
-  .floatingMenu li a {
-    font-weight: 600;
-    padding: 3px 10px;
-    display: inline-block;
-    background: white;
-    color: black;
-    border: 2px solid rgba(0, 0, 0, 1);
-    border-radius: 6px;
-    overflow: hidden;
-    white-space: nowrap;
-    transition: all 0.25s ease;
-    width: 150px;
-    text-align: center;
-  }
-  .floatingMenu li a:hover,
-  .floatingMenu li a:focus {
-    margin-right: 10px;
-    text-decoration: none;
-  }
-
-  /* 반응형 보정 */
-  @media (max-width: 991px) {
-    .floatingArea {
-      right: 15px;
-    }
-    .floatingButtonWrap--gear { bottom: 110px; }
-    .floatingButtonWrap--agent { bottom: 155px; }
-  }
-  
-.main-site-button-wrap{
-	position:absolute;
-	right:0;
-	top:50%;
-	transform:translateY(-50%);
-	width:100px;
-}
-a.productList-reset{
-	width:100%;
-	margin-bottom:20px; 
-	line-height:36px;
-	
-}
-.productColorBtn.highlight{
-	border:2px solid red;
+.floatingArea {
+	position: fixed;
+	right: 30px;
+	bottom: 0;
 }
 
+/* 각 버튼 래퍼 */
+.floatingButtonWrap {
+	position: absolute;
+	right: 0;
+	pointer-events: none;
+	/* 내부 요소만 클릭 허용 */
+}
 
+/* 위치 지정: 기어(아래), 대리점(위) */
+.floatingButtonWrap--gear {
+	bottom: 80px;
+}
 
+.floatingButtonWrap--agent {
+	bottom: 130px;
+}
 
+/* 내부 포지션 기준 */
+.floatingButtonInner {
+	position: relative;
+	pointer-events: auto;
+	/* 버튼/메뉴 클릭 가능 */
+}
 
+/* 공통 버튼 스타일 */
+.floatingButton {
+	display: block;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	background: transparent;
+	color: black;
+	line-height: 40px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	border: 2px solid black;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	-webkit-transform: translateY(20px);
+	transform: translateY(20px);
+	-webkit-transition: all .3s ease;
+	transition: all .3s ease;
+	outline: none;
+}
 
+/* 초기 표시 */
+.floatingButton.button-show {
+	transform: translateY(0);
+	visibility: visible;
+	opacity: 1;
+}
 
+/* 상태/호버 */
+.floatingButton.open,
+.floatingButton:hover,
+.floatingButton:focus,
+.floatingButton:active {
+	opacity: 1;
+	color: black;
+}
 
+/* 아이콘 회전 애니메이션 (열림 표시) */
+.floatingButton i {
+	transform: rotate(0deg);
+	transition: transform 0.4s;
+	font-size: 16px !important;
+}
 
+.floatingButton.open i {
+	transform: rotate(270deg);
+}
 
+/* 공통 메뉴 (오른쪽 정렬) */
+.floatingMenu {
+	position: absolute;
+	bottom: 10px;
+	/* 버튼 위에 뜨도록 */
+	right: 50px;
+	width: 200px;
+	display: none;
+}
 
+.floatingMenu[aria-hidden="false"] {
+	display: block;
+}
 
+.floatingMenu li {
+	width: 100%;
+	list-style: none;
+	text-align: right;
+	margin-bottom: 0px;
+}
 
+.floatingMenu li a {
+	font-weight: 600;
+	padding: 3px 10px;
+	display: inline-block;
+	background: white;
+	color: black;
+	border: 2px solid rgba(0, 0, 0, 1);
+	border-radius: 6px;
+	overflow: hidden;
+	white-space: nowrap;
+	transition: all 0.25s ease;
+	width: 150px;
+	text-align: center;
+}
 
+.floatingMenu li a:hover,
+.floatingMenu li a:focus {
+	margin-right: 10px;
+	text-decoration: none;
+}
 
+/* 반응형 보정 */
+@media (max-width: 991px) {
+	.floatingArea {
+		right: 15px;
+	}
 
+	.floatingButtonWrap--gear {
+		bottom: 110px;
+	}
 
+	.floatingButtonWrap--agent {
+		bottom: 155px;
+	}
+}
 
+.main-site-button-wrap {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 100px;
+}
 
+a.productList-reset {
+	width: 100%;
+	margin-bottom: 20px;
+	line-height: 36px;
 
+}
 
+.productColorBtn.highlight {
+	border: 2px solid red;
+}
 
+/* 썸네일 크기 고정 */
+.search-result-wrap .search-thumb {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	display: block;
+}
 
+/* (3) 전체 아이템 세로 중앙 정렬 */
+.search-result-wrap .comment-item {
+	align-items: center;
+	/* d-flex에 대해 수직 중앙 */
+}
 
+/* (3) 텍스트 묶음도 수직 중앙 */
+.search-result-wrap .comment-content-wrap {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	/* 텍스트 수직 중앙 */
+	min-height: 100px;
+	/* 썸네일 높이와 맞춤 */
+	padding-left: 12px;
+	margin-left:10px;
+}
 
+/* PC에서는 카드 클릭 UX */
+@media (min-width: 992px) {
+	.search-result-wrap.js-search-card {
+		cursor: pointer;
+	}
 
+	/* PC에서는 기존 상세페이지 버튼 숨김(모바일만 유지) */
+	.search-result-wrap.js-search-card .comment-reply-link {
+		display: none;
+	}
+}
+
+/* 모바일에서는 버튼 유지 */
+@media (max-width: 991.98px) {
+	.search-result-wrap.js-search-card .comment-reply-link {
+		display: inline-block;
+	}
+}

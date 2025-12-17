@@ -5,8 +5,8 @@
 
 <body class="home home-6 title-6">
 	<div id="page" class="hfeed page-wrapper">
-		<header id="site-header" class="site-header header-v3" 
-		th:replace="fragments/front/clean/common :: cleanHeader(${menuList})">
+		<header id="site-header" class="site-header header-v3"
+			th:replace="fragments/front/clean/common :: cleanHeader(${menuList})">
 		</header>
 
 		<div id="site-main" class="site-main">
@@ -34,66 +34,9 @@
 												<div class="customer-details">
 													<div class="billing-fields">
 														<div class="billing-fields-wrapper">
-															<!--<p class="form-row form-row-first validate-required">
-																<label>공지사항 조회결과 <span class="required" title="required"
-																		style="color:gray; font-size:12px;vertical-align: super;;">*
-																		13건 조회</span></label>
-																<span class="input-wrapper"><input type="text"
-																		style="height:5px;" class="input-text"
-																		disabled></span>
-															</p>
-															<div class="post-details no-sidebar">
-																<div class="comments-area search-result-wrap">
-																	<div class="comments-list">
-																		<div class="comment-item">
-																			<div class="comment-content-wrap">
-																				<div class="comment-author">
-																					공지사항 제목
-																				</div>
-																				<div class="comment-time">
-																					2024.01.01
-																				</div>
-																				<a class="comment-reply-link"
-																					href="#">이동하기</a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<div class="comments-area search-result-wrap">
-																	<div class="comments-list">
-																		<div class="comment-item">
-																			<div class="comment-content-wrap">
-																				<div class="comment-author">
-																					공지사항 제목
-																				</div>
-																				<div class="comment-time">
-																					2024.01.01
-																				</div>
-																				<a class="comment-reply-link"
-																					href="#">이동하기</a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<div class="comments-area search-result-wrap">
-																	<div class="comments-list">
-																		<div class="comment-item">
-																			<div class="comment-content-wrap">
-																				<div class="comment-author">
-																					공지사항 제목
-																				</div>
-																				<div class="comment-time">
-																					2024.01.01
-																				</div>
-																				<a class="comment-reply-link"
-																					href="#">이동하기</a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>-->
 															<p class="form-row form-row-first validate-required">
-																<label>키워드가 제품명에 포함된 검색결과 <span class="required" title="required"
+																<label>키워드가 제품명에 포함된 검색결과 <span class="required"
+																		title="required"
 																		style="color:gray; font-size:12px;vertical-align: super;;">*
 																		[[${name.size}]]건 조회</span></label>
 																<span class="input-wrapper"><input type="text"
@@ -101,10 +44,17 @@
 																		disabled></span>
 															</p>
 															<div class="post-details no-sidebar">
-																<div th:each="n:${name}" 
-																class="comments-area search-result-wrap">
+																<div th:each="n:${name}"
+																	class="comments-area search-result-wrap js-search-card"
+																	th:attr="data-href=@{|/productDetail/${n.id}|}">
+
 																	<div class="comments-list">
-																		<div class="comment-item">
+																		<div class="comment-item d-flex">
+																			<!-- 2) 썸네일: productRepImageRoad 적용 -->
+																			<img class="search-thumb"
+																				th:src="${#strings.isEmpty(n.productRepImageRoad) ? '/front/clean/sample/100-100.png' : n.productRepImageRoad}"
+																				alt="상품 썸네일">
+
 																			<div class="comment-content-wrap">
 																				<div class="comment-author">
 																					[[${n.name}]]/[[${n.productCode}]]
@@ -112,19 +62,20 @@
 																				<div class="comment-time">
 																					[[${n.bigSort.name}]]/[[${n.middleSort.name}]]
 																				</div>
-																				<a 
-																				th:href="@{|/productDetail/${n.id}|}" 
-																				class="comment-reply-link">
+
+																				<!-- 모바일에서만 보이게 만들 예정 -->
+																				<a th:href="@{|/productDetail/${n.id}|}"
+																					class="comment-reply-link js-search-link">
 																					상세페이지
 																				</a>
-																				
 																			</div>
 																		</div>
 																	</div>
 																</div>
+
 															</div>
 															<p class="form-row form-row-first validate-required">
-																<label>키워드가 제품코드에 포함된 검색결과 
+																<label>키워드가 제품코드에 포함된 검색결과
 																	<span class="required" title="required"
 																		style="color:gray; font-size:12px;vertical-align: super;;">*
 																		[[${code.size}]]건 조회</span></label>
@@ -133,10 +84,16 @@
 																		disabled></span>
 															</p>
 															<div class="post-details no-sidebar">
-																<div class="comments-area search-result-wrap"
-																th:each="c:${code}">
+																<div th:each="c:${code}"
+																	class="comments-area search-result-wrap js-search-card"
+																	th:attr="data-href=@{|/productDetail/${c.id}|}">
+
 																	<div class="comments-list">
-																		<div class="comment-item">
+																		<div class="comment-item d-flex">
+																			<img class="search-thumb"
+																				th:src="${#strings.isEmpty(c.productRepImageRoad) ? '/front/clean/sample/100-100.png' : c.productRepImageRoad}"
+																				alt="상품 썸네일">
+
 																			<div class="comment-content-wrap">
 																				<div class="comment-author">
 																					[[${c.name}]]/[[${c.productCode}]]
@@ -144,16 +101,16 @@
 																				<div class="comment-time">
 																					[[${c.bigSort.name}]]/[[${c.middleSort.name}]]
 																				</div>
-																				<a 
-																				th 
-																				th:href="@{|/productDetail/${c.id}|}" 
-																				class="comment-reply-link">
+
+																				<a th:href="@{|/productDetail/${c.id}|}"
+																					class="comment-reply-link js-search-link">
 																					상세페이지
 																				</a>
 																			</div>
 																		</div>
 																	</div>
 																</div>
+
 															</div>
 														</div>
 													</div>
@@ -174,6 +131,22 @@
 		</footer>
 	</div>
 	<th:block th:replace="fragments/front/clean/common :: cleanScript"></th:block>
+	<script>
+		document.addEventListener('click', function (e) {
+			// PC(992px 이상)에서만 카드 클릭 이동
+			if (!window.matchMedia('(min-width: 992px)').matches) return;
+
+			// a, button 등 클릭은 기본 동작 유지
+			if (e.target.closest('a, button, input, textarea, select, label')) return;
+
+			const card = e.target.closest('.js-search-card');
+			if (!card) return;
+
+			const href = card.getAttribute('data-href');
+			if (href) window.location.href = href;
+		});
+	</script>
+
 </body>
 
 </html>
